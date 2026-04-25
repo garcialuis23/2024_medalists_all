@@ -1,0 +1,22 @@
+# Dependencias del script de ingesta
+# Python 3.11 — Logística Última Milla España
+
+# Datos sintéticos
+Faker==20.1.0
+
+# Serialización Parquet
+pyarrow==14.0.2
+
+# DataFrames (usado internamente por PyArrow)
+pandas==2.1.4
+numpy==1.26.3
+
+# AWS S3
+boto3==1.34.34
+botocore==1.34.34
+
+# HTTP client para Open-Meteo
+httpx==0.25.2
+
+# Reintentos con backoff exponencial
+tenacity==8.2.3
