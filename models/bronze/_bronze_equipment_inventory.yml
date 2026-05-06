@@ -1,0 +1,222 @@
+version: 2
+
+# ─────────────────────────────────────────────
+# SOURCE — tabla cruda en Snowflake (Bronze DDL)
+# ─────────────────────────────────────────────
+sources:
+  - name: bronze_raw
+    description: "Tablas de aterrizaje cargadas via COPY INTO desde el Stage externo de Snowflake (BRONZE_DB.PUBLIC)."
+    database: BRONZE_DB
+    schema: PUBLIC
+    tables:
+      - name: nato_equipment_inventory
+        description: "Inventario de equipamiento militar de los países de la OTAN. Cargado desde NATO_2_Equipment_Inventory.csv."
+        columns:
+          - name: record_id
+            description: "Identificador único del registro de equipamiento."
+            tests:
+              - not_null
+              - unique
+
+          - name: country
+            description: "Nombre del país miembro de la OTAN."
+            tests:
+              - not_null
+
+          - name: iso_code
+            description: "Código ISO-3 del país."
+            tests:
+              - not_null
+
+          - name: join_year
+            description: "Año de ingreso del país a la OTAN."
+
+          - name: founding_member
+            description: "Indica si el país es miembro fundador (Yes/No y variantes sucias)."
+
+          - name: nuclear_sharing
+            description: "Participación en el acuerdo de uso compartido de armas nucleares de la OTAN."
+
+          - name: region
+            description: "Región geográfica del país (ej. Southern Europe)."
+
+          - name: capital
+            description: "Capital del país."
+
+          - name: equipment_type
+            description: "Tipo específico de equipamiento (ej. Frigate, AWACS Aircraft)."
+            tests:
+              - not_null
+
+          - name: equipment_category
+            description: "Categoría funcional del equipamiento (ej. Air Force, Naval, Armored)."
+            tests:
+              - not_null
+
+          - name: domain
+            description: "Dominio operacional: Air, Land o Sea."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Air', 'Land', 'Sea', 'Support']
+
+          - name: notable_models
+            description: "Modelos representativos del tipo de equipamiento."
+
+          - name: units_count
+            description: "Número de unidades del registro (VARCHAR — requiere cast en Silver)."
+
+          - name: operational_status
+            description: "Estado operacional normalizado a mayúsculas (ej. OPERATIONAL, RESERVE, IN MAINTENANCE)."
+
+          - name: condition
+            description: "Condición física del equipamiento (ej. Good, Fair, Excellent, Needs Repair, End-of-Life)."
+
+          - name: year_acquired
+            description: "Año de adquisición del equipamiento."
+
+          - name: equipment_age_years
+            description: "Antigüedad del equipamiento en años al momento de la carga."
+
+          - name: unit_cost_m_usd
+            description: "Coste unitario en millones de USD (VARCHAR — requiere cast en Silver)."
+
+          - name: total_value_m_usd
+            description: "Valor total del lote en millones de USD (units_count × unit_cost_m_usd)."
+
+          - name: country_of_origin
+            description: "País fabricante o proveedor del equipamiento."
+
+          - name: nato_standardized
+            description: "Indica si el equipamiento cumple estándares OTAN (YES/NO/PARTIAL — normalizado a mayúsculas)."
+
+          - name: interoperable
+            description: "Indica si el equipamiento es interoperable con otras fuerzas OTAN (YES/NO — normalizado a mayúsculas)."
+
+          - name: last_maintenance_year
+            description: "Año del último mantenimiento registrado."
+
+          - name: next_upgrade_due
+            description: "Año previsto para la próxima actualización."
+
+          - name: combat_ready_pct
+            description: "Porcentaje de unidades en estado de combate listo (VARCHAR — requiere cast en Silver)."
+
+          - name: _source_file
+            description: "Nombre del archivo CSV de origen (metadato COPY INTO)."
+
+          - name: _loaded_at
+            description: "Timestamp de carga en Snowflake (UTC)."
+            tests:
+              - not_null
+
+# ─────────────────────────────────────────────
+# MODEL — capa Bronze dbt
+# ─────────────────────────────────────────────
+models:
+  - name: bronze_equipment_inventory
+    description: >
+      Modelo Bronze que expone la tabla de aterrizaje NATO_EQUIPMENT_INVENTORY.
+      Aplica TRIM en todos los campos de texto y normaliza a mayúsculas
+      operational_status, nato_standardized e interoperable para facilitar
+      el parsing en Silver. Sin casteo de tipos ni lógica de negocio.
+    config:
+      materialized: table
+    columns:
+      - name: record_id
+        description: "Identificador único del registro."
+        tests:
+          - not_null
+          - unique
+
+      - name: country
+        description: "País miembro de la OTAN (trimmed)."
+        tests:
+          - not_null
+
+      - name: iso_code
+        description: "Código ISO-3 del país (trimmed)."
+        tests:
+          - not_null
+
+      - name: join_year
+        description: "Año de ingreso a la OTAN (VARCHAR)."
+
+      - name: founding_member
+        description: "Miembro fundador — contiene valores sucios (Yes, No, N, 0, False, no). Se limpiará en Silver."
+
+      - name: nuclear_sharing
+        description: "Participación nuclear compartida (Yes/No con variantes)."
+
+      - name: region
+        description: "Región geográfica del país."
+
+      - name: capital
+        description: "Capital del país."
+
+      - name: equipment_type
+        description: "Tipo específico de equipamiento."
+        tests:
+          - not_null
+
+      - name: equipment_category
+        description: "Categoría funcional del equipamiento."
+        tests:
+          - not_null
+
+      - name: domain
+        description: "Dominio operacional (Air / Land / Sea / Support)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Air', 'Land', 'Sea', 'Support']
+
+      - name: notable_models
+        description: "Modelos representativos (trimmed)."
+
+      - name: units_count
+        description: "Número de unidades (VARCHAR)."
+
+      - name: operational_status
+        description: "Estado operacional en mayúsculas (UPPER + TRIM)."
+
+      - name: condition
+        description: "Condición física del equipamiento."
+
+      - name: year_acquired
+        description: "Año de adquisición (VARCHAR)."
+
+      - name: equipment_age_years
+        description: "Antigüedad en años (VARCHAR)."
+
+      - name: unit_cost_m_usd
+        description: "Coste unitario en M USD (VARCHAR)."
+
+      - name: total_value_m_usd
+        description: "Valor total del lote en M USD (VARCHAR)."
+
+      - name: country_of_origin
+        description: "País fabricante o proveedor."
+
+      - name: nato_standardized
+        description: "Cumplimiento estándar OTAN en mayúsculas (YES / NO / PARTIAL / FALSE)."
+
+      - name: interoperable
+        description: "Interoperabilidad OTAN en mayúsculas (YES / NO)."
+
+      - name: last_maintenance_year
+        description: "Año del último mantenimiento (VARCHAR)."
+
+      - name: next_upgrade_due
+        description: "Año del próximo upgrade previsto (VARCHAR)."
+
+      - name: combat_ready_pct
+        description: "% de unidades combat-ready (VARCHAR)."
+
+      - name: _source_file
+        description: "Archivo CSV de origen (metadato)."
+
+      - name: _loaded_at
+        description: "Timestamp de carga en Snowflake."
+        tests:
+          - not_null
