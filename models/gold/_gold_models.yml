@@ -1,35 +1,107 @@
 version: 2
 
 models:
-  - name: fct_nato_defense_spending
-    description: "Gasto en defensa por país y año. Incluye % del PIB, estado respecto al objetivo 2%, y gasto per cápita calculado."
+  # ── DIMENSIONES ─────────────────────────────────────────────────────
+  - name: dim_fecha
+    description: "Dimensión temporal. Un registro por año con atributos de era OTAN, década y siglo."
     columns:
-      - name: country
+      - name: anio
+        tests: [not_null, unique]
+      - name: era_otan
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Pre-OTAN', 'Guerra Fría', 'Post-Guerra Fría', 'Expansión Este', 'Era Actual']
+
+  - name: dim_pais
+    description: "Dimensión de países miembros OTAN. Atributos estáticos: geografía, gobierno, membresía."
+    columns:
+      - name: codigo_iso
+        tests: [not_null, unique]
+      - name: pais
         tests: [not_null]
-      - name: iso_code
+      - name: region
         tests: [not_null]
-      - name: year
+
+  - name: dim_region
+    description: "Dimensión de regiones OTAN con zona geográfica y clasificación de flanco."
+    columns:
+      - name: region
+        tests: [not_null, unique]
+
+  - name: dim_mision
+    description: "Dimensión de misiones OTAN. Atributos descriptivos: tipo, ubicación, mando."
+    columns:
+      - name: id_mision
+        tests: [not_null, unique]
+      - name: nombre_mision
         tests: [not_null]
-      - name: target_status
+
+  - name: dim_equipamiento
+    description: "Dimensión de tipos de equipamiento militar. Categoría, dominio, origen, integración OTAN."
+    columns:
+      - name: tipo_equipamiento
+        tests: [not_null]
+      - name: dominio
+        tests: [not_null]
+
+  - name: dim_rol_participacion
+    description: "Dimensión de roles en misiones OTAN (Lead, Support, Observer, etc.)."
+    columns:
+      - name: rol_participacion
+        tests: [not_null, unique]
+
+  - name: dim_estado_mision
+    description: "Dimensión de estado/resultado de misiones OTAN con traducciones al español."
+    columns:
+      - name: fase_mision
+        tests: [not_null]
+
+  # ── HECHOS ──────────────────────────────────────────────────────────
+  - name: fct_gasto_defensa
+    description: "Gasto en defensa por país y año. Métricas: PIB, presupuesto, %PIB, per cápita, objetivo 2%."
+    columns:
+      - name: codigo_iso
+        tests: [not_null]
+      - name: anio
+        tests: [not_null]
+      - name: estado_objetivo_2pct
         tests:
           - accepted_values:
               arguments:
-                values: ['Meets Target', 'Below Target']
+                values: ['Cumple Objetivo', 'Bajo Objetivo']
 
-  - name: fct_nato_military_capability
-    description: "Capacidad militar por país y año. Une datos de personal (country_stats) con resumen de equipamiento (equipment_inventory)."
+  - name: fct_capacidad_militar
+    description: "Capacidad militar por país y año. Métricas: personal activo/reserva, interoperabilidad, ejercicios."
     columns:
-      - name: country
+      - name: codigo_iso
         tests: [not_null]
-      - name: iso_code
-        tests: [not_null]
-      - name: year
+      - name: anio
         tests: [not_null]
 
-  - name: fct_nato_mission_participation
-    description: "Participación de países en misiones OTAN. Join entre operaciones y participantes con contribuciones de tropas y activos."
+  - name: fct_inventario_equipamiento
+    description: "Inventario de equipamiento por país, tipo y año de adquisición. Métricas: unidades, valor, readiness."
     columns:
-      - name: country
+      - name: codigo_iso
         tests: [not_null]
-      - name: mission_name
+      - name: tipo_equipamiento
+        tests: [not_null]
+
+  - name: fct_misiones
+    description: "Hechos de misiones OTAN. Métricas: tropas, bajas, coste, duración, apoyo público."
+    columns:
+      - name: id_mision
+        tests: [not_null, unique]
+      - name: nombre_mision
+        tests: [not_null]
+
+  - name: fct_participacion_misiones
+    description: "Participación de países en misiones. Métricas: tropas/activos contribuidos, % contribución."
+    columns:
+      - name: id_participante
+        tests: [not_null, unique]
+      - name: pais
+        tests: [not_null]
+      - name: nombre_mision
         tests: [not_null]

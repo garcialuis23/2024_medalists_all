@@ -2,59 +2,59 @@ version: 2
 
 models:
   - name: stg_nato__country_stats
-    description: "Staging de estadísticas de países OTAN. Tipos casteados (INTEGER/FLOAT/BOOLEAN). Fuente: bronze_country_stats."
+    description: "Estadísticas anuales por país OTAN. Tipos casteados, columnas en español."
     columns:
       - name: record_id
         tests: [not_null, unique]
-      - name: country
+      - name: pais
         tests: [not_null]
-      - name: iso_code
+      - name: codigo_iso
         tests: [not_null]
-      - name: year
+      - name: anio
         tests: [not_null]
-      - name: _loaded_at
+      - name: cargado_en
         tests: [not_null]
 
   - name: stg_nato__equipment_inventory
-    description: "Staging de inventario de equipamiento OTAN. Tipos casteados. Fuente: bronze_equipment_inventory."
+    description: "Inventario de equipamiento militar por país OTAN. Tipos casteados, columnas en español."
     columns:
       - name: record_id
         tests: [not_null, unique]
-      - name: country
+      - name: pais
         tests: [not_null]
-      - name: iso_code
+      - name: codigo_iso
         tests: [not_null]
-      - name: equipment_type
+      - name: tipo_equipamiento
         tests: [not_null]
-      - name: domain
+      - name: dominio
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['Air', 'Land', 'Sea', 'Support']
-      - name: _loaded_at
+      - name: cargado_en
         tests: [not_null]
 
   - name: stg_nato__operations_missions
-    description: "Staging de operaciones y misiones OTAN. Tipos casteados. Fuente: bronze_operations_missions."
+    description: "Operaciones y misiones OTAN. Tipos casteados, columnas en español."
     columns:
       - name: record_id
         tests: [not_null, unique]
-      - name: mission_name
+      - name: nombre_mision
         tests: [not_null]
-      - name: lead_country
+      - name: pais_lider
         tests: [not_null]
-      - name: _loaded_at
+      - name: cargado_en
         tests: [not_null]
 
   - name: stg_nato__mission_participants
-    description: "Staging de participantes en misiones OTAN. Tipos casteados. Fuente: bronze_mission_participants."
+    description: "Participantes en misiones OTAN. Tipos casteados, columnas en español."
     columns:
-      - name: participant_id
+      - name: id_participante
         tests: [not_null, unique]
-      - name: mission_record_id
+      - name: id_mision
         tests: [not_null]
-      - name: country
+      - name: pais
         tests: [not_null]
-      - name: _loaded_at
+      - name: cargado_en
         tests: [not_null]
