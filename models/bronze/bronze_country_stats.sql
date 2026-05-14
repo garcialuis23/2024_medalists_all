@@ -1,0 +1,33 @@
+{{ config(materialized='table') }}
+
+select
+    trim(record_id)                                     as record_id,
+    trim(country)                                       as country,
+    trim(iso_code)                                      as iso_code,
+    trim(join_year)                                     as join_year,
+    trim(years_in_nato)                                 as years_in_nato,
+    upper(trim(founding_member))                        as founding_member,
+    upper(trim(nuclear_sharing))                        as nuclear_sharing,
+    trim(region)                                        as region,
+    trim(capital)                                       as capital,
+    trim(area_km2)                                      as area_km2,
+    trim(government_type)                               as government_type,
+    trim(alliance_role)                                 as alliance_role,
+    trim(year)                                          as year,
+    trim(population_m)                                  as population_m,
+    trim(gdp_billion_usd)                               as gdp_billion_usd,
+    trim(gdp_per_capita_usd)                            as gdp_per_capita_usd,
+    trim(inflation_rate_pct)                            as inflation_rate_pct,
+    trim(unemployment_rate_pct)                         as unemployment_rate_pct,
+    trim(defense_budget_billion_usd)                    as defense_budget_billion_usd,
+    trim(defense_gdp_percent)                           as defense_gdp_percent,
+    upper(trim(meets_2_percent_target))                 as meets_2_percent_target,
+    trim(active_military_personnel)                     as active_military_personnel,
+    trim(reserve_personnel)                             as reserve_personnel,
+    trim(total_military_personnel)                      as total_military_personnel,
+    trim(nato_contribution_rank)                        as nato_contribution_rank,
+    trim(interoperability_score)                        as interoperability_score,
+    trim(training_exercises_per_year)                   as training_exercises_per_year,
+    _source_file,
+    _loaded_at
+from {{ source('bronze_raw', 'nato_country_stats') }}

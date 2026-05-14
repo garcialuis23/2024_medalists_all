@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: fct_nato_defense_spending
+    description: "Gasto en defensa por país y año. Incluye % del PIB, estado respecto al objetivo 2%, y gasto per cápita calculado."
+    columns:
+      - name: country
+        tests: [not_null]
+      - name: iso_code
+        tests: [not_null]
+      - name: year
+        tests: [not_null]
+      - name: target_status
+        tests:
+          - accepted_values:
+              values: ['Meets Target', 'Below Target']
+
+  - name: fct_nato_military_capability
+    description: "Capacidad militar por país y año. Une datos de personal (country_stats) con resumen de equipamiento (equipment_inventory)."
+    columns:
+      - name: country
+        tests: [not_null]
+      - name: iso_code
+        tests: [not_null]
+      - name: year
+        tests: [not_null]
+
+  - name: fct_nato_mission_participation
+    description: "Participación de países en misiones OTAN. Join entre operaciones y participantes con contribuciones de tropas y activos."
+    columns:
+      - name: country
+        tests: [not_null]
+      - name: mission_name
+        tests: [not_null]

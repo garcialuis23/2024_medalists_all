@@ -1,10 +1,8 @@
 version: 2
 
 models:
-  - name: bronze_country_stats
-    description: "Capa Bronze de estadísticas de países OTAN. TRIM en texto, UPPER en booleanos. Sin casteo de tipos."
-    config:
-      materialized: table
+  - name: stg_nato__country_stats
+    description: "Staging de estadísticas de países OTAN. Tipos casteados (INTEGER/FLOAT/BOOLEAN). Fuente: bronze_country_stats."
     columns:
       - name: record_id
         tests: [not_null, unique]
@@ -17,10 +15,8 @@ models:
       - name: _loaded_at
         tests: [not_null]
 
-  - name: bronze_equipment_inventory
-    description: "Capa Bronze de inventario de equipamiento OTAN. TRIM en texto, UPPER en operational_status/nato_standardized/interoperable."
-    config:
-      materialized: table
+  - name: stg_nato__equipment_inventory
+    description: "Staging de inventario de equipamiento OTAN. Tipos casteados. Fuente: bronze_equipment_inventory."
     columns:
       - name: record_id
         tests: [not_null, unique]
@@ -38,10 +34,8 @@ models:
       - name: _loaded_at
         tests: [not_null]
 
-  - name: bronze_operations_missions
-    description: "Capa Bronze de operaciones y misiones OTAN. TRIM en texto, UPPER en nato_led/un_mandate."
-    config:
-      materialized: table
+  - name: stg_nato__operations_missions
+    description: "Staging de operaciones y misiones OTAN. Tipos casteados. Fuente: bronze_operations_missions."
     columns:
       - name: record_id
         tests: [not_null, unique]
@@ -52,10 +46,8 @@ models:
       - name: _loaded_at
         tests: [not_null]
 
-  - name: bronze_mission_participants
-    description: "Capa Bronze de participantes en misiones OTAN. TRIM en campos de texto."
-    config:
-      materialized: table
+  - name: stg_nato__mission_participants
+    description: "Staging de participantes en misiones OTAN. Tipos casteados. Fuente: bronze_mission_participants."
     columns:
       - name: participant_id
         tests: [not_null, unique]
