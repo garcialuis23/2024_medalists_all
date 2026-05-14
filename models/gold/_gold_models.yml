@@ -13,7 +13,8 @@ models:
       - name: target_status
         tests:
           - accepted_values:
-              values: ['Meets Target', 'Below Target']
+              arguments:
+                values: ['Meets Target', 'Below Target']
 
   - name: fct_nato_military_capability
     description: "Capacidad militar por país y año. Une datos de personal (country_stats) con resumen de equipamiento (equipment_inventory)."

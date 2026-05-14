@@ -9,7 +9,6 @@ sources:
     tables:
       - name: nato_country_stats
         description: "Estadísticas por país de la OTAN: económicas, militares y organizativas. Fuente: NATO_1_Country_Stats.csv."
-        loaded_at_field: _loaded_at
         columns:
           - name: RECORD_ID
             tests: [unique, not_null]
@@ -24,7 +23,6 @@ sources:
 
       - name: nato_equipment_inventory
         description: "Inventario de equipamiento militar por país de la OTAN. Fuente: NATO_2_Equipment_Inventory.csv."
-        loaded_at_field: _loaded_at
         columns:
           - name: RECORD_ID
             tests: [unique, not_null]
@@ -38,13 +36,13 @@ sources:
             tests:
               - not_null
               - accepted_values:
-                  values: ['Air', 'Land', 'Sea', 'Support']
+                  arguments:
+                    values: ['Air', 'Land', 'Sea', 'Support']
           - name: _LOADED_AT
             tests: [not_null]
 
       - name: nato_operations_missions
         description: "Operaciones y misiones de la OTAN con detalle de despliegue y resultados. Fuente: NATO_3_Operations_Missions.csv."
-        loaded_at_field: _loaded_at
         columns:
           - name: RECORD_ID
             tests: [unique, not_null]
@@ -57,7 +55,6 @@ sources:
 
       - name: nato_mission_participants
         description: "Países participantes en cada misión con sus contribuciones de tropas y activos. Fuente: NATO_4_Mission_Participants.csv."
-        loaded_at_field: _loaded_at
         columns:
           - name: PARTICIPANT_ID
             tests: [unique, not_null]

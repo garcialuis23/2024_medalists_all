@@ -21,14 +21,11 @@ models:
     bronze:
       +materialized: table
       +database: BRONZE_DB
-      +schema: PUBLIC
 
     silver:
       +materialized: table
       +database: SILVER_DB
-      +schema: PUBLIC
 
     gold:
       +materialized: table
       +database: GOLD_DB
-      +schema: PUBLIC
