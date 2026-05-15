@@ -1,0 +1,216 @@
+// ──────────────────────────────────────────────────────────────────────────
+// Modelo Relacional — NATO Data — Silver Layer v3
+// SCD-2 · Dominios aislados · Fechas DATE · Sin campos calculados
+// Pega este código en https://dbdiagram.io
+// ──────────────────────────────────────────────────────────────────────────
+
+
+// ── CATÁLOGOS DE REFERENCIA ────────────────────────────────────────────────
+
+Table cat_region [headercolor: #4a7c59, note: "Regiones geográficas — compartido por pais y cat_ubicacion_operacion"] {
+  region           varchar   [pk]
+  zona_geografica  varchar   [not null]
+  es_flanco_este   boolean
+  es_norte_america boolean
+}
+
+Table cat_ubicacion_operacion [headercolor: #4a7c59, note: "Resuelve la dependencia transitiva ubicacion → region. mision solo referencia la ubicacion; la region se obtiene por join."] {
+  ubicacion_operacion  varchar   [pk]
+  region               varchar   [not null, ref: > cat_region.region]
+  descripcion          varchar
+}
+
+Table cat_tipo_mision [headercolor: #4a7c59] {
+  tipo_mision   varchar   [pk]
+  descripcion   varchar
+}
+
+Table cat_cuartel_general [headercolor: #4a7c59, note: "Catálogo cerrado de instalaciones OTAN"] {
+  cuartel_general  varchar   [pk]
+  descripcion      varchar
+}
+
+Table cat_estado_operacional [headercolor: #4a7c59] {
+  estado_operacional  varchar   [pk]
+  descripcion         varchar
+}
+
+Table cat_fase_mision [headercolor: #4a7c59, note: "PK compuesta — valida combinaciones legales (fase, estado, resultado). FK compuesta en mision garantiza coherencia entre los tres atributos."] {
+  fase_mision      varchar   [pk]
+  estado_mision    varchar   [pk]
+  resultado_mision varchar   [pk]
+}
+
+
+// ── MAESTROS (SCD Tipo 2) ─────────────────────────────────────────────────
+
+Table rol_participacion [headercolor: #8a5a2c] {
+  rol_participacion  varchar   [pk]
+  descripcion        varchar
+}
+
+Table tipo_equipamiento [headercolor: #5a8a2c, note: "SCD-2. PK compuesta (tipo_equipamiento, fecha_inicio_validez). hash_diff sobre categoria y dominio. La clave natural tipo_equipamiento es estable y es la que referencia la tabla puente."] {
+  tipo_equipamiento       varchar   [not null, note: "Clave natural — referenciada por la tabla puente"]
+  categoria_equipamiento  varchar   [not null]
+  dominio                 varchar   [not null, note: "Air / Land / Sea / Support"]
+  hash_diff               varchar   [not null]
+  fecha_inicio_validez    date      [not null]
+  fecha_fin_validez       date      [not null, note: "9999-12-31 mientras es_registro_actual = true"]
+  es_registro_actual      boolean   [not null]
+  cargado_en              timestamp [not null]
+
+  indexes {
+    (tipo_equipamiento, fecha_inicio_validez) [pk, name: "pk_tipo_equipamiento_scd2"]
+  }
+}
+
+Table tipo_equipamiento_modelo [headercolor: #5a8a2c, note: "Tabla puente 1NF. Referencia la clave NATURAL tipo_equipamiento (no la compuesta SCD-2) porque la asociación equipo-modelo es estable entre versiones. El ETL no necesita propagar esta tabla cuando se genera una nueva versión SCD-2 del padre."] {
+  tipo_equipamiento  varchar   [not null, ref: > tipo_equipamiento.tipo_equipamiento]
+  modelo_destacado   varchar   [not null]
+  orden_modelo       integer
+  cargado_en         timestamp [not null]
+
+  indexes {
+    (tipo_equipamiento, modelo_destacado) [pk, name: "pk_tipo_equip_modelo"]
+  }
+}
+
+Table pais [headercolor: #2c5f8a, note: "SCD-2. PK (codigo_iso, fecha_inicio_validez). hash_diff = MD5 de atributos mutables. Filtrar es_registro_actual = true para estado presente."] {
+  codigo_iso                  varchar   [not null, note: "Clave natural ISO-3"]
+  pais                        varchar   [not null]
+  region                      varchar   [not null, ref: > cat_region.region]
+  capital                     varchar
+  area_km2                    integer
+  tipo_gobierno               varchar
+  rol_alianza                 varchar
+  fecha_ingreso_otan          date      [note: "YYYY-01-01 si solo se dispone del año"]
+  es_miembro_fundador         boolean
+  tiene_comparticion_nuclear  boolean
+  hash_diff                   varchar   [not null]
+  fecha_inicio_validez        date      [not null]
+  fecha_fin_validez           date      [not null, note: "9999-12-31 mientras es_registro_actual = true"]
+  es_registro_actual          boolean   [not null]
+  cargado_en                  timestamp [not null]
+
+  indexes {
+    (codigo_iso, fecha_inicio_validez) [pk, name: "pk_pais_scd2"]
+  }
+}
+
+Table inventario_equipamiento [headercolor: #5a8a2c, note: "SCD-2. PK (record_id, fecha_inicio_validez). Calculados eliminados: valor_total_m_usd, antiguedad_anos → Gold."] {
+  record_id                varchar   [not null, note: "Clave natural del sistema fuente"]
+  codigo_iso               varchar   [not null, ref: > pais.codigo_iso]
+  tipo_equipamiento        varchar   [not null, ref: > tipo_equipamiento.tipo_equipamiento]
+  codigo_iso_origen        varchar   [not null, ref: > pais.codigo_iso, note: "País fabricante — FK a pais igual que codigo_iso"]
+  cantidad_unidades        integer
+  estado_operacional       varchar   [not null, ref: > cat_estado_operacional.estado_operacional]
+  condicion                varchar
+  fecha_adquisicion        date
+  coste_unitario_m_usd     float
+  es_estandar_otan         boolean
+  es_interoperable         boolean
+  fecha_ultimo_mantenimiento date
+  fecha_proximo_upgrade      date
+  pct_combat_ready         float     [note: "Dato fuente — no derivado"]
+  hash_diff                varchar   [not null]
+  fecha_inicio_validez     date      [not null]
+  fecha_fin_validez        date      [not null, note: "9999-12-31 mientras es_registro_actual = true"]
+  es_registro_actual       boolean   [not null]
+  cargado_en               timestamp [not null]
+
+  indexes {
+    (record_id, fecha_inicio_validez) [pk, name: "pk_inventario_scd2"]
+  }
+}
+
+
+// ── SERIES TEMPORALES ─────────────────────────────────────────────────────
+
+Table estadisticas_pais [headercolor: #2c5f8a, note: "Métricas anuales. fecha = YYYY-01-01 — preparada para granularidad sub-anual sin refactorizar. Calculados eliminados: personal_total, pib_per_capita_usd, defensa_pct_pib → Gold."] {
+  codigo_iso                    varchar   [not null, ref: > pais.codigo_iso]
+  fecha                         date      [not null, note: "Primer día del período — YYYY-01-01 si anual"]
+  poblacion_millones            float
+  pib_bn_usd                    float
+  tasa_inflacion_pct            float
+  tasa_desempleo_pct            float
+  presupuesto_defensa_bn_usd    float
+  cumple_objetivo_2pct          boolean
+  personal_activo               integer
+  personal_reserva              integer
+  rango_contribucion_otan       integer
+  score_interoperabilidad       float
+  ejercicios_entrenamiento_anio integer
+  cargado_en                    timestamp [not null]
+
+  // ELIMINADOS (calculados → Gold):
+  //   personal_total     = personal_activo + personal_reserva
+  //   pib_per_capita_usd = pib_bn_usd / poblacion_millones
+  //   defensa_pct_pib    = presupuesto_defensa_bn_usd / pib_bn_usd
+
+  indexes {
+    (codigo_iso, fecha) [pk, name: "pk_estadisticas_pais"]
+  }
+}
+
+
+// ── TRANSACCIONALES ───────────────────────────────────────────────────────
+
+Table mision [headercolor: #8a2c5a, note: "SCD-2. sk_mision es la PK surrogate única por versión. id_mision es la clave natural (N filas). participacion_mision apunta a sk_mision para anclar la participación al estado exacto de la misión. Calculados eliminados: duracion_anos, pct_bajas, coste_por_soldado_usd, paises_contribuyentes → Gold."] {
+  sk_mision                varchar   [pk,       note: "Surrogate key — hash(id_mision || fecha_inicio_validez)"]
+  id_mision                varchar   [not null, note: "Clave natural del sistema fuente"]
+  nombre_mision            varchar   [not null]
+  tipo_mision              varchar   [not null, ref: > cat_tipo_mision.tipo_mision]
+  codigo_iso_lider         varchar   [not null, ref: > pais.codigo_iso]
+  ubicacion_operacion      varchar   [ref: > cat_ubicacion_operacion.ubicacion_operacion, note: "La region se obtiene por join a cat_ubicacion_operacion — campo region_operacion eliminado (transitivo)"]
+  nivel_amenaza            varchar
+  cuartel_general          varchar   [ref: > cat_cuartel_general.cuartel_general]
+  fecha_inicio_operacion   date      [not null]
+  fecha_fin_operacion      date      [note: "NULL si misión activa"]
+  fase_mision              varchar   [ref: > cat_fase_mision.fase_mision]
+  estado_mision            varchar   [ref: > cat_fase_mision.estado_mision]
+  resultado_mision         varchar   [ref: > cat_fase_mision.resultado_mision]
+  clasificacion            varchar
+  cobertura_mediatica      varchar
+  es_liderada_otan         boolean
+  tiene_mandato_onu        boolean
+  informe_post_accion      varchar
+  tropas_desplegadas       integer
+  activos_aereos_desplegados  integer
+  activos_navales_desplegados integer
+  bajas                    integer
+  coste_mision_m_usd       float
+  pct_apoyo_publico        float     [note: "Dato fuente de encuestas — no derivado"]
+  hash_diff                varchar   [not null]
+  fecha_inicio_validez     date      [not null]
+  fecha_fin_validez        date      [not null, note: "9999-12-31 mientras es_registro_actual = true"]
+  es_registro_actual       boolean   [not null]
+  cargado_en               timestamp [not null]
+
+  // ELIMINADOS:
+  //   region_operacion      — transitivo vía cat_ubicacion_operacion.region
+  //   duracion_anos         = fecha_fin - fecha_inicio              → Gold
+  //   pct_bajas             = bajas / tropas_desplegadas            → Gold
+  //   coste_por_soldado_usd = coste_mision / tropas_desplegadas     → Gold
+  //   paises_contribuyentes = COUNT(participacion_mision)           → Gold
+
+  indexes {
+    (id_mision, fecha_inicio_validez) [unique, name: "uq_mision_version"]
+  }
+}
+
+Table participacion_mision [headercolor: #8a5a2c, note: "sk_mision ancla la participación a la versión exacta de la misión. UNIQUE (sk_mision, codigo_iso) bloquea duplicados silenciosos. pct_contribucion eliminado → Gold."] {
+  id_participante              varchar   [pk,       note: "Surrogate key"]
+  sk_mision                    varchar   [not null, ref: > mision.sk_mision, note: "FK a sk_mision — garantiza integridad referencial con SCD-2"]
+  codigo_iso                   varchar   [not null, ref: > pais.codigo_iso]
+  rol_participacion            varchar   [ref: > rol_participacion.rol_participacion]
+  tropas_contribuidas          integer
+  activos_aereos_contribuidos  integer
+  activos_navales_contribuidos integer
+  cargado_en                   timestamp [not null]
+
+  // ELIMINADO: pct_contribucion = tropas_contribuidas / mision.tropas_desplegadas → Gold
+
+  indexes {
+    (sk_mision, codigo_iso) [unique, name: "uq_participacion_mision_pais"]
+  }
+}

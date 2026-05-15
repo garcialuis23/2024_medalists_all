@@ -1,23 +1,40 @@
 {{ config(materialized='table') }}
 
 select
-    m.record_id                                                     as id_mision,
+    m.id_mision,
     m.nombre_mision,
     m.tipo_mision,
-    m.pais_lider,
     m.codigo_iso_lider,
+    p.pais                                                      as pais_lider,
+    p.region                                                    as region_pais_lider,
     m.region_operacion,
     m.nivel_amenaza,
-    m.anio_inicio_operacion,
-    m.anio_fin_operacion,
-    m.duracion_anos,
+    m.fecha_inicio_operacion,
+    m.fecha_fin_operacion,
+    year(m.fecha_inicio_operacion)                              as anio_inicio,
+    year(m.fecha_fin_operacion)                                 as anio_fin,
+    case
+        when m.fecha_fin_operacion is not null
+        then round(
+            datediff('day', m.fecha_inicio_operacion, m.fecha_fin_operacion) / 365.25,
+            2)
+        else null
+    end                                                         as duracion_anos,
     m.tropas_desplegadas,
     m.activos_aereos_desplegados,
     m.activos_navales_desplegados,
     m.bajas,
-    m.pct_bajas,
+    case
+        when m.tropas_desplegadas > 0 and m.bajas is not null
+        then round(m.bajas * 100.0 / m.tropas_desplegadas, 2)
+        else null
+    end                                                         as pct_bajas,
     m.coste_mision_m_usd,
-    m.coste_por_soldado_usd,
+    case
+        when m.tropas_desplegadas > 0 and m.coste_mision_m_usd > 0
+        then round(m.coste_mision_m_usd * 1000000 / m.tropas_desplegadas, 2)
+        else null
+    end                                                         as coste_por_soldado_usd,
     m.paises_contribuyentes,
     m.es_liderada_otan,
     m.tiene_mandato_onu,
@@ -28,19 +45,20 @@ select
     f.era_otan,
     f.decada,
     case
-        when m.coste_mision_m_usd > 0 and m.duracion_anos > 0
-        then round(m.coste_mision_m_usd / m.duracion_anos, 2)
+        when m.coste_mision_m_usd > 0
+         and m.fecha_fin_operacion is not null
+         and datediff('day', m.fecha_inicio_operacion, m.fecha_fin_operacion) > 0
+        then round(
+            m.coste_mision_m_usd
+            / (datediff('day', m.fecha_inicio_operacion, m.fecha_fin_operacion) / 365.25),
+            2)
         else null
-    end                                                             as coste_anual_m_usd,
-    case
-        when m.tropas_desplegadas > 0
-        then round(m.bajas * 100.0 / m.tropas_desplegadas, 4)
-        else null
-    end                                                             as ratio_bajas_calc
-from {{ ref('stg_nato__operations_missions') }} m
+    end                                                         as coste_anual_m_usd
+from {{ ref('stg_mision') }} m
 left join {{ ref('dim_estado_mision') }} e
-    on m.fase_mision      = e.fase_mision
-    and m.estado_mision   = e.estado_mision
+    on m.fase_mision       = e.fase_mision
+    and m.estado_mision    = e.estado_mision
     and m.resultado_mision = e.resultado_mision
-left join {{ ref('dim_fecha') }} f on m.anio_inicio_operacion = f.anio
-where m.record_id is not null
+left join {{ ref('dim_pais') }}  p on m.codigo_iso_lider              = p.codigo_iso
+left join {{ ref('dim_fecha') }} f on year(m.fecha_inicio_operacion)  = f.anio
+where m.id_mision is not null

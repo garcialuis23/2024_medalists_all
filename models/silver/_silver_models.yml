@@ -1,60 +1,168 @@
 version: 2
 
 models:
-  - name: stg_nato__country_stats
-    description: "Estadísticas anuales por país OTAN. Tipos casteados, columnas en español."
+  # ── CATÁLOGOS DE REFERENCIA ─────────────────────────────────────────────
+  - name: stg_cat_region
+    description: >
+      Vocabulario controlado de regiones geográficas. UNION de regiones de países
+      OTAN y de regiones de operaciones militares. FK destino para stg_pais.region
+      y stg_mision.region_operacion.
     columns:
-      - name: record_id
+      - name: region
         tests: [not_null, unique]
-      - name: pais
-        tests: [not_null]
-      - name: codigo_iso
-        tests: [not_null]
-      - name: anio
-        tests: [not_null]
-      - name: cargado_en
+      - name: zona_geografica
         tests: [not_null]
 
-  - name: stg_nato__equipment_inventory
-    description: "Inventario de equipamiento militar por país OTAN. Tipos casteados, columnas en español."
+  - name: stg_cat_tipo_mision
+    description: "Vocabulario controlado de tipos de misión OTAN."
     columns:
-      - name: record_id
+      - name: tipo_mision
         tests: [not_null, unique]
-      - name: pais
+
+  - name: stg_cat_cuartel_general
+    description: "Vocabulario controlado de cuarteles generales OTAN."
+    columns:
+      - name: cuartel_general
+        tests: [not_null, unique]
+
+  - name: stg_cat_pais_origen
+    description: "Países de origen del equipamiento. Incluye países no-OTAN."
+    columns:
+      - name: pais_origen
+        tests: [not_null, unique]
+
+  - name: stg_cat_estado_operacional
+    description: "Vocabulario controlado de estados operacionales del equipamiento."
+    columns:
+      - name: estado_operacional
+        tests: [not_null, unique]
+
+  - name: stg_cat_fase_mision
+    description: >
+      Combinaciones válidas de (fase_mision, estado_mision, resultado_mision).
+      PK compuesta triple. FK destino para stg_mision.
+    columns:
+      - name: fase_mision
         tests: [not_null]
+      - name: estado_mision
+        tests: [not_null]
+      - name: resultado_mision
+        tests: [not_null]
+
+  # ── MAESTROS (SCD Tipo 2) ────────────────────────────────────────────────
+  - name: stg_pais
+    description: >
+      Maestro de países OTAN con SCD Tipo 2. PK compuesta (codigo_iso,
+      fecha_inicio_validez). hash_diff = MD5 de todos los atributos mutables.
+      Versiones detectadas mediante ventana LAG sobre anio_fuente de bronze.
+      Filtrar es_registro_actual = true para estado presente.
+    columns:
       - name: codigo_iso
         tests: [not_null]
-      - name: tipo_equipamiento
+      - name: pais
         tests: [not_null]
+      - name: region
+        tests: [not_null]
+      - name: hash_diff
+        tests: [not_null]
+      - name: fecha_inicio_validez
+        tests: [not_null]
+      - name: fecha_fin_validez
+        tests: [not_null]
+      - name: es_registro_actual
+        tests: [not_null]
+
+  - name: stg_tipo_equipamiento
+    description: >
+      3NF: Catálogo de tipos de equipamiento. modelos_destacados eliminado
+      (viola 1NF) → ver stg_tipo_equipamiento_modelo.
+    columns:
+      - name: tipo_equipamiento
+        tests: [not_null, unique]
       - name: dominio
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['Air', 'Land', 'Sea', 'Support']
-      - name: cargado_en
+
+  - name: stg_tipo_equipamiento_modelo
+    description: >
+      Tabla puente (1NF). Resuelve campo multivalor modelos_destacados usando
+      LATERAL SPLIT_TO_TABLE con separador '/'. PK compuesta
+      (tipo_equipamiento, modelo_destacado).
+    columns:
+      - name: tipo_equipamiento
+        tests: [not_null]
+      - name: modelo_destacado
         tests: [not_null]
 
-  - name: stg_nato__operations_missions
-    description: "Operaciones y misiones OTAN. Tipos casteados, columnas en español."
+  - name: stg_rol_participacion
+    description: "Catálogo de roles de participación en misiones."
+    columns:
+      - name: rol_participacion
+        tests: [not_null, unique]
+
+  - name: stg_inventario_equipamiento
+    description: >
+      Inventario de equipamiento con SCD Tipo 2. hash_diff cubre atributos
+      operacionales mutables. Calculados eliminados (valor_total_m_usd,
+      antiguedad_anos → Gold). fecha_adquisicion como DATE (YYYY-01-01).
+      PK compuesta (record_id, fecha_inicio_validez). Filtrar
+      es_registro_actual = true para estado actual.
     columns:
       - name: record_id
+        tests: [not_null]
+      - name: codigo_iso
+        tests: [not_null]
+      - name: tipo_equipamiento
+        tests: [not_null]
+      - name: hash_diff
+        tests: [not_null]
+      - name: fecha_inicio_validez
+        tests: [not_null]
+      - name: fecha_fin_validez
+        tests: [not_null]
+      - name: es_registro_actual
+        tests: [not_null]
+
+  # ── SERIES TEMPORALES / TRANSACCIONALES ──────────────────────────────────
+  - name: stg_estadisticas_pais
+    description: >
+      Métricas anuales por país en 2NF. PK compuesta (codigo_iso, fecha).
+      fecha = DATE (YYYY-01-01), preparada para granularidad sub-anual futura
+      sin refactorizar la tabla.
+    columns:
+      - name: codigo_iso
+        tests: [not_null]
+      - name: fecha
+        tests: [not_null]
+
+  - name: stg_mision
+    description: >
+      Misiones OTAN en 3NF. Calculados eliminados (duracion_anos, pct_bajas,
+      coste_por_soldado_usd → Gold). Fechas como DATE. tipo_mision FK a
+      stg_cat_tipo_mision. cuartel_general FK a stg_cat_cuartel_general.
+      region_operacion FK a stg_cat_region.
+    columns:
+      - name: id_mision
         tests: [not_null, unique]
       - name: nombre_mision
         tests: [not_null]
-      - name: pais_lider
+      - name: codigo_iso_lider
         tests: [not_null]
-      - name: cargado_en
+      - name: fecha_inicio_operacion
         tests: [not_null]
 
-  - name: stg_nato__mission_participants
-    description: "Participantes en misiones OTAN. Tipos casteados, columnas en español."
+  - name: stg_participacion_mision
+    description: >
+      Participación de países en misiones en 3NF. pct_contribucion eliminado
+      → Gold. QUALIFY garantiza UNIQUE sobre (id_mision, codigo_iso):
+      un país participa exactamente una vez por misión.
     columns:
       - name: id_participante
         tests: [not_null, unique]
       - name: id_mision
         tests: [not_null]
-      - name: pais
-        tests: [not_null]
-      - name: cargado_en
+      - name: codigo_iso
         tests: [not_null]

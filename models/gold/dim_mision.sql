@@ -1,12 +1,10 @@
 {{ config(materialized='table') }}
 
-select distinct
-    record_id                                                       as id_mision,
+select
+    id_mision,
     nombre_mision,
     tipo_mision,
-    pais_lider,
     codigo_iso_lider,
-    region_pais_lider,
     ubicacion_operacion,
     region_operacion,
     nivel_amenaza,
@@ -14,8 +12,11 @@ select distinct
     clasificacion,
     cobertura_mediatica,
     paises_contribuyentes,
-    duracion_anos,
-    anio_inicio_operacion,
-    anio_fin_operacion
-from {{ ref('stg_nato__operations_missions') }}
-where record_id is not null
+    fecha_inicio_operacion,
+    fecha_fin_operacion,
+    year(fecha_inicio_operacion)                                as anio_inicio,
+    year(fecha_fin_operacion)                                   as anio_fin,
+    es_liderada_otan,
+    tiene_mandato_onu
+from {{ ref('stg_mision') }}
+where id_mision is not null
