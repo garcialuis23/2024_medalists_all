@@ -1,15 +1,15 @@
 {{ config(materialized='table') }}
 
--- Un atleta único por athlete_id.
+-- Un atleta único por wikidata_id_atleta.
 -- QUALIFY prefiere la fila con fecha de nacimiento conocida.
 
 select
-    medalist_wikidata_id    as athlete_id,
-    medalist_name           as name,
-    medalist_link           as link,
-    date_of_birth,
-    sex_or_gender           as sex,
-    place_of_birth_wikidata_id as place_id
+    cast(medalist_wikidata_id           as varchar)  as wikidata_id_atleta,
+    cast(medalist_name                  as varchar)  as nombre,
+    cast(medalist_link                  as varchar)  as enlace,
+    cast(date_of_birth                  as date)     as fecha_nacimiento,
+    cast(sex_or_gender                  as varchar)  as sexo,
+    cast(place_of_birth_wikidata_id     as varchar)  as wikidata_id_lugar
 
 from {{ ref('bronze_medalists_raw') }}
 qualify row_number() over (

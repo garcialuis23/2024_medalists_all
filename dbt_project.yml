@@ -2,7 +2,7 @@ name: '2024-medalists-all'
 version: '1.0.0'
 config-version: 2
 
-profile: '2024-medalists-all'
+profile: 'operation_medallion'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -24,7 +24,8 @@ models:
 
     silver:
       +materialized: table
-      +database: SILVER_DB
+      +database: BRONZE_DB
+      +schema: silver
 
     gold:
       +materialized: table

@@ -1,9 +1,9 @@
 {{ config(materialized='table') }}
 
 select distinct
-    delegation_wikidata_id      as delegation_id,
-    delegation_name             as name,
-    delegation_link             as link,
-    country_medal_wikidata_id   as country_id
+    cast(delegation_wikidata_id     as varchar)  as wikidata_id_delegacion,
+    cast(delegation_name            as varchar)  as nombre,
+    cast(delegation_link            as varchar)  as enlace,
+    cast(country_medal_wikidata_id  as varchar)  as wikidata_id_pais
 
 from {{ ref('bronze_medalists_raw') }}

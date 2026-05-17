@@ -3,18 +3,18 @@
 -- Dimensión países con recuento de medallas por tipo.
 
 select
-    c.country_id,
-    c.name,
-    c.code2,
-    c.code3,
-    c.ioc_code,
-    count(m.medal_id)                               as total_medals,
-    count(case when m.type = 'gold'   then 1 end)   as gold_medals,
-    count(case when m.type = 'silver' then 1 end)   as silver_medals,
-    count(case when m.type = 'bronze' then 1 end)   as bronze_medals
+    c.wikidata_id_pais                                          as country_id,
+    c.nombre                                                    as name,
+    c.codigo_iso2                                               as code2,
+    c.codigo_iso3                                               as code3,
+    c.codigo_coi                                                as ioc_code,
+    count(m.id_medalla)                                         as total_medals,
+    count(case when m.tipo = 'gold'   then 1 end)               as gold_medals,
+    count(case when m.tipo = 'silver' then 1 end)               as silver_medals,
+    count(case when m.tipo = 'bronze' then 1 end)               as bronze_medals
 
 from {{ ref('silver_country') }} c
 left join {{ ref('silver_medal') }} m
-    on c.country_id = m.country_id
+    on c.wikidata_id_pais = m.wikidata_id_pais
 
 group by 1, 2, 3, 4, 5

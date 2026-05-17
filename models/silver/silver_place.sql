@@ -1,16 +1,16 @@
 {{ config(materialized='table') }}
 
--- Un lugar de nacimiento único por place_id.
--- QUALIFY toma la fila con coordenadas si existen (lat not null primero).
+-- Un lugar de nacimiento único por wikidata_id_lugar.
+-- QUALIFY toma la fila con coordenadas si existen (latitud not null primero).
 
 select
-    place_of_birth_wikidata_id          as place_id,
-    place_of_birth                      as name,
-    place_of_birth_located_in_wikidata_id as located_in_id,
-    place_of_birth_located_in           as located_in_name,
-    lat,
-    lon,
-    nuts3_id
+    cast(place_of_birth_wikidata_id                 as varchar)  as wikidata_id_lugar,
+    cast(place_of_birth                             as varchar)  as nombre,
+    cast(place_of_birth_located_in_wikidata_id      as varchar)  as wikidata_id_ubicado_en,
+    cast(place_of_birth_located_in                  as varchar)  as nombre_ubicado_en,
+    cast(lat                                        as float)    as latitud,
+    cast(lon                                        as float)    as longitud,
+    cast(nuts3_id                                   as varchar)  as id_nuts3
 
 from {{ ref('bronze_medalists_raw') }}
 qualify row_number() over (

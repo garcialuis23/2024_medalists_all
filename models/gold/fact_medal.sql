@@ -4,12 +4,12 @@
 -- Lista para consumo analítico directo (BI, dashboards, etc.).
 
 select
-    m.medal_id,
-    m.type                          as medal_type,
+    m.id_medalla                        as medal_id,
+    m.tipo                              as medal_type,
 
     -- atleta
     a.athlete_id,
-    a.name                          as athlete_name,
+    a.name                              as athlete_name,
     a.date_of_birth,
     a.sex,
     a.birthplace,
@@ -18,15 +18,15 @@ select
     a.birthplace_lon,
 
     -- país acreedor
-    c.country_id,
-    c.name                          as country_name,
-    c.code2                         as country_code2,
-    c.code3                         as country_code3,
-    c.ioc_code                      as country_ioc_code,
+    c.wikidata_id_pais                  as country_id,
+    c.nombre                            as country_name,
+    c.codigo_iso2                       as country_code2,
+    c.codigo_iso3                       as country_code3,
+    c.codigo_coi                        as country_ioc_code,
 
     -- delegación
-    d.delegation_id,
-    d.name                          as delegation_name,
+    d.wikidata_id_delegacion            as delegation_id,
+    d.nombre                            as delegation_name,
 
     -- evento / disciplina / deporte
     e.event_id,
@@ -42,11 +42,11 @@ select
     n.nuts1_id,
     n.nuts1_name,
     n.nuts0_id,
-    n.nuts0_name                    as nuts_country_name
+    n.nuts0_name                        as nuts_country_name
 
 from {{ ref('silver_medal') }} m
-join {{ ref('dim_athlete') }}     a  on m.athlete_id    = a.athlete_id
-join {{ ref('silver_country') }}  c  on m.country_id    = c.country_id
-join {{ ref('silver_delegation') }} d on m.delegation_id = d.delegation_id
-join {{ ref('dim_event') }}       e  on m.event_id      = e.event_id
-left join {{ ref('dim_nuts') }}   n  on a.birthplace_nuts3_id = n.nuts3_id
+join {{ ref('dim_athlete') }}     a  on m.wikidata_id_atleta     = a.athlete_id
+join {{ ref('silver_country') }}  c  on m.wikidata_id_pais        = c.wikidata_id_pais
+join {{ ref('silver_delegation') }} d on m.wikidata_id_delegacion = d.wikidata_id_delegacion
+join {{ ref('dim_event') }}       e  on m.wikidata_id_evento      = e.event_id
+left join {{ ref('dim_nuts') }}   n  on a.birthplace_nuts3_id     = n.nuts3_id
