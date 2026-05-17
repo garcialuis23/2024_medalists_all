@@ -1,66 +1,29 @@
 version: 2
 
-sources:
-  - name: bronze_raw
-    description: "Tablas de aterrizaje cargadas vía COPY INTO desde el Stage interno de Snowflake."
-    database: "{{ target.database }}"
-    schema: PUBLIC
-
-    tables:
-      - name: nato_country_stats
-        description: "Estadísticas por país de la OTAN: económicas, militares y organizativas. Fuente: NATO_1_Country_Stats.csv."
-        columns:
-          - name: RECORD_ID
-            tests: [unique, not_null]
-          - name: COUNTRY
-            tests: [not_null]
-          - name: ISO_CODE
-            tests: [not_null]
-          - name: YEAR
-            tests: [not_null]
-          - name: _LOADED_AT
-            tests: [not_null]
-
-      - name: nato_equipment_inventory
-        description: "Inventario de equipamiento militar por país de la OTAN. Fuente: NATO_2_Equipment_Inventory.csv."
-        columns:
-          - name: RECORD_ID
-            tests: [unique, not_null]
-          - name: COUNTRY
-            tests: [not_null]
-          - name: ISO_CODE
-            tests: [not_null]
-          - name: EQUIPMENT_TYPE
-            tests: [not_null]
-          - name: DOMAIN
-            tests:
-              - not_null
-              - accepted_values:
-                  arguments:
-                    values: ['Air', 'Land', 'Sea', 'Support']
-          - name: _LOADED_AT
-            tests: [not_null]
-
-      - name: nato_operations_missions
-        description: "Operaciones y misiones de la OTAN con detalle de despliegue y resultados. Fuente: NATO_3_Operations_Missions.csv."
-        columns:
-          - name: RECORD_ID
-            tests: [unique, not_null]
-          - name: MISSION_NAME
-            tests: [not_null]
-          - name: LEAD_COUNTRY
-            tests: [not_null]
-          - name: _LOADED_AT
-            tests: [not_null]
-
-      - name: nato_mission_participants
-        description: "Países participantes en cada misión con sus contribuciones de tropas y activos. Fuente: NATO_4_Mission_Participants.csv."
-        columns:
-          - name: PARTICIPANT_ID
-            tests: [unique, not_null]
-          - name: MISSION_RECORD_ID
-            tests: [not_null]
-          - name: COUNTRY
-            tests: [not_null]
-          - name: _LOADED_AT
-            tests: [not_null]
+models:
+  - name: bronze_medalists_raw
+    description: >
+      Ingesta cruda del seed 2024_medalists_all. Los valores 'NA' se convierten a NULL;
+      campos numéricos y de fecha se castean con TRY_TO_*. Sin lógica de negocio.
+    columns:
+      - name: medalist_wikidata_id
+        description: "Wikidata ID del atleta (clave natural)"
+        tests: [not_null]
+      - name: medal
+        description: "Tipo de medalla"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['gold', 'silver', 'bronze']
+      - name: event_wikidata_id
+        description: "Wikidata ID del evento"
+        tests: [not_null]
+      - name: delegation_wikidata_id
+        description: "Wikidata ID de la delegación"
+        tests: [not_null]
+      - name: country_medal_wikidata_id
+        description: "Wikidata ID del país acreedor de la medalla"
+        tests: [not_null]
+      - name: sport_wikidata_id
+        description: "Wikidata ID del deporte"
+        tests: [not_null]

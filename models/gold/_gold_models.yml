@@ -1,8 +1,50 @@
 version: 2
 
 models:
-  # ── DIMENSIONES ─────────────────────────────────────────────────────
-  - name: dim_fecha
+  - name: dim_country
+    description: "Países con recuento de medallas (gold/silver/bronze/total)."
+    columns:
+      - name: country_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+
+  - name: dim_athlete
+    description: "Atletas con lugar de nacimiento desnormalizado (coordenadas, región, NUTS3)."
+    columns:
+      - name: athlete_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+
+  - name: dim_event
+    description: "Eventos con disciplina y deporte en una sola fila (flattened)."
+    columns:
+      - name: event_id
+        tests: [not_null, unique]
+      - name: event_name
+        tests: [not_null]
+
+  - name: dim_nuts
+    description: >
+      Jerarquía NUTS completa desnormalizada (NUTS0→NUTS3).
+      Solo cubre regiones con al menos un atleta europeo en el dataset.
+    columns:
+      - name: nuts3_id
+        tests: [not_null, unique]
+
+  - name: fact_medal
+    description: >
+      Tabla de hechos analítica Gold. Una fila por medalla con todas las
+      dimensiones resueltas: atleta, país, delegación, evento y NUTS.
+    columns:
+      - name: medal_id
+        tests: [not_null, unique]
+      - name: medal_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['gold', 'silver', 'bronze']
     description: >
       Dimensión temporal (año). Atributos: era OTAN, década, siglo, flags.
       Generada desde UNION de años de todas las fuentes Silver.

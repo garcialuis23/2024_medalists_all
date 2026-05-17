@@ -1,8 +1,120 @@
 version: 2
 
 models:
-  # ── CATÁLOGOS DE REFERENCIA ─────────────────────────────────────────────
-  - name: stg_cat_region
+  - name: silver_country
+    description: "Países únicos acreditados con al menos una medalla en París 2024."
+    columns:
+      - name: country_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+
+  - name: silver_delegation
+    description: "Delegaciones olímpicas únicas. Un país puede organizar más de una delegación."
+    columns:
+      - name: delegation_id
+        tests: [not_null, unique]
+      - name: country_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_country')
+              field: country_id
+
+  - name: silver_sport
+    description: "Deportes únicos representados en los JJ.OO. París 2024."
+    columns:
+      - name: sport_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+
+  - name: silver_discipline
+    description: "Disciplinas (agrupaciones de eventos) dentro de un deporte."
+    columns:
+      - name: discipline_id
+        tests: [not_null, unique]
+      - name: sport_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_sport')
+              field: sport_id
+
+  - name: silver_event
+    description: "Eventos concretos en los que se otorga una medalla."
+    columns:
+      - name: event_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+
+  - name: silver_nuts_region
+    description: "Jerarquía NUTS europea (niveles 0-3). Tabla auto-jerárquica con parent_nuts_id."
+    columns:
+      - name: nuts_id
+        tests: [not_null, unique]
+      - name: level
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3]
+
+  - name: silver_place
+    description: "Lugares de nacimiento únicos de los atletas. nuts3_id nullable para no europeos."
+    columns:
+      - name: place_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+
+  - name: silver_athlete
+    description: "Atletas únicos que ganaron al menos una medalla en París 2024."
+    columns:
+      - name: athlete_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+      - name: place_id
+        tests:
+          - relationships:
+              to: ref('silver_place')
+              field: place_id
+
+  - name: silver_medal
+    description: "Tabla de hechos Silver: una fila por medalla (athlete_id × event_id es única)."
+    columns:
+      - name: medal_id
+        tests: [not_null, unique]
+      - name: athlete_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_athlete')
+              field: athlete_id
+      - name: event_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_event')
+              field: event_id
+      - name: delegation_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_delegation')
+              field: delegation_id
+      - name: country_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_country')
+              field: country_id
+      - name: type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['gold', 'silver', 'bronze']
     description: >
       Vocabulario controlado de regiones geográficas. UNION de regiones de países
       OTAN y de regiones de operaciones militares. FK destino para stg_pais.region.
