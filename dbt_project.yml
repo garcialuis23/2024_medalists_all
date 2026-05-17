@@ -24,8 +24,7 @@ models:
 
     silver:
       +materialized: table
-      +database: BRONZE_DB
-      +schema: silver
+      +database: SILVER_DB
 
     gold:
       +materialized: table

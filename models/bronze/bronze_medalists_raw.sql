@@ -57,4 +57,4 @@ select
     nuts0_id,
     nuts0_name
 
-from {{ ref('2024_medalists_all') }}
+from {{ source('bronze', 'MEDALISTS_2024') }}

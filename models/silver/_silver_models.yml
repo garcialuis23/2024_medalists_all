@@ -18,8 +18,9 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('silver_country')
-              field: wikidata_id_pais
+              arguments:
+                to: ref('silver_country')
+                field: wikidata_id_pais
 
   - name: silver_sport
     description: "Deportes únicos representados en los JJ.OO. París 2024."
@@ -38,8 +39,9 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('silver_sport')
-              field: wikidata_id_deporte
+              arguments:
+                to: ref('silver_sport')
+                field: wikidata_id_deporte
 
   - name: silver_event
     description: "Eventos concretos en los que se otorga una medalla."
@@ -58,7 +60,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [0, 1, 2, 3]
+              arguments:
+                values: [0, 1, 2, 3]
 
   - name: silver_place
     description: "Lugares de nacimiento únicos de los atletas. id_nuts3 nullable para no europeos."
@@ -78,8 +81,9 @@ models:
       - name: wikidata_id_lugar
         tests:
           - relationships:
-              to: ref('silver_place')
-              field: wikidata_id_lugar
+              arguments:
+                to: ref('silver_place')
+                field: wikidata_id_lugar
 
   - name: silver_medal
     description: "Tabla de hechos Silver: una fila por medalla (wikidata_id_atleta × wikidata_id_evento es única)."
@@ -90,28 +94,33 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('silver_athlete')
-              field: wikidata_id_atleta
+              arguments:
+                to: ref('silver_athlete')
+                field: wikidata_id_atleta
       - name: wikidata_id_evento
         tests:
           - not_null
           - relationships:
-              to: ref('silver_event')
-              field: wikidata_id_evento
+              arguments:
+                to: ref('silver_event')
+                field: wikidata_id_evento
       - name: wikidata_id_delegacion
         tests:
           - not_null
           - relationships:
-              to: ref('silver_delegation')
-              field: wikidata_id_delegacion
+              arguments:
+                to: ref('silver_delegation')
+                field: wikidata_id_delegacion
       - name: wikidata_id_pais
         tests:
           - not_null
           - relationships:
-              to: ref('silver_country')
-              field: wikidata_id_pais
+              arguments:
+                to: ref('silver_country')
+                field: wikidata_id_pais
       - name: tipo
         tests:
           - not_null
           - accepted_values:
-              values: ['gold', 'silver', 'bronze']
+              arguments:
+                values: ['gold', 'silver', 'bronze']

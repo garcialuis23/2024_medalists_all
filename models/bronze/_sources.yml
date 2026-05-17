@@ -1,29 +1,32 @@
 version: 2
 
-models:
-  - name: bronze_medalists_raw
-    description: >
-      Ingesta cruda del seed 2024_medalists_all. Los valores 'NA' se convierten a NULL;
-      campos numéricos y de fecha se castean con TRY_TO_*. Sin lógica de negocio.
-    columns:
-      - name: medalist_wikidata_id
-        description: "Wikidata ID del atleta (clave natural)"
-        tests: [not_null]
-      - name: medal
-        description: "Tipo de medalla"
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['gold', 'silver', 'bronze']
-      - name: event_wikidata_id
-        description: "Wikidata ID del evento"
-        tests: [not_null]
-      - name: delegation_wikidata_id
-        description: "Wikidata ID de la delegación"
-        tests: [not_null]
-      - name: country_medal_wikidata_id
-        description: "Wikidata ID del país acreedor de la medalla"
-        tests: [not_null]
-      - name: sport_wikidata_id
-        description: "Wikidata ID del deporte"
-        tests: [not_null]
+sources:
+  - name: bronze
+    description: "Datos crudos de los JJ.OO. París 2024 cargados vía stage Snowflake."
+    schema: PUBLIC
+    tables:
+      - name: MEDALISTS_2024
+        description: "Tabla de medallistas cargada desde MEDALISTS_STAGE."
+        columns:
+          - name: medalist_wikidata_id
+            description: "Wikidata ID del atleta (clave natural)"
+            tests: [not_null]
+          - name: medal
+            description: "Tipo de medalla"
+            tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: ['gold', 'silver', 'bronze']
+          - name: event_wikidata_id
+            description: "Wikidata ID del evento"
+            tests: [not_null]
+          - name: delegation_wikidata_id
+            description: "Wikidata ID de la delegación"
+            tests: [not_null]
+          - name: country_medal_wikidata_id
+            description: "Wikidata ID del país acreedor de la medalla"
+            tests: [not_null]
+          - name: sport_wikidata_id
+            description: "Wikidata ID del deporte"
+            tests: [not_null]
