@@ -11,7 +11,11 @@ with source as (
         trim(government_type)                                   as tipo_gobierno,
         trim(alliance_role)                                     as rol_alianza,
         try_cast(trim(join_year) as integer)                    as anio_ingreso_otan,
-        try_cast(upper(trim(founding_member)) as boolean)       as es_miembro_fundador,
+        case upper(trim(founding_member))
+            when 'YES' then true  when 'Y' then true
+            when 'NO'  then false when 'N' then false
+            else null
+        end                                                     as es_miembro_fundador,
         try_cast(upper(trim(nuclear_sharing)) as boolean)       as tiene_comparticion_nuclear,
         _loaded_at
     from {{ ref('bronze_country_stats') }}
@@ -87,6 +91,9 @@ versiones as (
 )
 
 select
+    row_number() over (
+        order by codigo_iso, fecha_inicio_validez
+    )                                                       as pais_sk,
     codigo_iso,
     pais,
     region,
@@ -95,6 +102,11 @@ select
     tipo_gobierno,
     rol_alianza,
     anio_ingreso_otan,
+    case
+        when anio_ingreso_otan is not null
+        then to_date(anio_ingreso_otan || '-01-01')
+        else null
+    end                                                     as fecha_ingreso_otan,
     es_miembro_fundador,
     tiene_comparticion_nuclear,
     hash_diff,
