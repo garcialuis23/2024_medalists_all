@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', database=generate_database_name('BRONZE_DB')) }}
 
 -- Capa Bronze: ingesta cruda del seed 2024_medalists_all.
 -- Sin transformaciones: todos los valores llegan como varchar, incluidos los 'NA'.

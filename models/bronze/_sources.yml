@@ -3,6 +3,7 @@ version: 2
 sources:
   - name: bronze
     description: "Datos crudos de los JJ.OO. París 2024 cargados vía stage Snowflake."
+    database: "{{ 'BRONZE_DB_PRO' if target.name == 'pro' else 'BRONZE_DB_DEV' }}"
     schema: PUBLIC
     tables:
       - name: MEDALISTS_2024
