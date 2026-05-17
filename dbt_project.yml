@@ -20,12 +20,9 @@ models:
   2024-medalists-all:
     bronze:
       +materialized: table
-      +database: BRONZE_DB
 
     silver:
       +materialized: table
-      +database: SILVER_DB
 
     gold:
       +materialized: table
-      +database: GOLD_DB

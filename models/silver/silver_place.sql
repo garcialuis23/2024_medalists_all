@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', database=generate_database_name('SILVER_DB')) }}
 
 -- Un lugar de nacimiento único por wikidata_id_lugar.
 -- QUALIFY toma la fila con coordenadas si existen (latitud not null primero).

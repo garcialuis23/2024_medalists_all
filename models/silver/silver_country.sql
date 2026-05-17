@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', database=generate_database_name('SILVER_DB')) }}
 
 select distinct
     nullif(country_medal_wikidata_id, 'NA')       as wikidata_id_pais,

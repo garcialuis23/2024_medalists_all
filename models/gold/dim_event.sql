@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', database=generate_database_name('GOLD_DB')) }}
 
 -- Dimensión eventos con disciplina y deporte flattened en una sola fila.
 

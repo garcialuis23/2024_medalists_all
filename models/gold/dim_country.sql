@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', database=generate_database_name('GOLD_DB')) }}
 
 -- Dimensión países con recuento de medallas por tipo.
 

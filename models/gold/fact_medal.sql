@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', database=generate_database_name('GOLD_DB')) }}
 
 -- Tabla de hechos Gold: cada medalla con todas las dimensiones resueltas.
 -- Lista para consumo analítico directo (BI, dashboards, etc.).

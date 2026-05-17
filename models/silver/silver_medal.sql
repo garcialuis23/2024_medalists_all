@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', database=generate_database_name('SILVER_DB')) }}
 
 -- Tabla de hechos: una fila por medalla ganada (wikidata_id_atleta × wikidata_id_evento es único).
 -- id_medalla: surrogate key reproducible basado en MD5 de las dos claves naturales.

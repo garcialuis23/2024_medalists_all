@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', database=generate_database_name('SILVER_DB')) }}
 
 -- Un atleta único por wikidata_id_atleta.
 -- QUALIFY prefiere la fila con fecha de nacimiento conocida.
