@@ -34,8 +34,7 @@ models:
         tests:
           - not_null
           - accepted_values:
-              arguments:
-                values: ['Air', 'Land', 'Sea', 'Support']
+              values: ['Air', 'Land', 'Sea', 'Support']
       - name: _loaded_at
         tests: [not_null]
 
