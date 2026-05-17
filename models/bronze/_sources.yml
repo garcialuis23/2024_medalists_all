@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: bronze_raw
     description: "Tablas de aterrizaje cargadas vía COPY INTO desde el Stage interno de Snowflake."
-    database: "BRONZE_DB"
+    database: "{{ target.database }}"
     schema: PUBLIC
 
     tables:
