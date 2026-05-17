@@ -1,10 +1,11 @@
 {{ config(materialized='table') }}
 
 select distinct
-    cast(country_medal_wikidata_id       as varchar)  as wikidata_id_pais,
-    cast(country_medal                   as varchar)  as nombre,
-    cast(country_medal_code2             as varchar)  as codigo_iso2,
-    cast(country_medal_code3             as varchar)  as codigo_iso3,
-    cast(country_medal_ioc_country_code  as varchar)  as codigo_coi
+    nullif(country_medal_wikidata_id, 'NA')       as wikidata_id_pais,
+    nullif(country_medal, 'NA')                   as nombre,
+    nullif(country_medal_code2, 'NA')             as codigo_iso2,
+    nullif(country_medal_code3, 'NA')             as codigo_iso3,
+    nullif(country_medal_ioc_country_code, 'NA')  as codigo_coi
 
 from {{ ref('bronze_medalists_raw') }}
+where nullif(country_medal_wikidata_id, 'NA') is not null

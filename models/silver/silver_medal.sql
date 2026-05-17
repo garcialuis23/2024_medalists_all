@@ -4,11 +4,13 @@
 -- id_medalla: surrogate key reproducible basado en MD5 de las dos claves naturales.
 
 select
-    cast(md5(medalist_wikidata_id || '|' || event_wikidata_id)  as varchar)  as id_medalla,
-    cast(medalist_wikidata_id                                   as varchar)  as wikidata_id_atleta,
-    cast(event_wikidata_id                                      as varchar)  as wikidata_id_evento,
-    cast(delegation_wikidata_id                                 as varchar)  as wikidata_id_delegacion,
-    cast(country_medal_wikidata_id                              as varchar)  as wikidata_id_pais,
-    cast(medal                                                  as varchar)  as tipo
+    md5(nullif(medalist_wikidata_id, 'NA') || '|' || nullif(event_wikidata_id, 'NA'))  as id_medalla,
+    nullif(medalist_wikidata_id, 'NA')                                                 as wikidata_id_atleta,
+    nullif(event_wikidata_id, 'NA')                                                    as wikidata_id_evento,
+    nullif(delegation_wikidata_id, 'NA')                                               as wikidata_id_delegacion,
+    nullif(country_medal_wikidata_id, 'NA')                                            as wikidata_id_pais,
+    nullif(medal, 'NA')                                                                as tipo
 
 from {{ ref('bronze_medalists_raw') }}
+where nullif(medalist_wikidata_id, 'NA') is not null
+  and nullif(event_wikidata_id, 'NA') is not null

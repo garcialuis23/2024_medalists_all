@@ -5,55 +5,54 @@
 
 -- Nivel 0: país
 select
-    cast(nuts0_id   as varchar)     as id_nuts,
-    cast(0          as integer)     as nivel,
-    cast(nuts0_name as varchar)     as nombre,
-    null::varchar                   as id_nuts_padre,
-    null::float                     as poblacion,
-    null::float                     as pib
+    nullif(nuts0_id, 'NA')     as id_nuts,
+    0::integer                 as nivel,
+    nullif(nuts0_name, 'NA')   as nombre,
+    null::varchar              as id_nuts_padre,
+    null::float                as poblacion,
+    null::float                as pib
 from {{ ref('bronze_medalists_raw') }}
-where nuts0_id is not null
+where nullif(nuts0_id, 'NA') is not null
 group by 1, 2, 3, 4
 
 union all
 
 -- Nivel 1: región NUTS1
 select
-    cast(nuts1_id   as varchar),
-    cast(1          as integer),
-    cast(nuts1_name as varchar),
-    cast(nuts0_id   as varchar),
+    nullif(nuts1_id, 'NA'),
+    1::integer,
+    nullif(nuts1_name, 'NA'),
+    nullif(nuts0_id, 'NA'),
     null::float,
     null::float
 from {{ ref('bronze_medalists_raw') }}
-where nuts1_id is not null
+where nullif(nuts1_id, 'NA') is not null
 group by 1, 2, 3, 4
 
 union all
 
 -- Nivel 2: subregión NUTS2 (con población y PIB)
 select
-    cast(nuts2_id   as varchar),
-    cast(2          as integer),
-    cast(nuts2_name as varchar),
-    cast(nuts1_id   as varchar),
-    max(cast(nuts2_population as float)),
-    max(cast(nuts2_gdp        as float))
+    nullif(nuts2_id, 'NA'),
+    2::integer,
+    nullif(nuts2_name, 'NA'),
+    nullif(nuts1_id, 'NA'),
+    max(try_to_double(nullif(nuts2_population, 'NA'))),
+    max(try_to_double(nullif(nuts2_gdp, 'NA')))
 from {{ ref('bronze_medalists_raw') }}
-where nuts2_id is not null
+where nullif(nuts2_id, 'NA') is not null
 group by 1, 2, 3, 4
 
 union all
 
 -- Nivel 3: subsubregión NUTS3 (con población y PIB)
 select
-    cast(nuts3_id   as varchar),
-    cast(3          as integer),
-    cast(nuts3_name as varchar),
-    cast(nuts2_id   as varchar),
-    max(cast(nuts3_population as float)),
-    max(cast(nuts3_gdp        as float))
+    nullif(nuts3_id, 'NA'),
+    3::integer,
+    nullif(nuts3_name, 'NA'),
+    nullif(nuts2_id, 'NA'),
+    max(try_to_double(nullif(nuts3_population, 'NA'))),
+    max(try_to_double(nullif(nuts3_gdp, 'NA')))
 from {{ ref('bronze_medalists_raw') }}
-where nuts3_id is not null
+where nullif(nuts3_id, 'NA') is not null
 group by 1, 2, 3, 4
-
