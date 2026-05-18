@@ -124,9 +124,7 @@ models:
                 field: wikidata_id_delegacion
       - name: wikidata_id_pais
         tests:
-          - not_null:
-              config:
-                severity: warn
+          - not_null
           - relationships:
               arguments:
                 to: ref('silver_country')

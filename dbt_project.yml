@@ -27,3 +27,4 @@ models:
 
     gold:
       +materialized: table
+      +transient: false

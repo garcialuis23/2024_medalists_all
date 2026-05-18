@@ -1,4 +1,4 @@
-{{ config(materialized='table', database=generate_database_name('GOLD_DB')) }}
+{{ config(materialized='table', database=("GOLD_DB_PRO" if target.name == "pro" else "GOLD_DB_DEV")) }}
 
 -- Dimensión atletas con lugar de nacimiento desnormalizado.
 

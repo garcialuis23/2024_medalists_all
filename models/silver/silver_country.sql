@@ -9,3 +9,12 @@ select distinct
 
 from {{ ref('bronze_medalists_raw') }}
 where nullif(country_medal_wikidata_id, 'NA') is not null
+
+union all
+
+select
+    'N/A'              as wikidata_id_pais,
+    'País Desconocido' as nombre,
+    null               as codigo_iso2,
+    null               as codigo_iso3,
+    null               as codigo_coi
