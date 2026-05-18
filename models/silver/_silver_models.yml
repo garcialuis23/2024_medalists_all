@@ -182,7 +182,8 @@ models:
         description: "Fecha de nacimiento del atleta (DATE). NULL para los 17 atletas sin dato en Wikidata."
         tests:
           - dbt_utils.expression_is_true:
-              expression: "fecha_nacimiento IS NULL OR (fecha_nacimiento >= '1900-01-01' AND fecha_nacimiento <= '2008-12-31')"
+              args:
+                expression: "fecha_nacimiento IS NULL OR (fecha_nacimiento >= '1900-01-01' AND fecha_nacimiento <= '2008-12-31')"
               config:
                 severity: warn
       - name: sexo
@@ -204,9 +205,10 @@ models:
       garantizando integridad referencial completa con silver_country.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - wikidata_id_atleta
-            - wikidata_id_evento
+          args:
+            combination_of_columns:
+              - wikidata_id_atleta
+              - wikidata_id_evento
     columns:
       - name: id_medalla
         description: "PK surrogate. MD5 de (wikidata_id_atleta || '|' || wikidata_id_evento)."
