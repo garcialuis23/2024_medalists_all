@@ -6,3 +6,9 @@ select distinct
 
 from {{ ref('bronze_medalists_raw') }}
 where nullif(sport_wikidata_id, 'NA') is not null
+
+union all
+
+select
+    'N/A'                as wikidata_id_deporte,
+    'Deporte Desconocido' as nombre
