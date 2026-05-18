@@ -1,0 +1,25 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-ES
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["DIM_ATHLETE","DIM_EVENT","DIM_COUNTRY","DIM_NUTS","FACT_MEDAL"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DIM_ATHLETE
+ref table DateTableTemplate_18ec2450-4ad5-4b21-b600-02ce9e64d05b
+ref table LocalDateTable_97c2a585-6162-466b-8d0c-18ebe85fbfa8
+ref table DIM_EVENT
+ref table DIM_COUNTRY
+ref table DIM_NUTS
+ref table FACT_MEDAL
+ref table LocalDateTable_c1bccbbc-c2ac-4ace-a4c1-aa5970ce4814
+
+ref cultureInfo es-ES
+

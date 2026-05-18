@@ -1,0 +1,260 @@
+table FACT_MEDAL
+	lineageTag: 0fce39f9-0e90-46c7-8666-8d82bc3f3b02
+
+	column MEDAL_ID
+		dataType: string
+		lineageTag: 93bb2e5c-0010-4399-b1d1-d4088e0674b7
+		summarizeBy: none
+		sourceColumn: MEDAL_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column MEDAL_TYPE
+		dataType: string
+		lineageTag: a0f0272b-31e7-4f4f-ab84-76b167472f52
+		summarizeBy: none
+		sourceColumn: MEDAL_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATHLETE_ID
+		dataType: string
+		lineageTag: 69bb7f55-7f4a-4533-961c-5008892e6f78
+		summarizeBy: none
+		sourceColumn: ATHLETE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATHLETE_NAME
+		dataType: string
+		lineageTag: cf320536-a274-4c7f-8685-dba5eef131de
+		summarizeBy: none
+		sourceColumn: ATHLETE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATE_OF_BIRTH
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1659bb2b-2168-4e93-ac6a-01ba31e2c3f4
+		summarizeBy: none
+		sourceColumn: DATE_OF_BIRTH
+
+		variation Variación
+			isDefault
+			relationship: d9c0d48b-5bde-49a9-8308-feb72edaf451
+			defaultHierarchy: LocalDateTable_c1bccbbc-c2ac-4ace-a4c1-aa5970ce4814.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SEX
+		dataType: string
+		lineageTag: 5a2635b1-24ff-4340-a04a-234629f80391
+		summarizeBy: none
+		sourceColumn: SEX
+
+		annotation SummarizationSetBy = Automatic
+
+	column BIRTHPLACE
+		dataType: string
+		lineageTag: 955fa2c2-7bd1-4818-b944-2ad9038b729c
+		summarizeBy: none
+		sourceColumn: BIRTHPLACE
+
+		annotation SummarizationSetBy = Automatic
+
+	column BIRTHPLACE_REGION
+		dataType: string
+		lineageTag: 3a6c2c4f-db18-4984-a0c0-c2cabdd2c4ae
+		summarizeBy: none
+		sourceColumn: BIRTHPLACE_REGION
+
+		annotation SummarizationSetBy = Automatic
+
+	column BIRTHPLACE_LAT
+		dataType: double
+		lineageTag: 9b674ba2-e195-4858-9cc9-05b543bfabc4
+		summarizeBy: sum
+		sourceColumn: BIRTHPLACE_LAT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BIRTHPLACE_LON
+		dataType: double
+		lineageTag: cbb33095-9f8b-4ae9-80fd-702a114a71ba
+		summarizeBy: sum
+		sourceColumn: BIRTHPLACE_LON
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COUNTRY_ID
+		dataType: string
+		lineageTag: 9a163080-e16e-4f3f-861b-07dfc858d81e
+		summarizeBy: none
+		sourceColumn: COUNTRY_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNTRY_NAME
+		dataType: string
+		lineageTag: ceb70a36-64b7-4455-a61e-146e22581050
+		summarizeBy: none
+		sourceColumn: COUNTRY_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNTRY_CODE2
+		dataType: string
+		lineageTag: a705a26a-ad63-4233-a3c5-45e52e383c4d
+		summarizeBy: none
+		sourceColumn: COUNTRY_CODE2
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNTRY_CODE3
+		dataType: string
+		lineageTag: 9ee2fc18-ce40-4c12-80c7-a0a08f803e55
+		summarizeBy: none
+		sourceColumn: COUNTRY_CODE3
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNTRY_IOC_CODE
+		dataType: string
+		lineageTag: 40d25fd8-ac1e-4c6b-88ce-75d3f23f4a9d
+		summarizeBy: none
+		sourceColumn: COUNTRY_IOC_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DELEGATION_ID
+		dataType: string
+		lineageTag: 6af53728-3466-4cb1-b9df-cf82c799b73a
+		summarizeBy: none
+		sourceColumn: DELEGATION_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DELEGATION_NAME
+		dataType: string
+		lineageTag: 27a60e9c-c930-4507-bca6-815aea1bbd0b
+		summarizeBy: none
+		sourceColumn: DELEGATION_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column EVENT_ID
+		dataType: string
+		lineageTag: afee82c6-3834-4b80-bc72-f19eb0455f91
+		summarizeBy: none
+		sourceColumn: EVENT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EVENT_NAME
+		dataType: string
+		lineageTag: b62a90ab-cfdd-4e92-bde1-ab3f9aa79af3
+		summarizeBy: none
+		sourceColumn: EVENT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DISCIPLINE_NAME
+		dataType: string
+		lineageTag: aedac345-a0c3-4499-bb39-bd1e7d71229b
+		summarizeBy: none
+		sourceColumn: DISCIPLINE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column SPORT_NAME
+		dataType: string
+		lineageTag: 4e8e59e8-561f-43b4-9a60-5e10c06f61db
+		summarizeBy: none
+		sourceColumn: SPORT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUTS3_ID
+		dataType: string
+		lineageTag: 02336bf0-93a1-49b7-ad06-f01a60c90176
+		summarizeBy: none
+		sourceColumn: NUTS3_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUTS3_NAME
+		dataType: string
+		lineageTag: fa14de20-def4-43c0-a12a-996706c4c22a
+		summarizeBy: none
+		sourceColumn: NUTS3_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUTS2_ID
+		dataType: string
+		lineageTag: ca172b3b-57dd-4fab-890a-957856f4f26c
+		summarizeBy: none
+		sourceColumn: NUTS2_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUTS2_NAME
+		dataType: string
+		lineageTag: d46e3564-4681-439f-9a48-9e3159d621d6
+		summarizeBy: none
+		sourceColumn: NUTS2_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUTS1_ID
+		dataType: string
+		lineageTag: 2e7aa587-11cf-44b4-99c9-91d922ed396b
+		summarizeBy: none
+		sourceColumn: NUTS1_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUTS1_NAME
+		dataType: string
+		lineageTag: b93d0a71-0048-448a-87cf-79916169b5a7
+		summarizeBy: none
+		sourceColumn: NUTS1_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUTS0_ID
+		dataType: string
+		lineageTag: 71b9c536-a25c-47b0-9456-7b9c8d018290
+		summarizeBy: none
+		sourceColumn: NUTS0_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column NUTS_COUNTRY_NAME
+		dataType: string
+		lineageTag: c451fb58-05ba-4ae7-9449-c7bf538d62ba
+		summarizeBy: none
+		sourceColumn: NUTS_COUNTRY_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_MEDAL = m
+		mode: import
+		source =
+				let
+				    Origen = Snowflake.Databases("XKSHHPS-BG70575.snowflakecomputing.com","COMPUTE_WH",[Implementation="2.0"]),
+				    GOLD_DB_DEV_Database = Origen{[Name="GOLD_DB_DEV",Kind="Database"]}[Data],
+				    DBT_LGARCIADIAZ_Schema = GOLD_DB_DEV_Database{[Name="DBT_LGARCIADIAZ",Kind="Schema"]}[Data],
+				    FACT_MEDAL_Table = DBT_LGARCIADIAZ_Schema{[Name="FACT_MEDAL",Kind="Table"]}[Data]
+				in
+				    FACT_MEDAL_Table
+
+	annotation PBI_ResultType = Table
+

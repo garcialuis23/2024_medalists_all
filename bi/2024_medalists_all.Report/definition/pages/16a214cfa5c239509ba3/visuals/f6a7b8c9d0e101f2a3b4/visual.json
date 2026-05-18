@@ -1,0 +1,104 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "f6a7b8c9d0e101f2a3b4",
+  "position": {
+    "x": 850,
+    "y": 360,
+    "z": 0,
+    "height": 350,
+    "width": 420,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Details": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_NUTS"
+                    }
+                  },
+                  "Property": "NUTS2_NAME"
+                }
+              },
+              "queryRef": "DIM_NUTS.NUTS2_NAME"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DIM_NUTS"
+                        }
+                      },
+                      "Property": "NUTS2_POPULATION"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Average(DIM_NUTS.NUTS2_POPULATION)"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DIM_NUTS"
+                        }
+                      },
+                      "Property": "NUTS2_GDP"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Average(DIM_NUTS.NUTS2_GDP)",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "FACT_MEDAL"
+                        }
+                      },
+                      "Property": "MEDAL_ID"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(FACT_MEDAL.MEDAL_ID)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

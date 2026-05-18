@@ -2,42 +2,79 @@ version: 2
 
 models:
   - name: silver_country
-    description: "Países únicos acreditados con al menos una medalla en París 2024."
+    description: >
+      Países únicos acreditados con al menos una medalla en París 2024.
+      Incluye un registro comodín ('N/A', 'País Desconocido') para atletas del
+      Equipo Olímpico de Refugiados y competidores neutrales (AIN) que no tienen
+      país asignado. El flag es_pais_conocido permite filtrar este registro en reporting.
     columns:
       - name: wikidata_id_pais
+        description: "PK. Identificador Wikidata del país. Valor 'N/A' para el registro comodín."
         tests: [not_null, unique]
       - name: nombre
+        description: "Nombre oficial del país. 'País Desconocido' para el registro comodín."
+        tests: [not_null]
+      - name: codigo_iso2
+        description: "Código ISO 3166-1 alpha-2 (2 letras, p. ej. ES). NULL para el registro comodín."
+      - name: codigo_iso3
+        description: "Código ISO 3166-1 alpha-3 (3 letras, p. ej. ESP). NULL para el registro comodín."
+      - name: codigo_coi
+        description: "Código del Comité Olímpico Internacional (3 letras, p. ej. ESP). NULL para el registro comodín."
+      - name: es_pais_conocido
+        description: "Flag booleano. TRUE para países reales, FALSE para el registro 'N/A'. Usar para filtrar en dashboards."
         tests: [not_null]
 
   - name: silver_delegation
-    description: "Delegaciones olímpicas únicas. Un país puede organizar más de una delegación."
+    description: >
+      Delegaciones olímpicas únicas presentes en París 2024.
+      Un mismo país puede tener más de una delegación (p. ej. equipos de
+      territorios dependientes). wikidata_id_pais puede ser NULL con severity warn
+      para delegaciones sin país explícito en la fuente.
     columns:
       - name: wikidata_id_delegacion
+        description: "PK. Identificador Wikidata de la delegación olímpica."
         tests: [not_null, unique]
+      - name: nombre
+        description: "Nombre oficial de la delegación olímpica."
+      - name: enlace
+        description: "URL de la página Wikidata de la delegación."
       - name: wikidata_id_pais
+        description: "FK → silver_country. País al que pertenece la delegación. Puede ser NULL (warn)."
         tests:
-          - name: not_null
-            config:
-              severity: warn
+          - not_null:
+              config:
+                severity: warn
           - relationships:
               arguments:
                 to: ref('silver_country')
                 field: wikidata_id_pais
 
   - name: silver_sport
-    description: "Deportes únicos representados en los JJ.OO. París 2024."
+    description: >
+      Deportes olímpicos únicos representados en París 2024.
+      Incluye un registro comodín ('N/A', 'Deporte Desconocido') para mantener
+      la integridad referencial con silver_discipline.
     columns:
       - name: wikidata_id_deporte
+        description: "PK. Identificador Wikidata del deporte. Valor 'N/A' para el registro comodín."
         tests: [not_null, unique]
       - name: nombre
+        description: "Nombre del deporte (p. ej. athletics, swimming). 'Deporte Desconocido' para el comodín."
         tests: [not_null]
 
   - name: silver_discipline
-    description: "Disciplinas (agrupaciones de eventos) dentro de un deporte."
+    description: >
+      Disciplinas olímpicas únicas en París 2024. Una disciplina agrupa varios eventos
+      de un mismo deporte (p. ej. 'athletics at the 2024 Summer Olympics').
+      Incluye un registro comodín ('N/A') para eventos sin disciplina asignada en la fuente.
     columns:
       - name: wikidata_id_disciplina
+        description: "PK. Identificador Wikidata de la disciplina. Valor 'N/A' para el registro comodín."
         tests: [not_null, unique]
+      - name: nombre
+        description: "Nombre de la disciplina en los JJ.OO. París 2024. 'Disciplina Desconocida' para el comodín."
       - name: wikidata_id_deporte
+        description: "FK → silver_sport. Deporte al que pertenece la disciplina."
         tests:
           - not_null
           - relationships:
@@ -46,42 +83,113 @@ models:
                 field: wikidata_id_deporte
 
   - name: silver_event
-    description: "Eventos concretos en los que se otorga una medalla."
+    description: >
+      Eventos olímpicos únicos en los que se otorgó al menos una medalla en París 2024.
+      Cada evento pertenece a una disciplina. El evento Q128645552 (Artistic swimming Team)
+      tenía disciplina vacía en la fuente; se asignó explícitamente Q109317225.
     columns:
       - name: wikidata_id_evento
+        description: "PK. Identificador Wikidata del evento olímpico."
         tests: [not_null, unique]
       - name: nombre
+        description: "Nombre completo del evento (p. ej. Men's 100m Athletics)."
         tests: [not_null]
+      - name: enlace
+        description: "URL de la página Wikidata del evento."
+      - name: wikidata_id_disciplina
+        description: "FK → silver_discipline. Disciplina a la que pertenece el evento."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_discipline')
+                field: wikidata_id_disciplina
 
   - name: silver_nuts_region
-    description: "Jerarquía NUTS europea (niveles 0-3). Tabla auto-jerárquica con id_nuts_padre."
+    description: >
+      Jerarquía NUTS europea auto-jerárquica con cuatro niveles (0=país, 1=gran región,
+      2=subregión, 3=unidad local). Solo cubre regiones con al menos un atleta europeo
+      en el dataset. Los niveles 0 y 1 no tienen datos de población ni PIB.
     columns:
       - name: id_nuts
+        description: "PK. Código NUTS de la región (p. ej. ES, ES3, ES30, ES300)."
         tests: [not_null, unique]
       - name: nivel
+        description: "Nivel jerárquico NUTS: 0=país, 1=gran región, 2=subregión, 3=unidad local."
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1, 2, 3]
+      - name: nombre
+        description: "Nombre oficial de la región NUTS."
+      - name: id_nuts_padre
+        description: "FK auto-referencial al id_nuts del nivel inmediatamente superior. NULL para nivel 0."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_nuts_region')
+                field: id_nuts
+              config:
+                severity: warn
+      - name: poblacion
+        description: "Población de la región (fuente Eurostat). Disponible solo para niveles 2 y 3."
+      - name: pib
+        description: "PIB de la región en millones EUR (fuente Eurostat). Disponible solo para niveles 2 y 3."
 
   - name: silver_place
-    description: "Lugares de nacimiento únicos de los atletas. id_nuts3 nullable para no europeos."
+    description: >
+      Lugares de nacimiento únicos de los atletas medallistas.
+      Incluye coordenadas geográficas y enlace a la jerarquía NUTS cuando el
+      lugar está en Europa. id_nuts3 es NULL para atletas no europeos (53% del dataset).
     columns:
       - name: wikidata_id_lugar
+        description: "PK. Identificador Wikidata del lugar de nacimiento."
         tests: [not_null, unique]
       - name: nombre
+        description: "Nombre del lugar de nacimiento. Puede ser NULL (warn) si no consta en Wikidata."
         tests:
-          - name: not_null
-            config:
-              severity: warn
-    description: "Atletas únicos que ganaron al menos una medalla en París 2024."
+          - not_null:
+              config:
+                severity: warn
+      - name: wikidata_id_ubicado_en
+        description: "Identificador Wikidata de la entidad administrativa superior del lugar."
+      - name: nombre_ubicado_en
+        description: "Nombre de la entidad administrativa superior del lugar."
+      - name: latitud
+        description: "Latitud geográfica del lugar en grados decimales (FLOAT)."
+      - name: longitud
+        description: "Longitud geográfica del lugar en grados decimales (FLOAT)."
+      - name: id_nuts3
+        description: "FK → silver_nuts_region (nivel 3). NULL para lugares fuera de Europa."
+
+  - name: silver_athlete
+    description: >
+      Atletas únicos que ganaron al menos una medalla en París 2024 (1,949 registros).
+      Deduplicados por wikidata_id_atleta; cuando hay múltiples filas para un mismo
+      atleta se prefiere la que tiene fecha de nacimiento conocida (QUALIFY).
+      17 atletas no tienen fecha de nacimiento y 93 no tienen lugar de nacimiento en Wikidata.
     columns:
       - name: wikidata_id_atleta
+        description: "PK. Identificador Wikidata del atleta."
         tests: [not_null, unique]
       - name: nombre
+        description: "Nombre completo del atleta."
         tests: [not_null]
+      - name: enlace
+        description: "URL de la página Wikidata del atleta."
+      - name: fecha_nacimiento
+        description: "Fecha de nacimiento del atleta (DATE). NULL para los 17 atletas sin dato en Wikidata."
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "fecha_nacimiento IS NULL OR (fecha_nacimiento >= '1900-01-01' AND fecha_nacimiento <= '2008-12-31')"
+              config:
+                severity: warn
+      - name: sexo
+        description: "Sexo o género del atleta (p. ej. male, female)."
       - name: wikidata_id_lugar
+        description: "FK → silver_place. Lugar de nacimiento. NULL para 93 atletas sin dato."
         tests:
           - relationships:
               arguments:
@@ -89,11 +197,24 @@ models:
                 field: wikidata_id_lugar
 
   - name: silver_medal
-    description: "Tabla de hechos Silver: una fila por medalla (wikidata_id_atleta × wikidata_id_evento es única)."
+    description: >
+      Tabla de hechos Silver: una fila por medalla otorgada (2,202 registros).
+      La clave natural es wikidata_id_atleta × wikidata_id_evento.
+      id_medalla es una surrogate key MD5 reproducible. wikidata_id_pais usa
+      COALESCE a 'N/A' para atletas del Equipo de Refugiados y neutrales AIN,
+      garantizando integridad referencial completa con silver_country.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - wikidata_id_atleta
+              - wikidata_id_evento
     columns:
       - name: id_medalla
+        description: "PK surrogate. MD5 de (wikidata_id_atleta || '|' || wikidata_id_evento)."
         tests: [not_null, unique]
       - name: wikidata_id_atleta
+        description: "FK → silver_athlete. Atleta que ganó la medalla."
         tests:
           - not_null
           - relationships:
@@ -101,6 +222,7 @@ models:
                 to: ref('silver_athlete')
                 field: wikidata_id_atleta
       - name: wikidata_id_evento
+        description: "FK → silver_event. Evento olímpico en el que se ganó la medalla."
         tests:
           - not_null
           - relationships:
@@ -108,6 +230,7 @@ models:
                 to: ref('silver_event')
                 field: wikidata_id_evento
       - name: wikidata_id_delegacion
+        description: "FK → silver_delegation. Delegación bajo la que compitió el atleta."
         tests:
           - not_null
           - relationships:
@@ -115,15 +238,15 @@ models:
                 to: ref('silver_delegation')
                 field: wikidata_id_delegacion
       - name: wikidata_id_pais
+        description: "FK → silver_country. País acreedor. 'N/A' para refugiados y neutrales AIN."
         tests:
-          - name: not_null
-            config:
-              severity: warn
+          - not_null
           - relationships:
               arguments:
                 to: ref('silver_country')
                 field: wikidata_id_pais
       - name: tipo
+        description: "Tipo de medalla: gold, silver o bronze."
         tests:
           - not_null
           - accepted_values:

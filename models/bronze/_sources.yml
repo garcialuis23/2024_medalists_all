@@ -2,31 +2,116 @@ version: 2
 
 sources:
   - name: bronze
-    description: "Datos crudos de los JJ.OO. París 2024 cargados vía stage Snowflake."
+    description: >
+      Fuente de datos crudos de los Juegos Olímpicos París 2024.
+      Cargada desde un stage externo de Snowflake (MEDALISTS_STAGE) mediante
+      una función de parseo CSV. Todos los valores llegan como VARCHAR; los
+      campos sin valor se representan con la cadena literal 'NA'.
     database: "{{ 'BRONZE_DB_PRO' if target.name == 'pro' else 'BRONZE_DB_DEV' }}"
     schema: PUBLIC
     tables:
       - name: MEDALISTS_2024
-        description: "Tabla de medallistas cargada desde MEDALISTS_STAGE."
+        description: >
+          Una fila por combinación atleta × evento × medalla. Contiene datos
+          del atleta (nombre, fecha de nacimiento, lugar, sexo), de la medalla
+          (tipo, país, delegación), del evento (nombre, disciplina, deporte) y
+          de la región NUTS europea del lugar de nacimiento.
         columns:
           - name: medalist_wikidata_id
-            description: "Wikidata ID del atleta (clave natural)"
-
+            description: "Identificador Wikidata del atleta (clave natural, p. ej. Q12345)."
+          - name: medalist_link
+            description: "URL de la página Wikidata del atleta."
+          - name: medalist_name
+            description: "Nombre completo del atleta."
+            tests: [not_null]
           - name: medal
-            description: "Tipo de medalla"
+            description: "Tipo de medalla obtenida. Valores posibles: gold, silver, bronze."
             tests:
               - not_null
               - accepted_values:
                   arguments:
                     values: ['gold', 'silver', 'bronze']
-          - name: event_wikidata_id
-            description: "Wikidata ID del evento"
-
           - name: delegation_wikidata_id
-            description: "Wikidata ID de la delegación"
-
+            description: "Identificador Wikidata de la delegación olímpica del atleta."
+          - name: delegation_link
+            description: "URL de la página Wikidata de la delegación."
+          - name: delegation_name
+            description: "Nombre oficial de la delegación olímpica."
           - name: country_medal_wikidata_id
-            description: "Wikidata ID del país acreedor de la medalla"
-
+            description: "Identificador Wikidata del país al que se acredita la medalla."
+          - name: country_medal
+            description: "Nombre del país acreedor de la medalla."
+          - name: country_medal_code2
+            description: "Código ISO 3166-1 alpha-2 del país (2 letras, p. ej. ES)."
+          - name: country_medal_code3
+            description: "Código ISO 3166-1 alpha-3 del país (3 letras, p. ej. ESP)."
+          - name: country_medal_ioc_country_code
+            description: "Código de 3 letras del Comité Olímpico Internacional (p. ej. ESP)."
+          - name: country_medal_nuts_code
+            description: "Código NUTS0 del país (equivalente al ISO alpha-2 en la UE)."
+          - name: date_of_birth
+            description: "Fecha de nacimiento del atleta en formato texto (ISO 8601). Puede ser 'NA'."
+          - name: place_of_birth_wikidata_id
+            description: "Identificador Wikidata del municipio o lugar de nacimiento."
+          - name: place_of_birth
+            description: "Nombre del lugar de nacimiento del atleta."
+          - name: place_of_birth_located_in_wikidata_id
+            description: "Identificador Wikidata de la entidad administrativa superior del lugar de nacimiento."
+          - name: place_of_birth_located_in
+            description: "Nombre de la entidad administrativa superior del lugar de nacimiento."
+          - name: place_of_birth_coordinates
+            description: "Coordenadas geográficas del lugar de nacimiento en formato texto."
+          - name: lat
+            description: "Latitud del lugar de nacimiento (grados decimales)."
+          - name: lon
+            description: "Longitud del lugar de nacimiento (grados decimales)."
+          - name: sex_or_gender_wikidata_id
+            description: "Identificador Wikidata del sexo o género del atleta."
+          - name: sex_or_gender
+            description: "Sexo o género del atleta (p. ej. male, female)."
+          - name: event_wikidata_id
+            description: "Identificador Wikidata del evento olímpico concreto."
+          - name: event_link
+            description: "URL de la página Wikidata del evento."
+          - name: event_name
+            description: "Nombre completo del evento (p. ej. Men's 100m Athletics)."
+          - name: event_part_of_wikidata_id
+            description: "Identificador Wikidata de la disciplina a la que pertenece el evento."
+          - name: event_part_of
+            description: "Nombre de la disciplina (agrupación de eventos de un mismo deporte en París 2024)."
+          - name: event_sport_wikidata_id
+            description: "Identificador Wikidata del deporte directamente asociado al evento."
+          - name: event_sport
+            description: "Nombre del deporte directamente asociado al evento."
+          - name: event_part_of_sport_wikidata_id
+            description: "Identificador Wikidata del deporte de la disciplina padre del evento."
+          - name: event_part_of_sport
+            description: "Nombre del deporte de la disciplina padre del evento."
           - name: sport_wikidata_id
-            description: "Wikidata ID del deporte"
+            description: "Identificador Wikidata del deporte canónico usado en el modelo (sport_wikidata_id)."
+          - name: sport
+            description: "Nombre del deporte canónico."
+          - name: nuts0_id
+            description: "Código NUTS nivel 0 (país) del lugar de nacimiento del atleta."
+          - name: nuts0_name
+            description: "Nombre del país NUTS0."
+          - name: nuts1_id
+            description: "Código NUTS nivel 1 (gran región) del lugar de nacimiento."
+          - name: nuts1_name
+            description: "Nombre de la gran región NUTS1."
+          - name: nuts2_id
+            description: "Código NUTS nivel 2 (subregión) del lugar de nacimiento."
+          - name: nuts2_name
+            description: "Nombre de la subregión NUTS2."
+          - name: nuts3_id
+            description: "Código NUTS nivel 3 (unidad local) del lugar de nacimiento."
+          - name: nuts3_name
+            description: "Nombre de la unidad local NUTS3."
+          - name: nuts2_population
+            description: "Población de la subregión NUTS2 (fuente Eurostat)."
+          - name: nuts3_population
+            description: "Población de la unidad NUTS3 (fuente Eurostat)."
+          - name: nuts2_gdp
+            description: "PIB de la subregión NUTS2 en millones EUR (fuente Eurostat)."
+          - name: nuts3_gdp
+            description: "PIB de la unidad NUTS3 en millones EUR (fuente Eurostat)."

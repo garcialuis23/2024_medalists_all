@@ -23,6 +23,8 @@ models:
 
     silver:
       +materialized: table
+      +transient: false
 
     gold:
       +materialized: table
+      +transient: false

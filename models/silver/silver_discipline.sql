@@ -14,3 +14,10 @@ qualify row_number() over (
     partition by nullif(event_part_of_wikidata_id, 'NA')
     order by nullif(event_part_of, 'NA') nulls last
 ) = 1
+
+union all
+
+select
+    'N/A'                    as wikidata_id_disciplina,
+    'Disciplina Desconocida' as nombre,
+    'N/A'                    as wikidata_id_deporte

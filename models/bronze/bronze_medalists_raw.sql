@@ -55,6 +55,8 @@ select
     nuts2_gdp,
     nuts3_gdp,
     nuts0_id,
-    nuts0_name
+    nuts0_name,
+
+    CURRENT_TIMESTAMP() AS _loaded_at
 
 from {{ source('bronze', 'MEDALISTS_2024') }}

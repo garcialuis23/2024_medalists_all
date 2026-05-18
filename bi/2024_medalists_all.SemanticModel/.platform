@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "2024_medalists_all"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "86a32498-ba77-403a-9728-570b03c8d622"
+  }
+}

@@ -1,0 +1,103 @@
+table DIM_COUNTRY
+	lineageTag: d71dc27a-f010-4ac0-adc1-3af48361b9f9
+
+	column COUNTRY_ID
+		dataType: string
+		lineageTag: 6d9cb148-df8e-4bbb-aa3a-4ce5b7c63bcd
+		summarizeBy: none
+		sourceColumn: COUNTRY_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column NAME
+		dataType: string
+		lineageTag: 1f3fe87e-bff8-4d56-9cfb-9b44008b3fb3
+		summarizeBy: none
+		sourceColumn: NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODE2
+		dataType: string
+		lineageTag: 19b4f1ba-f2de-4fd0-840c-9f0e56a2086b
+		summarizeBy: none
+		sourceColumn: CODE2
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODE3
+		dataType: string
+		lineageTag: e94fdb13-2980-4ab9-be96-1666ccb7a158
+		summarizeBy: none
+		sourceColumn: CODE3
+
+		annotation SummarizationSetBy = Automatic
+
+	column IOC_CODE
+		dataType: string
+		lineageTag: e4fd2dbe-4243-4a56-9778-ff1359ad1350
+		summarizeBy: none
+		sourceColumn: IOC_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column IS_KNOWN_COUNTRY
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: dce9e278-d88f-4cef-8330-9966c7c74a94
+		summarizeBy: none
+		sourceColumn: IS_KNOWN_COUNTRY
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_MEDALS
+		dataType: double
+		lineageTag: 391136ba-9566-4e87-9d32-d7a6ee1b3827
+		summarizeBy: none
+		sourceColumn: TOTAL_MEDALS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GOLD_MEDALS
+		dataType: double
+		lineageTag: 210b825d-687d-41a9-874b-2b75b5bd0779
+		summarizeBy: none
+		sourceColumn: GOLD_MEDALS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SILVER_MEDALS
+		dataType: double
+		lineageTag: 1540cc07-5213-4833-91ca-9b68c1a345ff
+		summarizeBy: none
+		sourceColumn: SILVER_MEDALS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BRONZE_MEDALS
+		dataType: double
+		lineageTag: ccdb0c5b-b245-4d3d-be27-051310cdba7e
+		summarizeBy: none
+		sourceColumn: BRONZE_MEDALS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DIM_COUNTRY = m
+		mode: import
+		source =
+				let
+				    Origen = Snowflake.Databases("XKSHHPS-BG70575.snowflakecomputing.com","COMPUTE_WH",[Implementation="2.0"]),
+				    GOLD_DB_DEV_Database = Origen{[Name="GOLD_DB_DEV",Kind="Database"]}[Data],
+				    DBT_LGARCIADIAZ_Schema = GOLD_DB_DEV_Database{[Name="DBT_LGARCIADIAZ",Kind="Schema"]}[Data],
+				    DIM_COUNTRY_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_COUNTRY",Kind="Table"]}[Data]
+				in
+				    DIM_COUNTRY_Table
+

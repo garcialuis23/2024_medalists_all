@@ -1,0 +1,106 @@
+table DIM_ATHLETE
+	lineageTag: 09cd42e5-1a94-40f5-b21e-afe7c3168b25
+
+	column ATHLETE_ID
+		dataType: string
+		lineageTag: 00855847-5869-43e9-ba36-19953a88957c
+		summarizeBy: none
+		sourceColumn: ATHLETE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column NAME
+		dataType: string
+		lineageTag: 0475582c-a469-424a-a1cd-2d515e3ee678
+		summarizeBy: none
+		sourceColumn: NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column LINK
+		dataType: string
+		lineageTag: 482e5b39-6e6d-4f83-b6ce-e72d399ed1ce
+		summarizeBy: none
+		sourceColumn: LINK
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATE_OF_BIRTH
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ce265c48-a833-4829-9816-e382112b8955
+		summarizeBy: none
+		sourceColumn: DATE_OF_BIRTH
+
+		variation Variación
+			isDefault
+			relationship: 9ebb9443-3976-40ec-b043-7bde6d80102c
+			defaultHierarchy: LocalDateTable_97c2a585-6162-466b-8d0c-18ebe85fbfa8.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SEX
+		dataType: string
+		lineageTag: c3cfe73d-3459-41c9-98dd-cf81dfdc148d
+		summarizeBy: none
+		sourceColumn: SEX
+
+		annotation SummarizationSetBy = Automatic
+
+	column BIRTHPLACE
+		dataType: string
+		lineageTag: 171cb7bc-83e3-478f-a603-3427086cc82d
+		summarizeBy: none
+		sourceColumn: BIRTHPLACE
+
+		annotation SummarizationSetBy = Automatic
+
+	column BIRTHPLACE_REGION
+		dataType: string
+		lineageTag: d3d62d1d-577d-4f84-9cf5-cfc24168f7be
+		summarizeBy: none
+		sourceColumn: BIRTHPLACE_REGION
+
+		annotation SummarizationSetBy = Automatic
+
+	column BIRTHPLACE_LAT
+		dataType: double
+		lineageTag: e249fc11-7fea-466d-b108-13e30ca3b84e
+		summarizeBy: sum
+		sourceColumn: BIRTHPLACE_LAT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BIRTHPLACE_LON
+		dataType: double
+		lineageTag: b3767be8-75ab-4c86-96ad-7a4470e7f647
+		summarizeBy: sum
+		sourceColumn: BIRTHPLACE_LON
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BIRTHPLACE_NUTS3_ID
+		dataType: string
+		lineageTag: ac887a1e-0692-4a1e-8268-1af411d81f8d
+		summarizeBy: none
+		sourceColumn: BIRTHPLACE_NUTS3_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_ATHLETE = m
+		mode: import
+		source =
+				let
+				    Origen = Snowflake.Databases("XKSHHPS-BG70575.snowflakecomputing.com","COMPUTE_WH",[Implementation="2.0"]),
+				    GOLD_DB_DEV_Database = Origen{[Name="GOLD_DB_DEV",Kind="Database"]}[Data],
+				    DBT_LGARCIADIAZ_Schema = GOLD_DB_DEV_Database{[Name="DBT_LGARCIADIAZ",Kind="Schema"]}[Data],
+				    DIM_ATHLETE_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_ATHLETE",Kind="Table"]}[Data]
+				in
+				    DIM_ATHLETE_Table
+

@@ -1,0 +1,87 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 1.2640809376779585
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 667.67590713238246,
+            "y": 306.8160786507222
+          },
+          "nodeIndex": "DIM_ATHLETE",
+          "nodeLineageTag": "09cd42e5-1a94-40f5-b21e-afe7c3168b25",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 174.6938745849701,
+            "y": 0
+          },
+          "nodeIndex": "DIM_COUNTRY",
+          "nodeLineageTag": "d71dc27a-f010-4ac0-adc1-3af48361b9f9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 427.61765731103884
+          },
+          "nodeIndex": "DIM_EVENT",
+          "nodeLineageTag": "90ade844-c2e8-4504-bbab-a8acf3195989",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 324.07879337791746,
+            "y": 730.1247711979438
+          },
+          "nodeIndex": "DIM_NUTS",
+          "nodeLineageTag": "684bcfc4-a558-4b8e-8531-a4498fcfc1c9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 311.48056716466073,
+            "y": 336.90654595918488
+          },
+          "nodeIndex": "FACT_MEDAL",
+          "nodeLineageTag": "0fce39f9-0e90-46c7-8666-8d82bc3f3b02",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 63.287087723234038,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

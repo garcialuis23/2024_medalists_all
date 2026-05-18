@@ -1,0 +1,26 @@
+relationship 9ebb9443-3976-40ec-b043-7bde6d80102c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_ATHLETE.DATE_OF_BIRTH
+	toColumn: LocalDateTable_97c2a585-6162-466b-8d0c-18ebe85fbfa8.Date
+
+relationship d9c0d48b-5bde-49a9-8308-feb72edaf451
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_MEDAL.DATE_OF_BIRTH
+	toColumn: LocalDateTable_c1bccbbc-c2ac-4ace-a4c1-aa5970ce4814.Date
+
+relationship AutoDetected_083f4e3c-1d22-47fa-8ceb-b3ea36b7c9f2
+	fromColumn: FACT_MEDAL.ATHLETE_ID
+	toColumn: DIM_ATHLETE.ATHLETE_ID
+
+relationship AutoDetected_18cc6132-83ab-4217-b725-8dc523a944b6
+	fromColumn: FACT_MEDAL.EVENT_ID
+	toColumn: DIM_EVENT.EVENT_ID
+
+relationship AutoDetected_0a4c2849-5acd-47e1-8a0f-3551a0a5b30d
+	fromColumn: FACT_MEDAL.COUNTRY_ID
+	toColumn: DIM_COUNTRY.COUNTRY_ID
+
+relationship AutoDetected_4e021edb-dd52-4bb6-8bd6-d67683c52d12
+	fromColumn: FACT_MEDAL.NUTS3_ID
+	toColumn: DIM_NUTS.NUTS3_ID
+

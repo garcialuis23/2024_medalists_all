@@ -1,0 +1,70 @@
+table DIM_EVENT
+	lineageTag: 90ade844-c2e8-4504-bbab-a8acf3195989
+
+	column EVENT_ID
+		dataType: string
+		lineageTag: 8ce2c0b8-724b-4cf1-92db-d45a176566b9
+		summarizeBy: none
+		sourceColumn: EVENT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EVENT_NAME
+		dataType: string
+		lineageTag: 3d744184-2306-47f8-97e1-ec50dd0d840c
+		summarizeBy: none
+		sourceColumn: EVENT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column EVENT_LINK
+		dataType: string
+		lineageTag: 47eedaa1-bc9f-471d-a38e-5edded216a15
+		summarizeBy: none
+		sourceColumn: EVENT_LINK
+
+		annotation SummarizationSetBy = Automatic
+
+	column DISCIPLINE_ID
+		dataType: string
+		lineageTag: 5613afa0-72a1-4325-8803-83bd0b8d7816
+		summarizeBy: none
+		sourceColumn: DISCIPLINE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DISCIPLINE_NAME
+		dataType: string
+		lineageTag: eee65d9f-784b-4695-bf2b-e76ef2ff5f8c
+		summarizeBy: none
+		sourceColumn: DISCIPLINE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column SPORT_ID
+		dataType: string
+		lineageTag: 4a2e5cbf-091e-45e6-b682-e413946dd8df
+		summarizeBy: none
+		sourceColumn: SPORT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SPORT_NAME
+		dataType: string
+		lineageTag: 9dab83f3-fc4a-4a5e-bac2-ed1659c46e35
+		summarizeBy: none
+		sourceColumn: SPORT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_EVENT = m
+		mode: import
+		source =
+				let
+				    Origen = Snowflake.Databases("XKSHHPS-BG70575.snowflakecomputing.com","COMPUTE_WH",[Implementation="2.0"]),
+				    GOLD_DB_DEV_Database = Origen{[Name="GOLD_DB_DEV",Kind="Database"]}[Data],
+				    DBT_LGARCIADIAZ_Schema = GOLD_DB_DEV_Database{[Name="DBT_LGARCIADIAZ",Kind="Schema"]}[Data],
+				    DIM_EVENT_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_EVENT",Kind="Table"]}[Data]
+				in
+				    DIM_EVENT_Table
+
