@@ -1,4 +1,4 @@
-{{ config(materialized='table', database=generate_database_name('SILVER_DB')) }}
+{{ config(materialized='table', database=("SILVER_DB_PRO" if target.name == "pro" else "SILVER_DB_DEV")) }}
 
 -- Disciplina = agrupación de eventos (event_part_of), p.ej. "archery at the 2024 Summer Olympics".
 -- sport_wikidata_id es el deporte siempre presente (event_part_of_sport puede ser NULL en equipos).

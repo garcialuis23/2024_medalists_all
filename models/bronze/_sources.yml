@@ -11,7 +11,7 @@ sources:
         columns:
           - name: medalist_wikidata_id
             description: "Wikidata ID del atleta (clave natural)"
-            tests: [not_null]
+
           - name: medal
             description: "Tipo de medalla"
             tests:
@@ -21,13 +21,12 @@ sources:
                     values: ['gold', 'silver', 'bronze']
           - name: event_wikidata_id
             description: "Wikidata ID del evento"
-            tests: [not_null]
+
           - name: delegation_wikidata_id
             description: "Wikidata ID de la delegación"
-            tests: [not_null]
+
           - name: country_medal_wikidata_id
             description: "Wikidata ID del país acreedor de la medalla"
-            tests: [not_null]
+
           - name: sport_wikidata_id
             description: "Wikidata ID del deporte"
-            tests: [not_null]

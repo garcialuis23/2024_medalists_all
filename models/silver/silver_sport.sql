@@ -1,4 +1,4 @@
-{{ config(materialized='table', database=generate_database_name('SILVER_DB')) }}
+{{ config(materialized='table', database=("SILVER_DB_PRO" if target.name == "pro" else "SILVER_DB_DEV")) }}
 
 select distinct
     nullif(sport_wikidata_id, 'NA')  as wikidata_id_deporte,

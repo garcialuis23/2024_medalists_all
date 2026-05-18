@@ -1,4 +1,4 @@
-{{ config(materialized='table', database=generate_database_name('SILVER_DB')) }}
+{{ config(materialized='table', database=("SILVER_DB_PRO" if target.name == "pro" else "SILVER_DB_DEV")) }}
 
 -- Tabla auto-jerárquica: nivel 0 (país) → 1 (NUTS1) → 2 (NUTS2) → 3 (NUTS3).
 -- Solo atletas europeos tienen datos NUTS; el resto tiene NULL en estos campos.
