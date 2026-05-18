@@ -1,107 +1,48 @@
 version: 2
 
 models:
-  # ── DIMENSIONES ─────────────────────────────────────────────────────
-  - name: dim_fecha
-    description: "Dimensión temporal. Un registro por año con atributos de era OTAN, década y siglo."
+  - name: dim_country
+    description: "Países con recuento de medallas (gold/silver/bronze/total)."
     columns:
-      - name: anio
+      - name: country_id
         tests: [not_null, unique]
-      - name: era_otan
+      - name: name
+        tests: [not_null]
+
+  - name: dim_athlete
+    description: "Atletas con lugar de nacimiento desnormalizado (coordenadas, región, NUTS3)."
+    columns:
+      - name: athlete_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+
+  - name: dim_event
+    description: "Eventos con disciplina y deporte en una sola fila (flattened)."
+    columns:
+      - name: event_id
+        tests: [not_null, unique]
+      - name: event_name
+        tests: [not_null]
+
+  - name: dim_nuts
+    description: >
+      Jerarquía NUTS completa desnormalizada (NUTS0→NUTS3).
+      Solo cubre regiones con al menos un atleta europeo en el dataset.
+    columns:
+      - name: nuts3_id
+        tests: [not_null, unique]
+
+  - name: fact_medal
+    description: >
+      Tabla de hechos analítica Gold. Una fila por medalla con todas las
+      dimensiones resueltas: atleta, país, delegación, evento y NUTS.
+    columns:
+      - name: medal_id
+        tests: [not_null, unique]
+      - name: medal_type
         tests:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Pre-OTAN', 'Guerra Fría', 'Post-Guerra Fría', 'Expansión Este', 'Era Actual']
-
-  - name: dim_pais
-    description: "Dimensión de países miembros OTAN. Atributos estáticos: geografía, gobierno, membresía."
-    columns:
-      - name: codigo_iso
-        tests: [not_null, unique]
-      - name: pais
-        tests: [not_null]
-      - name: region
-        tests: [not_null]
-
-  - name: dim_region
-    description: "Dimensión de regiones OTAN con zona geográfica y clasificación de flanco."
-    columns:
-      - name: region
-        tests: [not_null, unique]
-
-  - name: dim_mision
-    description: "Dimensión de misiones OTAN. Atributos descriptivos: tipo, ubicación, mando."
-    columns:
-      - name: id_mision
-        tests: [not_null, unique]
-      - name: nombre_mision
-        tests: [not_null]
-
-  - name: dim_equipamiento
-    description: "Dimensión de tipos de equipamiento militar. Categoría, dominio, origen, integración OTAN."
-    columns:
-      - name: tipo_equipamiento
-        tests: [not_null]
-      - name: dominio
-        tests: [not_null]
-
-  - name: dim_rol_participacion
-    description: "Dimensión de roles en misiones OTAN (Lead, Support, Observer, etc.)."
-    columns:
-      - name: rol_participacion
-        tests: [not_null, unique]
-
-  - name: dim_estado_mision
-    description: "Dimensión de estado/resultado de misiones OTAN con traducciones al español."
-    columns:
-      - name: fase_mision
-        tests: [not_null]
-
-  # ── HECHOS ──────────────────────────────────────────────────────────
-  - name: fct_gasto_defensa
-    description: "Gasto en defensa por país y año. Métricas: PIB, presupuesto, %PIB, per cápita, objetivo 2%."
-    columns:
-      - name: codigo_iso
-        tests: [not_null]
-      - name: anio
-        tests: [not_null]
-      - name: estado_objetivo_2pct
-        tests:
-          - accepted_values:
-              arguments:
-                values: ['Cumple Objetivo', 'Bajo Objetivo']
-
-  - name: fct_capacidad_militar
-    description: "Capacidad militar por país y año. Métricas: personal activo/reserva, interoperabilidad, ejercicios."
-    columns:
-      - name: codigo_iso
-        tests: [not_null]
-      - name: anio
-        tests: [not_null]
-
-  - name: fct_inventario_equipamiento
-    description: "Inventario de equipamiento por país, tipo y año de adquisición. Métricas: unidades, valor, readiness."
-    columns:
-      - name: codigo_iso
-        tests: [not_null]
-      - name: tipo_equipamiento
-        tests: [not_null]
-
-  - name: fct_misiones
-    description: "Hechos de misiones OTAN. Métricas: tropas, bajas, coste, duración, apoyo público."
-    columns:
-      - name: id_mision
-        tests: [not_null, unique]
-      - name: nombre_mision
-        tests: [not_null]
-
-  - name: fct_participacion_misiones
-    description: "Participación de países en misiones. Métricas: tropas/activos contribuidos, % contribución."
-    columns:
-      - name: id_participante
-        tests: [not_null, unique]
-      - name: pais
-        tests: [not_null]
-      - name: nombre_mision
-        tests: [not_null]
+                values: ['gold', 'silver', 'bronze']

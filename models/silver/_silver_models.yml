@@ -1,257 +1,126 @@
 version: 2
 
 models:
-  # ── CATÁLOGOS DE REFERENCIA ─────────────────────────────────────────────
-  - name: stg_cat_region
-    description: >
-      Vocabulario controlado de regiones geográficas. UNION de regiones de países
-      OTAN y de regiones de operaciones militares. FK destino para stg_pais.region.
+  - name: silver_country
+    description: "Países únicos acreditados con al menos una medalla en París 2024."
     columns:
-      - name: region
+      - name: wikidata_id_pais
         tests: [not_null, unique]
-      - name: zona_geografica
+      - name: nombre
         tests: [not_null]
 
-  - name: stg_cat_tipo_mision
-    description: "Vocabulario controlado de tipos de misión OTAN."
+  - name: silver_delegation
+    description: "Delegaciones olímpicas únicas. Un país puede organizar más de una delegación."
     columns:
-      - name: tipo_mision
+      - name: wikidata_id_delegacion
         tests: [not_null, unique]
+      - name: wikidata_id_pais
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_country')
+                field: wikidata_id_pais
 
-  - name: stg_cat_cuartel_general
-    description: "Vocabulario controlado de cuarteles generales OTAN."
+  - name: silver_sport
+    description: "Deportes únicos representados en los JJ.OO. París 2024."
     columns:
-      - name: cuartel_general
+      - name: wikidata_id_deporte
         tests: [not_null, unique]
-
-  - name: stg_cat_pais_origen
-    description: >
-      Países de origen del equipamiento. PK: codigo_iso_origen (normalizado).
-      Normalizaciones: "UK" → "GBR", "Multi-National" → "MNA".
-    columns:
-      - name: codigo_iso_origen
-        tests: [not_null, unique]
-      - name: pais_origen
+      - name: nombre
         tests: [not_null]
 
-  - name: stg_cat_dominio_equipamiento
-    description: >
-      Nivel raíz de la jerarquía de equipamiento: dominio → categoría → tipo.
-      Rompe la transitiva tipo_equipamiento → dominio (3NF).
+  - name: silver_discipline
+    description: "Disciplinas (agrupaciones de eventos) dentro de un deporte."
     columns:
-      - name: dominio
+      - name: wikidata_id_disciplina
         tests: [not_null, unique]
+      - name: wikidata_id_deporte
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_sport')
+                field: wikidata_id_deporte
 
-  - name: stg_cat_categoria_equipamiento
-    description: >
-      Segundo nivel de la jerarquía: cada categoría pertenece a un único dominio.
-      QUALIFY resuelve casos de ruido: toma el dominio más frecuente.
+  - name: silver_event
+    description: "Eventos concretos en los que se otorga una medalla."
     columns:
-      - name: categoria_equipamiento
+      - name: wikidata_id_evento
         tests: [not_null, unique]
-      - name: dominio
+      - name: nombre
+        tests: [not_null]
+
+  - name: silver_nuts_region
+    description: "Jerarquía NUTS europea (niveles 0-3). Tabla auto-jerárquica con id_nuts_padre."
+    columns:
+      - name: id_nuts
+        tests: [not_null, unique]
+      - name: nivel
         tests:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Air', 'Land', 'Sea', 'Support']
+                values: [0, 1, 2, 3]
 
-  - name: stg_cat_ubicacion_operacion
-    description: >
-      Rompe la transitiva mision.ubicacion_operacion → region (3NF).
-      QUALIFY toma la región más frecuente cuando hay ruido en la fuente.
+  - name: silver_place
+    description: "Lugares de nacimiento únicos de los atletas. id_nuts3 nullable para no europeos."
     columns:
-      - name: ubicacion_operacion
+      - name: wikidata_id_lugar
         tests: [not_null, unique]
-      - name: region
+      - name: nombre
         tests: [not_null]
 
-  - name: stg_cat_estado_operacional
-    description: "Vocabulario controlado de estados operacionales del equipamiento."
+  - name: silver_athlete
+    description: "Atletas únicos que ganaron al menos una medalla en París 2024."
     columns:
-      - name: estado_operacional
+      - name: wikidata_id_atleta
         tests: [not_null, unique]
+      - name: nombre
+        tests: [not_null]
+      - name: wikidata_id_lugar
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_place')
+                field: wikidata_id_lugar
 
-  - name: stg_cat_fase_mision
-    description: >
-      Combinaciones válidas de (fase_mision, estado_mision, resultado_mision).
-      PK compuesta triple. FK destino para stg_mision.
+  - name: silver_medal
+    description: "Tabla de hechos Silver: una fila por medalla (wikidata_id_atleta × wikidata_id_evento es única)."
     columns:
-      - name: fase_mision
-        tests: [not_null]
-      - name: estado_mision
-        tests: [not_null]
-      - name: resultado_mision
-        tests: [not_null]
-
-  # ── MAESTROS (SCD Tipo 2) ────────────────────────────────────────────────
-  - name: stg_pais
-    description: >
-      Maestro de países OTAN con SCD Tipo 2 (Pattern 1: ventana LAG sobre año fuente).
-      PK surrogate: pais_sk (ROW_NUMBER determinista por run). PK natural: (codigo_iso,
-      fecha_inicio_validez). Incluye fecha_ingreso_otan como DATE.
-      Filtrar es_registro_actual = true para estado presente.
-    columns:
-      - name: pais_sk
+      - name: id_medalla
         tests: [not_null, unique]
-      - name: codigo_iso
-        tests: [not_null]
-      - name: pais
-        tests: [not_null]
-      - name: region
-        tests: [not_null]
-      - name: hash_diff
-        tests: [not_null]
-      - name: fecha_inicio_validez
-        tests: [not_null]
-      - name: fecha_fin_validez
-        tests: [not_null]
-      - name: es_registro_actual
-        tests: [not_null]
-
-  - name: stg_mision
-    description: >
-      Misiones OTAN con SCD Tipo 2 (Pattern 2: ventana por tiempo de carga).
-      PK surrogate: mision_sk. tipo_liderazgo varchar ("NATO"/"Non-NATO"/"Joint UN-NATO").
-      region_operacion eliminada (3NF → stg_cat_ubicacion_operacion).
-      Calculados movidos a Gold. Filtrar es_registro_actual = true para estado presente.
-    columns:
-      - name: mision_sk
-        tests: [not_null, unique]
-      - name: id_mision
-        tests: [not_null]
-      - name: nombre_mision
-        tests: [not_null]
-      - name: codigo_iso_lider
-        tests: [not_null]
-      - name: tipo_liderazgo
+      - name: wikidata_id_atleta
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_athlete')
+                field: wikidata_id_atleta
+      - name: wikidata_id_evento
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_event')
+                field: wikidata_id_evento
+      - name: wikidata_id_delegacion
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_delegation')
+                field: wikidata_id_delegacion
+      - name: wikidata_id_pais
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('silver_country')
+                field: wikidata_id_pais
+      - name: tipo
         tests:
           - not_null
           - accepted_values:
               arguments:
-                values: ['NATO', 'Non-NATO', 'Joint UN-NATO']
-      - name: fecha_inicio_operacion
-        tests: [not_null]
-      - name: hash_diff
-        tests: [not_null]
-      - name: es_registro_actual
-        tests: [not_null]
-
-  - name: stg_tipo_equipamiento
-    description: >
-      3NF: Catálogo de tipos de equipamiento. es_estandar_otan y es_interoperable
-      movidos aquí desde stg_inventario_equipamiento (atributos del tipo, no del
-      inventario por país). dominio eliminado (accesible vía categoria → stg_cat_categoria).
-    columns:
-      - name: tipo_equipamiento
-        tests: [not_null, unique]
-      - name: categoria_equipamiento
-        tests: [not_null]
-      - name: es_estandar_otan
-        tests:
-          - not_null
-          - accepted_values:
-              arguments:
-                values: ['Yes', 'No', 'Partial']
-
-  - name: stg_tipo_equipamiento_modelo
-    description: >
-      Tabla puente (1NF). Resuelve campo multivalor modelos_destacados usando
-      LATERAL SPLIT_TO_TABLE con separador '/'.
-    columns:
-      - name: tipo_equipamiento
-        tests: [not_null]
-      - name: modelo_destacado
-        tests: [not_null]
-
-  - name: stg_rol_participacion
-    description: "Catálogo de roles de participación en misiones."
-    columns:
-      - name: rol_participacion
-        tests: [not_null, unique]
-
-  - name: stg_inventario_equipamiento
-    description: >
-      Inventario de equipamiento con SCD Tipo 2 (Pattern 2). pais_sk: FK a stg_pais
-      (versión actual). es_estandar_otan + es_interoperable removidos → stg_tipo_equipamiento.
-      pais_origen → codigo_iso_origen (normalizado con UK→GBR, Multi-National→MNA).
-      anio_ultimo_mantenimiento + anio_proximo_upgrade: integer → DATE.
-      Filtrar es_registro_actual = true para estado actual.
-    columns:
-      - name: record_id
-        tests: [not_null]
-      - name: pais_sk
-        tests: [not_null]
-      - name: codigo_iso
-        tests: [not_null]
-      - name: tipo_equipamiento
-        tests: [not_null]
-      - name: codigo_iso_origen
-        tests: [not_null]
-      - name: hash_diff
-        tests: [not_null]
-      - name: fecha_inicio_validez
-        tests: [not_null]
-      - name: fecha_fin_validez
-        tests: [not_null]
-      - name: es_registro_actual
-        tests: [not_null]
-
-  # ── SERIES TEMPORALES / TRANSACCIONALES ──────────────────────────────────
-  - name: stg_estadisticas_pais
-    description: >
-      Métricas anuales por país en 2NF. PK natural: (codigo_iso, fecha).
-      pais_sk: FK temporal a stg_pais (join fecha BETWEEN validez). Calculados
-      eliminados (pib_per_capita_usd, defensa_pct_pib, cumple_objetivo_2pct,
-      personal_total → Gold).
-    columns:
-      - name: pais_sk
-        tests: [not_null]
-      - name: codigo_iso
-        tests: [not_null]
-      - name: fecha
-        tests: [not_null]
-
-  - name: stg_participacion_mision
-    description: >
-      Participación de países en misiones con SCD Tipo 2. PK surrogate: participacion_sk.
-      Natural key: (id_mision, codigo_iso, rol_participacion) — permite multi-rol.
-      BUG anterior (dedup solo por misión+país) corregido. mision_sk + pais_sk: FKs.
-      fecha_inicio_participacion derivada de stg_mision.
-    columns:
-      - name: participacion_sk
-        tests: [not_null, unique]
-      - name: mision_sk
-        tests: [not_null]
-      - name: pais_sk
-        tests: [not_null]
-      - name: id_mision
-        tests: [not_null]
-      - name: codigo_iso
-        tests: [not_null]
-      - name: rol_participacion
-        tests: [not_null]
-      - name: hash_diff
-        tests: [not_null]
-      - name: es_registro_actual
-        tests: [not_null]
-
-  - name: stg_despliegue_equipamiento
-    description: >
-      DATO INFERIDO / APROXIMADO. No existe fuente directa.
-      Cruza activos aéreos/navales de CSV4 con el inventario de CSV2 para asignar
-      el tipo de equipamiento más numeroso por (misión, país, dominio).
-      UNIQUE: (mision_sk, pais_sk, tipo_equipamiento).
-      Máximo dos filas por (misión, país): una aérea + una naval.
-    columns:
-      - name: id_despliegue
-        tests: [not_null, unique]
-      - name: mision_sk
-        tests: [not_null]
-      - name: pais_sk
-        tests: [not_null]
-      - name: tipo_equipamiento
-        tests: [not_null]
-      - name: cantidad_desplegada
-        tests: [not_null]
-
+                values: ['gold', 'silver', 'bronze']

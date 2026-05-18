@@ -1,4 +1,4 @@
-name: 'operation_medallion'
+name: '2024-medalists-all'
 version: '1.0.0'
 config-version: 2
 
@@ -17,15 +17,12 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  operation_medallion:
+  2024-medalists-all:
     bronze:
       +materialized: table
-      +database: BRONZE_DB
 
     silver:
       +materialized: table
-      +database: SILVER_DB
 
     gold:
       +materialized: table
-      +database: GOLD_DB
