@@ -1,6 +1,70 @@
 table FACT_MEDALLA
 	lineageTag: 642e41f5-def4-42b3-9105-2404ba140d3f
 
+	measure 'Total Medallas' = COUNTROWS(FACT_MEDALLA)
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000001
+
+	measure 'Medallistas Únicos' = DISTINCTCOUNT(FACT_MEDALLA[ID_ATLETA])
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000002
+
+	measure 'Países Representados' = DISTINCTCOUNT(FACT_MEDALLA[NOMBRE_PAIS])
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000003
+
+	measure 'Deportes Únicos' = DISTINCTCOUNT(FACT_MEDALLA[NOMBRE_DEPORTE])
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000004
+
+	measure 'Medallas Oro' = COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "gold"))
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000005
+
+	measure 'Medallas Plata' = COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "silver"))
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000006
+
+	measure 'Medallas Bronce' = COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "bronze"))
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000007
+
+	measure 'Edad Media' =
+			AVERAGEX(
+			    FACT_MEDALLA,
+			    YEAR(DATE(2024, 7, 26)) - YEAR(FACT_MEDALLA[FECHA_NACIMIENTO])
+			)
+		formatString: #,##0.0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000008
+
+	measure '% Femenino' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(FACT_MEDALLA), FACT_MEDALLA[SEXO] = "female"),
+			    COUNTROWS(FACT_MEDALLA),
+			    0
+			)
+		formatString: 0.0%
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000009
+
+	measure 'Medallas / Atleta' =
+			DIVIDE(
+			    COUNTROWS(FACT_MEDALLA),
+			    DISTINCTCOUNT(FACT_MEDALLA[ID_ATLETA]),
+			    0
+			)
+		formatString: #,##0.0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000010
+
 	column ID_MEDALLA
 		dataType: string
 		lineageTag: 8a958da8-206d-4c9c-87e1-b617b23af1de
@@ -244,83 +308,6 @@ table FACT_MEDALLA
 		sourceColumn: NOMBRE_PAIS_NUTS
 
 		annotation SummarizationSetBy = Automatic
-
-	column EDAD
-		dataType: int64
-		lineageTag: aa000001-0000-0000-0000-000000000011
-		summarizeBy: average
-		expression = YEAR(DATE(2024, 7, 26)) - YEAR([FECHA_NACIMIENTO])
-
-		annotation SummarizationSetBy = User
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Total Medallas' = COUNTROWS(FACT_MEDALLA)
-		formatString: "#,##0"
-		lineageTag: aa000001-0000-0000-0000-000000000001
-		displayFolder: KPIs
-
-	measure 'Medallistas Únicos' = DISTINCTCOUNT(FACT_MEDALLA[ID_ATLETA])
-		formatString: "#,##0"
-		lineageTag: aa000001-0000-0000-0000-000000000002
-		displayFolder: KPIs
-
-	measure 'Países Representados' = DISTINCTCOUNT(FACT_MEDALLA[NOMBRE_PAIS])
-		formatString: "#,##0"
-		lineageTag: aa000001-0000-0000-0000-000000000003
-		displayFolder: KPIs
-
-	measure 'Deportes Únicos' = DISTINCTCOUNT(FACT_MEDALLA[NOMBRE_DEPORTE])
-		formatString: "#,##0"
-		lineageTag: aa000001-0000-0000-0000-000000000004
-		displayFolder: KPIs
-
-	measure 'Medallas Oro' =
-			COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "gold"))
-		formatString: "#,##0"
-		lineageTag: aa000001-0000-0000-0000-000000000005
-		displayFolder: KPIs
-
-	measure 'Medallas Plata' =
-			COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "silver"))
-		formatString: "#,##0"
-		lineageTag: aa000001-0000-0000-0000-000000000006
-		displayFolder: KPIs
-
-	measure 'Medallas Bronce' =
-			COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "bronze"))
-		formatString: "#,##0"
-		lineageTag: aa000001-0000-0000-0000-000000000007
-		displayFolder: KPIs
-
-	measure 'Edad Media' =
-			AVERAGEX(
-			    FACT_MEDALLA,
-			    YEAR(DATE(2024, 7, 26)) - YEAR(FACT_MEDALLA[FECHA_NACIMIENTO])
-			)
-		formatString: "#,##0.0"
-		lineageTag: aa000001-0000-0000-0000-000000000008
-		displayFolder: KPIs
-
-	measure '% Femenino' =
-			DIVIDE(
-			    CALCULATE(COUNTROWS(FACT_MEDALLA), FACT_MEDALLA[SEXO] = "female"),
-			    COUNTROWS(FACT_MEDALLA),
-			    0
-			)
-		formatString: "0.0%"
-		lineageTag: aa000001-0000-0000-0000-000000000009
-		displayFolder: KPIs
-
-	measure 'Medallas / Atleta' =
-			DIVIDE(
-			    COUNTROWS(FACT_MEDALLA),
-			    DISTINCTCOUNT(FACT_MEDALLA[ID_ATLETA]),
-			    0
-			)
-		formatString: "#,##0.0"
-		lineageTag: aa000001-0000-0000-0000-000000000010
-		displayFolder: KPIs
 
 	partition FACT_MEDALLA = m
 		mode: import

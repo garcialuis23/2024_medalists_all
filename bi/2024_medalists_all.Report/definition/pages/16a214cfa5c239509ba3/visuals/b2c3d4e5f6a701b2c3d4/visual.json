@@ -18,7 +18,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "NOMBRE_DEPORTE"
                 }
               },
@@ -32,7 +36,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "Total Medallas"
                 }
               },
@@ -41,16 +49,25 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_MEDALLA"
+                  }
+                },
+                "Property": "Total Medallas"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
       }
     },
-    "drillFilterOtherVisuals": true,
-    "title": {
-      "show": {
-        "expr": { "Literal": { "Value": "true" } }
-      },
-      "titleText": {
-        "expr": { "Literal": { "Value": "'Medallas por Deporte (Top 12)'" } }
-      }
-    }
+    "drillFilterOtherVisuals": true
   }
 }

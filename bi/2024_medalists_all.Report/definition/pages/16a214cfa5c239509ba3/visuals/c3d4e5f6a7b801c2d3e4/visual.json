@@ -18,7 +18,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "SEXO"
                 }
               },
@@ -32,7 +36,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "Total Medallas"
                 }
               },
@@ -43,14 +51,6 @@
         }
       }
     },
-    "drillFilterOtherVisuals": true,
-    "title": {
-      "show": {
-        "expr": { "Literal": { "Value": "true" } }
-      },
-      "titleText": {
-        "expr": { "Literal": { "Value": "'Distribución por Sexo'" } }
-      }
-    }
+    "drillFilterOtherVisuals": true
   }
 }

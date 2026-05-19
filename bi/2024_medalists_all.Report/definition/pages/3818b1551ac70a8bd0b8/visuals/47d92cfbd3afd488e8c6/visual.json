@@ -18,7 +18,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_ATLETA"
+                    }
+                  },
                   "Property": "NOMBRE"
                 }
               },
@@ -33,7 +37,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_ATLETA"
+                    }
+                  },
                   "Property": "LAT_NACIMIENTO"
                 }
               },
@@ -47,7 +55,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_ATLETA"
+                    }
+                  },
                   "Property": "LON_NACIMIENTO"
                 }
               },
@@ -61,7 +73,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "Total Medallas"
                 }
               },
@@ -75,7 +91,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "TIPO_MEDALLA"
                 }
               },
@@ -90,23 +110,89 @@
       "mapControls": [
         {
           "properties": {
-            "defaultStyle": { "expr": { "Literal": { "Value": "'road'" } } },
-            "showStylePicker": { "expr": { "Literal": { "Value": "false" } } },
-            "showNavigationControls": { "expr": { "Literal": { "Value": "true" } } },
-            "showSelectionControl": { "expr": { "Literal": { "Value": "false" } } }
+            "defaultStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'road'"
+                }
+              }
+            },
+            "showStylePicker": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showNavigationControls": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showSelectionControl": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
           }
         }
       ],
       "bubbleLayer": [
         {
           "properties": {
-            "show": { "expr": { "Literal": { "Value": "true" } } },
-            "bubbleRadius": { "expr": { "Literal": { "Value": "8L" } } },
-            "minBubbleRadius": { "expr": { "Literal": { "Value": "4L" } } },
-            "maxRadius": { "expr": { "Literal": { "Value": "30L" } } },
-            "bubbleStrokeWidth": { "expr": { "Literal": { "Value": "1L" } } },
-            "autoStrokeColor": { "expr": { "Literal": { "Value": "true" } } },
-            "layerPosition": { "expr": { "Literal": { "Value": "''" } } }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "bubbleRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8L"
+                }
+              }
+            },
+            "minBubbleRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "4L"
+                }
+              }
+            },
+            "maxRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "30L"
+                }
+              }
+            },
+            "bubbleStrokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "autoStrokeColor": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "layerPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
           }
         }
       ]

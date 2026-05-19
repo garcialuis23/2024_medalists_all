@@ -18,7 +18,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_NUTS" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_NUTS"
+                    }
+                  },
                   "Property": "PIB_NUTS3"
                 }
               },
@@ -32,7 +36,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "Total Medallas"
                 }
               },
@@ -46,7 +54,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_NUTS" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_NUTS"
+                    }
+                  },
                   "Property": "POBLACION_NUTS3"
                 }
               },
@@ -60,7 +72,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_NUTS" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_NUTS"
+                    }
+                  },
                   "Property": "NOMBRE_NUTS3"
                 }
               },
@@ -71,11 +87,7 @@
         }
       }
     },
-    "drillFilterOtherVisuals": true,
-    "title": {
-      "show": { "expr": { "Literal": { "Value": "true" } } },
-      "titleText": { "expr": { "Literal": { "Value": "'PIB Regional (NUTS3) vs Medallas Europeas'" } } }
-    }
+    "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [
@@ -83,14 +95,24 @@
         "name": "filter_nuts3_not_null",
         "field": {
           "Column": {
-            "Expression": { "SourceRef": { "Entity": "DIM_NUTS" } },
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_NUTS"
+              }
+            },
             "Property": "ID_NUTS3"
           }
         },
         "type": "Categorical",
         "filter": {
           "Version": 2,
-          "From": [{ "Name": "d", "Entity": "DIM_NUTS", "Type": 0 }],
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_NUTS",
+              "Type": 0
+            }
+          ],
           "Where": [
             {
               "Condition": {
@@ -100,12 +122,24 @@
                       "Expressions": [
                         {
                           "Column": {
-                            "Expression": { "SourceRef": { "Source": "d" } },
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
                             "Property": "ID_NUTS3"
                           }
                         }
                       ],
-                      "Values": [[{ "Literal": { "Value": "null" } }]]
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
                     }
                   }
                 }
