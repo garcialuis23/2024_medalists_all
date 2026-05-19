@@ -2,7 +2,6 @@
 
 select
     *,
-    CURRENT_TIMESTAMP() AS _loaded_at,
     CASE
         WHEN medalist_name IS NULL AND (medal IS NULL OR medal NOT IN ('gold', 'silver', 'bronze'))
             THEN 'medalist_name es NULL | medal inválido: ' || COALESCE(medal, 'NULL')
