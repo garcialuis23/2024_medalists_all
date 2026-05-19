@@ -2,7 +2,7 @@ name: '2024-medalists-all'
 version: '1.0.0'
 config-version: 2
 
-profile: '2024-medalists-all'
+profile: 'default'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
