@@ -10,7 +10,7 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_QueryOrder = ["DIM_ATLETA","DIM_EVENTO","DIM_NUTS","DIM_PAIS","FACT_MEDALLA"]
 
-annotation PBI_ProTooling = ["DevMode"]
+annotation PBI_ProTooling = ["DevMode","TMDL-Extension"]
 
 ref table DIM_ATLETA
 ref table DateTableTemplate_95b00b15-7333-4b8b-81c6-231962dab0dc
