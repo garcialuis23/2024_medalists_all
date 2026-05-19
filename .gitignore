@@ -9,3 +9,4 @@ dbt_internal_packages/
 profiles.yml
 .user.yml
 package-lock.yml
+models/silver/silver_medalla_incremental.sql
