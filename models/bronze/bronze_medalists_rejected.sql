@@ -45,19 +45,15 @@ select
         ' | '
     )                                                                     as rejection_reason
 
-from {{ source('bronze', 'MEDALISTS_2024') }}
+from {{ ref('bronze_medalists_raw') }}
 where
-    medalist_name is not null
-    and medal in ('gold', 'silver', 'bronze')
-    and (
-        (
-            place_of_birth_wikidata_id IS NOT NULL
-            AND place_of_birth_wikidata_id != 'NA'
-            AND (place_of_birth IS NULL OR place_of_birth = 'NA')
-        )
-        or (
-            delegation_wikidata_id IS NOT NULL
-            AND delegation_wikidata_id != 'NA'
-            AND (country_medal_wikidata_id IS NULL OR country_medal_wikidata_id = 'NA')
-        )
+    (
+        place_of_birth_wikidata_id IS NOT NULL
+        AND place_of_birth_wikidata_id != 'NA'
+        AND (place_of_birth IS NULL OR place_of_birth = 'NA')
+    )
+    or (
+        delegation_wikidata_id IS NOT NULL
+        AND delegation_wikidata_id != 'NA'
+        AND (country_medal_wikidata_id IS NULL OR country_medal_wikidata_id = 'NA')
     )

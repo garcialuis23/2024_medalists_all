@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "0b196e034c64842affe4",
   "position": {
-    "x": 0,
-    "y": 470.00000000000006,
+    "x": 8.5714285714285712,
+    "y": 454.28571428571433,
     "z": 11000,
-    "height": 250.00000000000003,
-    "width": 850,
+    "height": 252.85714285714286,
+    "width": 831.42857142857144,
     "tabOrder": 11000
   },
   "visual": {
@@ -98,7 +98,7 @@
                     "Entity": "FACT_MEDALLA"
                   }
                 },
-                "Property": "NOMBRE_EVENTO"
+                "Property": "NOMBRE_ATLETA"
               }
             },
             "direction": "Ascending"
