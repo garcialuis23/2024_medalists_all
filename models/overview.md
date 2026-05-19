@@ -89,7 +89,7 @@ construir un dashboard.
 
 | Modelo | Filas | Descripción |
 |---|---|---|
-| `fact_medalla` | 2 202 | **Fact table principal.** 1 fila por medalla con IDs de todas las dimensiones + nombre de evento, disciplina y deporte desnormalizados. NUTS completo (niveles 0–3) para atletas europeos. |
+| `fact_medalla` | 2 202 | **Fact table principal.** Grano: `silver_medalla` (atleta × evento × tipo). Todas las uniones dimensionales van a Gold (`dim_atleta`, `dim_pais`, `dim_evento`, `dim_nuts`) — sin saltar a Silver. NUTS completo (niveles 0–3) para atletas europeos. |
 | `dim_pais` | 91 | Países con métricas de medallas pre-agregadas (total, oro, plata, bronce). |
 | `dim_atleta` | 1 949 | Atletas con lugar de nacimiento, coordenadas y NUTS3 desnormalizados. |
 | `dim_evento` | 325 | Eventos con disciplina y deporte aplanados en una sola fila. |

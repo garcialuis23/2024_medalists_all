@@ -118,10 +118,10 @@ models:
   - name: fact_medalla
     description: >
       Tabla de hechos analítica Gold (2,202 registros). Una fila por medalla con todas
-      las dimensiones clave resueltas: atleta, país acreedor, delegación, evento con
-      disciplina y deporte desnormalizados, y jerarquía NUTS completa (niveles 0–3)
-      para atletas europeos. El ~56% de las medallas tiene id_nuts3 = NULL (atletas
-      no europeos). Diseñada para consumo directo en BI sin JOINs adicionales.
+      las dimensiones clave resueltas. Sigue la convención Kimball: todas las uniones
+      dimensionales van a tablas Gold (dim_atleta, dim_pais, dim_evento, dim_nuts);
+      silver_medalla se usa únicamente como fuente del grano (atleta × evento × tipo).
+      El ~56% de las medallas tiene id_nuts3 = NULL (atletas no europeos).
     columns:
       - name: id_medalla
         description: "PK surrogate. MD5 de (wikidata_id_atleta || '|' || wikidata_id_evento). Reproducible entre runs."
@@ -154,7 +154,7 @@ models:
                 to: ref('dim_pais')
                 field: id_pais
       - name: id_delegacion
-        description: "Identificador Wikidata de la delegación bajo la que compitió el atleta."
+        description: "Identificador Wikidata de la delegación bajo la que compitió el atleta. Tomado directamente de silver_medalla (no existe dim_delegacion en Gold)."
       - name: id_evento
         description: "FK → dim_evento. Identificador Wikidata del evento olímpico."
         tests:
