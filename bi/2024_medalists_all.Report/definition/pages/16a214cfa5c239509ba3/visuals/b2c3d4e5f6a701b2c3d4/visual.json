@@ -2,15 +2,55 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "b2c3d4e5f6a701b2c3d4",
   "position": {
-    "x": 0,
-    "y": 415,
+    "x": 429,
+    "y": 112,
     "z": 0,
-    "height": 305,
-    "width": 661.66666666666674,
-    "tabOrder": 1
+    "height": 288,
+    "width": 422,
+    "tabOrder": 20
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
-    "drillFilterOtherVisuals": true
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Property": "NOMBRE_DEPORTE"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_DEPORTE",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Property": "Total Medallas"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.Total Medallas",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "title": {
+      "show": {
+        "expr": { "Literal": { "Value": "true" } }
+      },
+      "titleText": {
+        "expr": { "Literal": { "Value": "'Medallas por Deporte (Top 12)'" } }
+      }
+    }
   }
 }

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "kpicard002atletas0",
+  "position": { "x": 256, "y": 35, "z": 0, "height": 72, "width": 255, "tabOrder": 2 },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Property": "Medallistas Únicos"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.Medallistas Únicos",
+              "active": true
+            }
+          ]
+        }
+      }
+    }
+  }
+}

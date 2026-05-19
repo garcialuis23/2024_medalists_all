@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
-  "name": "e5f6a7b8c9d001e2f3a4",
+  "name": "a1b2c3d4e5f601a2b3c4",
   "position": {
-    "x": 429,
-    "y": 405,
+    "x": 0,
+    "y": 112,
     "z": 0,
-    "height": 315,
-    "width": 422,
-    "tabOrder": 50
+    "height": 288,
+    "width": 424,
+    "tabOrder": 10
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "stackedBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -19,10 +19,10 @@
               "field": {
                 "Column": {
                   "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
-                  "Property": "EDAD"
+                  "Property": "NOMBRE_PAIS"
                 }
               },
-              "queryRef": "FACT_MEDALLA.EDAD",
+              "queryRef": "FACT_MEDALLA.NOMBRE_PAIS",
               "active": true
             }
           ]
@@ -40,13 +40,31 @@
               "active": true
             }
           ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Property": "TIPO_MEDALLA"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.TIPO_MEDALLA",
+              "active": true
+            }
+          ]
         }
       }
     },
     "drillFilterOtherVisuals": true,
     "title": {
-      "show": { "expr": { "Literal": { "Value": "true" } } },
-      "titleText": { "expr": { "Literal": { "Value": "'Distribución de Edades de Medallistas'" } } }
+      "show": {
+        "expr": { "Literal": { "Value": "true" } }
+      },
+      "titleText": {
+        "expr": { "Literal": { "Value": "'Top 12 Países por Medallas'" } }
+      }
     }
   }
 }

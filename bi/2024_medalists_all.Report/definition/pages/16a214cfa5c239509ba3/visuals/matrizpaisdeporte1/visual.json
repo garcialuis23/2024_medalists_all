@@ -1,33 +1,47 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
-  "name": "e5f6a7b8c9d001e2f3a4",
+  "name": "matrizpaisdeporte1",
   "position": {
-    "x": 429,
+    "x": 0,
     "y": 405,
     "z": 0,
     "height": 315,
-    "width": 422,
-    "tabOrder": 50
+    "width": 424,
+    "tabOrder": 40
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "tableEx",
     "query": {
       "queryState": {
-        "Category": {
+        "Rows": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
-                  "Property": "EDAD"
+                  "Property": "NOMBRE_PAIS"
                 }
               },
-              "queryRef": "FACT_MEDALLA.EDAD",
+              "queryRef": "FACT_MEDALLA.NOMBRE_PAIS",
               "active": true
             }
           ]
         },
-        "Y": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Property": "NOMBRE_DEPORTE"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_DEPORTE",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
           "projections": [
             {
               "field": {
@@ -46,7 +60,7 @@
     "drillFilterOtherVisuals": true,
     "title": {
       "show": { "expr": { "Literal": { "Value": "true" } } },
-      "titleText": { "expr": { "Literal": { "Value": "'Distribución de Edades de Medallistas'" } } }
+      "titleText": { "expr": { "Literal": { "Value": "'Medallas: País × Deporte'" } } }
     }
   }
 }

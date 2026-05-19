@@ -20,11 +20,16 @@ models:
   2024-medalists-all:
     bronze:
       +materialized: table
+      +database: "{{ 'BRONZE_DB_PRO' if target.name == 'pro' else 'BRONZE_DB_DEV' }}"
 
     silver:
       +materialized: table
       +transient: false
+      +database: "{{ 'BRONZE_DB_PRO' if target.name == 'pro' else 'BRONZE_DB_DEV' }}"
+
 
     gold:
       +materialized: table
       +transient: false
+      +database: "{{ 'BRONZE_DB_PRO' if target.name == 'pro' else 'BRONZE_DB_DEV' }}"
+

@@ -1,107 +1,107 @@
 table DIM_NUTS
-	lineageTag: de5794c5-a3ed-4e4f-a2ae-704fca83060c
+	lineageTag: 121792df-6c14-4136-8239-37653c04d549
 
-	column NUTS3_ID
+	column ID_NUTS3
 		dataType: string
-		lineageTag: b0028257-d9d4-48b5-9df5-1418ba29fb62
+		lineageTag: 2c6373de-95f0-4152-a855-5ed4dfdfbe9a
 		summarizeBy: none
-		sourceColumn: NUTS3_ID
+		sourceColumn: ID_NUTS3
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS3_NAME
+	column NOMBRE_NUTS3
 		dataType: string
-		lineageTag: 4a004be7-54c9-4d5c-8d08-9488334f30c7
+		lineageTag: 82562c81-1093-497c-8dff-7d0beac4d707
 		summarizeBy: none
-		sourceColumn: NUTS3_NAME
+		sourceColumn: NOMBRE_NUTS3
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS3_POPULATION
+	column POBLACION_NUTS3
 		dataType: double
-		lineageTag: 7d213e6e-12a6-4ed9-8824-5164ece0c1c2
+		lineageTag: ee814e71-7ffb-4fe9-8282-386edb9a2832
 		summarizeBy: none
-		sourceColumn: NUTS3_POPULATION
+		sourceColumn: POBLACION_NUTS3
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column NUTS3_GDP
+	column PIB_NUTS3
 		dataType: double
-		lineageTag: a22ae94d-0cc3-4fdf-92f5-041e1677ab38
+		lineageTag: 45d081ef-ea67-4dee-94aa-3dc047bbd026
 		summarizeBy: none
-		sourceColumn: NUTS3_GDP
+		sourceColumn: PIB_NUTS3
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column NUTS2_ID
+	column ID_NUTS2
 		dataType: string
-		lineageTag: 8438cca8-9ef2-4bbb-845c-c644312bb63a
+		lineageTag: 30034ee9-533d-4eb9-bb7d-d897d571b3eb
 		summarizeBy: none
-		sourceColumn: NUTS2_ID
+		sourceColumn: ID_NUTS2
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS2_NAME
+	column NOMBRE_NUTS2
 		dataType: string
-		lineageTag: 622db893-4512-4304-8fdf-1f426cc16399
+		lineageTag: 04baebbe-7f8a-480b-8518-99dcaa5d68fe
 		summarizeBy: none
-		sourceColumn: NUTS2_NAME
+		sourceColumn: NOMBRE_NUTS2
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS2_POPULATION
+	column POBLACION_NUTS2
 		dataType: double
-		lineageTag: 3ad450d8-12f1-432e-8ac3-1cf23b1375f9
+		lineageTag: 9b96df40-3e87-4b5e-9abd-9b7ffb0cefcd
 		summarizeBy: none
-		sourceColumn: NUTS2_POPULATION
+		sourceColumn: POBLACION_NUTS2
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column NUTS2_GDP
+	column PIB_NUTS2
 		dataType: double
-		lineageTag: 541d2689-b2ee-48b1-97fb-a8596efdbf7f
+		lineageTag: c5226498-7ca8-48b1-83f3-99d2f863944c
 		summarizeBy: none
-		sourceColumn: NUTS2_GDP
+		sourceColumn: PIB_NUTS2
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column NUTS1_ID
+	column ID_NUTS1
 		dataType: string
-		lineageTag: ac664779-d0b8-4d31-93a3-5218057c43d6
+		lineageTag: b2863e4e-6771-4a0e-9610-1b37888a5818
 		summarizeBy: none
-		sourceColumn: NUTS1_ID
+		sourceColumn: ID_NUTS1
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS1_NAME
+	column NOMBRE_NUTS1
 		dataType: string
-		lineageTag: d44954db-932e-4eb0-89a3-053459285134
+		lineageTag: d9865cee-7802-48f5-bcf8-73d8df4fb72e
 		summarizeBy: none
-		sourceColumn: NUTS1_NAME
+		sourceColumn: NOMBRE_NUTS1
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS0_ID
+	column ID_NUTS0
 		dataType: string
-		lineageTag: 80506be6-7d30-41c1-8684-28c98798bb90
+		lineageTag: e7952cf1-024c-4c0f-964e-d81ee3584188
 		summarizeBy: none
-		sourceColumn: NUTS0_ID
+		sourceColumn: ID_NUTS0
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS0_NAME
+	column NOMBRE_NUTS0
 		dataType: string
-		lineageTag: fa0125cb-d09f-408f-a942-5ea038b8a0a1
+		lineageTag: 74ffd5d7-a6d3-4421-80db-711ba087393f
 		summarizeBy: none
-		sourceColumn: NUTS0_NAME
+		sourceColumn: NOMBRE_NUTS0
 
 		annotation SummarizationSetBy = Automatic
 
@@ -115,4 +115,8 @@ table DIM_NUTS
 				    DIM_NUTS_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_NUTS",Kind="Table"]}[Data]
 				in
 				    DIM_NUTS_Table
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
 

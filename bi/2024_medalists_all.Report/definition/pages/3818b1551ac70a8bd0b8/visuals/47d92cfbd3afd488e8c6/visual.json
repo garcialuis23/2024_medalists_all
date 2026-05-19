@@ -2,32 +2,85 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "47d92cfbd3afd488e8c6",
   "position": {
-    "x": 9.5427805929291161,
+    "x": 0,
     "y": 0,
     "z": 0,
-    "height": 709.34669074106432,
-    "width": 1270.7802822917274,
+    "height": 720,
+    "width": 1280,
     "tabOrder": 0
   },
   "visual": {
     "visualType": "azureMap",
     "query": {
       "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
+                  "Property": "NOMBRE"
+                }
+              },
+              "queryRef": "DIM_ATLETA.NOMBRE",
+              "nativeQueryRef": "NOMBRE",
+              "active": true
+            }
+          ]
+        },
+        "Latitude": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
+                  "Property": "LAT_NACIMIENTO"
+                }
+              },
+              "queryRef": "DIM_ATLETA.LAT_NACIMIENTO",
+              "active": true
+            }
+          ]
+        },
+        "Longitude": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
+                  "Property": "LON_NACIMIENTO"
+                }
+              },
+              "queryRef": "DIM_ATLETA.LON_NACIMIENTO",
+              "active": true
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Property": "Total Medallas"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.Total Medallas",
+              "active": true
+            }
+          ]
+        },
         "Series": {
           "projections": [
             {
               "field": {
                 "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_ATLETA"
-                    }
-                  },
-                  "Property": "NAME"
+                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Property": "TIPO_MEDALLA"
                 }
               },
-              "queryRef": "DIM_ATLETA.NAME",
-              "nativeQueryRef": "NAME"
+              "queryRef": "FACT_MEDALLA.TIPO_MEDALLA",
+              "nativeQueryRef": "TIPO_MEDALLA"
             }
           ]
         }
@@ -37,89 +90,23 @@
       "mapControls": [
         {
           "properties": {
-            "defaultStyle": {
-              "expr": {
-                "Literal": {
-                  "Value": "'road'"
-                }
-              }
-            },
-            "showStylePicker": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "showNavigationControls": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "showSelectionControl": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
+            "defaultStyle": { "expr": { "Literal": { "Value": "'road'" } } },
+            "showStylePicker": { "expr": { "Literal": { "Value": "false" } } },
+            "showNavigationControls": { "expr": { "Literal": { "Value": "true" } } },
+            "showSelectionControl": { "expr": { "Literal": { "Value": "false" } } }
           }
         }
       ],
       "bubbleLayer": [
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "bubbleRadius": {
-              "expr": {
-                "Literal": {
-                  "Value": "6L"
-                }
-              }
-            },
-            "minBubbleRadius": {
-              "expr": {
-                "Literal": {
-                  "Value": "6L"
-                }
-              }
-            },
-            "maxRadius": {
-              "expr": {
-                "Literal": {
-                  "Value": "21L"
-                }
-              }
-            },
-            "bubbleStrokeWidth": {
-              "expr": {
-                "Literal": {
-                  "Value": "1L"
-                }
-              }
-            },
-            "autoStrokeColor": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "layerPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
-                }
-              }
-            }
+            "show": { "expr": { "Literal": { "Value": "true" } } },
+            "bubbleRadius": { "expr": { "Literal": { "Value": "8L" } } },
+            "minBubbleRadius": { "expr": { "Literal": { "Value": "4L" } } },
+            "maxRadius": { "expr": { "Literal": { "Value": "30L" } } },
+            "bubbleStrokeWidth": { "expr": { "Literal": { "Value": "1L" } } },
+            "autoStrokeColor": { "expr": { "Literal": { "Value": "true" } } },
+            "layerPosition": { "expr": { "Literal": { "Value": "''" } } }
           }
         }
       ]

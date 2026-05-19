@@ -1,59 +1,59 @@
 table DIM_EVENTO
-	lineageTag: 831db766-8260-419d-84a1-2ef77506d9a1
+	lineageTag: be6c142b-8326-43e3-8ece-a8b5449c619c
 
-	column EVENT_ID
+	column ID_EVENTO
 		dataType: string
-		lineageTag: 4eeb6c62-5a9f-4d41-a992-48ec1be57672
+		lineageTag: 7e6f166b-fe91-41c0-b5cb-4a2e698b904c
 		summarizeBy: none
-		sourceColumn: EVENT_ID
+		sourceColumn: ID_EVENTO
 
 		annotation SummarizationSetBy = Automatic
 
-	column EVENT_NAME
+	column NOMBRE_EVENTO
 		dataType: string
-		lineageTag: e381c463-3cfe-4e64-9c1f-8f33035e2dd6
+		lineageTag: 3e248464-0377-46ab-9099-9232973afbca
 		summarizeBy: none
-		sourceColumn: EVENT_NAME
+		sourceColumn: NOMBRE_EVENTO
 
 		annotation SummarizationSetBy = Automatic
 
-	column EVENT_LINK
+	column ENLACE_EVENTO
 		dataType: string
-		lineageTag: c8521226-c325-4a30-b7c8-106b03ccc512
+		lineageTag: b3432755-9f71-4145-871b-e332e9dbc873
 		summarizeBy: none
-		sourceColumn: EVENT_LINK
+		sourceColumn: ENLACE_EVENTO
 
 		annotation SummarizationSetBy = Automatic
 
-	column DISCIPLINE_ID
+	column ID_DISCIPLINA
 		dataType: string
-		lineageTag: d91608a7-6e88-445f-b639-7ec5f7b21a2d
+		lineageTag: 40a236b9-0112-41dc-8a2d-41e443b9563c
 		summarizeBy: none
-		sourceColumn: DISCIPLINE_ID
+		sourceColumn: ID_DISCIPLINA
 
 		annotation SummarizationSetBy = Automatic
 
-	column DISCIPLINE_NAME
+	column NOMBRE_DISCIPLINA
 		dataType: string
-		lineageTag: 67db9604-aa23-4be0-b329-6f19898664bd
+		lineageTag: 6c685e4a-5394-4236-96e4-5ced0e845667
 		summarizeBy: none
-		sourceColumn: DISCIPLINE_NAME
+		sourceColumn: NOMBRE_DISCIPLINA
 
 		annotation SummarizationSetBy = Automatic
 
-	column SPORT_ID
+	column ID_DEPORTE
 		dataType: string
-		lineageTag: 9c14b3f3-318b-4074-abd7-d90d3f98550c
+		lineageTag: fd047aa9-10d8-43d3-84f0-78a1b3a44318
 		summarizeBy: none
-		sourceColumn: SPORT_ID
+		sourceColumn: ID_DEPORTE
 
 		annotation SummarizationSetBy = Automatic
 
-	column SPORT_NAME
+	column NOMBRE_DEPORTE
 		dataType: string
-		lineageTag: 2567abf2-66f5-458f-b7d2-3111be944b43
+		lineageTag: 06099740-06f3-40db-a6e8-20b150319df4
 		summarizeBy: none
-		sourceColumn: SPORT_NAME
+		sourceColumn: NOMBRE_DEPORTE
 
 		annotation SummarizationSetBy = Automatic
 
@@ -67,4 +67,8 @@ table DIM_EVENTO
 				    DIM_EVENTO_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_EVENTO",Kind="Table"]}[Data]
 				in
 				    DIM_EVENTO_Table
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
 

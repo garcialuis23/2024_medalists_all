@@ -8,18 +8,18 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["DIM_ATLETA","DIM_NUTS","DIM_PAIS","FACT_MEDALLA","DIM_EVENTO"]
+annotation PBI_QueryOrder = ["DIM_ATLETA","DIM_EVENTO","DIM_NUTS","DIM_PAIS","FACT_MEDALLA"]
 
-annotation PBI_ProTooling = ["DevMode"]
+annotation PBI_ProTooling = ["DevMode","TMDL-Extension"]
 
 ref table DIM_ATLETA
-ref table DateTableTemplate_8ff684f4-eb99-479c-a103-67ca38ebd207
-ref table LocalDateTable_614cd1c6-a7de-4d4e-9be9-97d72e38d5f3
+ref table DateTableTemplate_95b00b15-7333-4b8b-81c6-231962dab0dc
+ref table LocalDateTable_cb3125b4-045e-40e5-8cc8-d2f6d485af5f
+ref table DIM_EVENTO
 ref table DIM_NUTS
 ref table DIM_PAIS
 ref table FACT_MEDALLA
-ref table LocalDateTable_a8baaab3-1404-431f-a488-eb150456fe59
-ref table DIM_EVENTO
+ref table LocalDateTable_a7d23a13-7035-4040-b388-f94879c613d1
 
 ref cultureInfo es-ES
 

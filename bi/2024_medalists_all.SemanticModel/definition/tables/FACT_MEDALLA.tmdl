@@ -1,249 +1,326 @@
 table FACT_MEDALLA
-	lineageTag: b3f02b85-d8dd-4352-b6f9-a745e0ac0cf1
+	lineageTag: 642e41f5-def4-42b3-9105-2404ba140d3f
 
-	column MEDAL_ID
+	column ID_MEDALLA
 		dataType: string
-		lineageTag: 8511b12a-6451-4014-bffe-08a2919cc023
+		lineageTag: 8a958da8-206d-4c9c-87e1-b617b23af1de
 		summarizeBy: none
-		sourceColumn: MEDAL_ID
+		sourceColumn: ID_MEDALLA
 
 		annotation SummarizationSetBy = Automatic
 
-	column MEDAL_TYPE
+	column TIPO_MEDALLA
 		dataType: string
-		lineageTag: 3f8ecb4d-6236-49cb-bde9-a4bc7e3802b8
+		lineageTag: de08ed42-8096-4dd6-ab2d-011aa16f0d5c
 		summarizeBy: none
-		sourceColumn: MEDAL_TYPE
+		sourceColumn: TIPO_MEDALLA
 
 		annotation SummarizationSetBy = Automatic
 
-	column ATHLETE_ID
+	column ID_ATLETA
 		dataType: string
-		lineageTag: 6a58a88d-6325-410b-8a44-ad5c237cfa04
+		lineageTag: 4d41e85d-92fd-44c8-b028-98f13ad9072f
 		summarizeBy: none
-		sourceColumn: ATHLETE_ID
+		sourceColumn: ID_ATLETA
 
 		annotation SummarizationSetBy = Automatic
 
-	column ATHLETE_NAME
+	column NOMBRE_ATLETA
 		dataType: string
-		lineageTag: 775654fc-310e-4142-b832-6d5305dc166a
+		lineageTag: 22f91386-6b72-47d8-b9f7-6f4a3b35643d
 		summarizeBy: none
-		sourceColumn: ATHLETE_NAME
+		sourceColumn: NOMBRE_ATLETA
 
 		annotation SummarizationSetBy = Automatic
 
-	column DATE_OF_BIRTH
+	column FECHA_NACIMIENTO
 		dataType: dateTime
 		formatString: Long Date
-		lineageTag: 70805b77-9fee-49d2-90f9-3f23cfb111e5
+		lineageTag: 2e8bb7da-0b7b-4695-92a3-00391f3492c4
 		summarizeBy: none
-		sourceColumn: DATE_OF_BIRTH
+		sourceColumn: FECHA_NACIMIENTO
 
 		variation Variación
 			isDefault
-			relationship: 1ea8b89b-bf61-4aaa-8360-0b5423ac778f
-			defaultHierarchy: LocalDateTable_a8baaab3-1404-431f-a488-eb150456fe59.'Jerarquía de fechas'
+			relationship: 701afcfc-d77c-4083-82e1-205531d597c4
+			defaultHierarchy: LocalDateTable_a7d23a13-7035-4040-b388-f94879c613d1.'Jerarquía de fechas'
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column SEX
+	column SEXO
 		dataType: string
-		lineageTag: 37bc44c0-7966-4aaf-89d1-bff5ed2c31a6
+		lineageTag: 0e85ff2a-619a-4291-afc3-33a06038f77e
 		summarizeBy: none
-		sourceColumn: SEX
+		sourceColumn: SEXO
 
 		annotation SummarizationSetBy = Automatic
 
-	column BIRTHPLACE
+	column LUGAR_NACIMIENTO
 		dataType: string
-		lineageTag: 7b53ebd3-aa18-494b-8fd2-735979bc662a
+		lineageTag: f14b6424-cc02-4070-a3cf-d64ebbaeda1e
 		summarizeBy: none
-		sourceColumn: BIRTHPLACE
+		sourceColumn: LUGAR_NACIMIENTO
 
 		annotation SummarizationSetBy = Automatic
 
-	column BIRTHPLACE_REGION
+	column REGION_NACIMIENTO
 		dataType: string
-		lineageTag: 6b190230-f06e-4784-a476-ea918f08e4b4
+		lineageTag: 1bb4af83-29c3-41c7-8b4e-4bd49acfb133
 		summarizeBy: none
-		sourceColumn: BIRTHPLACE_REGION
+		sourceColumn: REGION_NACIMIENTO
 
 		annotation SummarizationSetBy = Automatic
 
-	column BIRTHPLACE_LAT
+	column LAT_NACIMIENTO
 		dataType: double
-		lineageTag: 7bb2e317-4a4b-4d03-86d6-e53de7108774
-		summarizeBy: sum
-		sourceColumn: BIRTHPLACE_LAT
+		lineageTag: 77344fef-95fe-4e27-ad15-a1dc08b6364e
+		summarizeBy: average
+		sourceColumn: LAT_NACIMIENTO
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column BIRTHPLACE_LON
+	column LON_NACIMIENTO
 		dataType: double
-		lineageTag: dfcfd30a-8bd3-4653-a220-209b8e8bf3a9
-		summarizeBy: sum
-		sourceColumn: BIRTHPLACE_LON
+		lineageTag: d33440a4-e2c9-4238-86de-7d234b7c1607
+		summarizeBy: average
+		sourceColumn: LON_NACIMIENTO
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column COUNTRY_ID
+	column ID_PAIS
 		dataType: string
-		lineageTag: 8c74d809-4df9-4304-aa04-0526807cd26e
+		lineageTag: 6ead803f-f05a-4d68-9d87-dddcd17f8882
 		summarizeBy: none
-		sourceColumn: COUNTRY_ID
+		sourceColumn: ID_PAIS
 
 		annotation SummarizationSetBy = Automatic
 
-	column COUNTRY_NAME
+	column NOMBRE_PAIS
 		dataType: string
-		lineageTag: c878cda2-906f-42e6-b2f1-3fb9a010cfc2
+		lineageTag: 9213c291-76ac-4427-9b0a-610c13f6fe06
 		summarizeBy: none
-		sourceColumn: COUNTRY_NAME
+		sourceColumn: NOMBRE_PAIS
 
 		annotation SummarizationSetBy = Automatic
 
-	column COUNTRY_CODE2
+	column CODIGO_ISO2_PAIS
 		dataType: string
-		lineageTag: 745a557b-241c-4b0b-a90f-4d207136eab9
+		lineageTag: d648149e-c2dd-4277-9814-595bcb0e5f39
 		summarizeBy: none
-		sourceColumn: COUNTRY_CODE2
+		sourceColumn: CODIGO_ISO2_PAIS
 
 		annotation SummarizationSetBy = Automatic
 
-	column COUNTRY_CODE3
+	column CODIGO_ISO3_PAIS
 		dataType: string
-		lineageTag: bde52b09-122f-4e4e-9a4a-a7be3eb44938
+		lineageTag: 24e7941a-5d23-4a31-9047-99c400a548c1
 		summarizeBy: none
-		sourceColumn: COUNTRY_CODE3
+		sourceColumn: CODIGO_ISO3_PAIS
 
 		annotation SummarizationSetBy = Automatic
 
-	column COUNTRY_IOC_CODE
+	column CODIGO_COI_PAIS
 		dataType: string
-		lineageTag: 78dc9145-7385-4e65-b077-002ae29c8c26
+		lineageTag: dd4f929d-b535-47eb-9834-50a88627bed9
 		summarizeBy: none
-		sourceColumn: COUNTRY_IOC_CODE
+		sourceColumn: CODIGO_COI_PAIS
 
 		annotation SummarizationSetBy = Automatic
 
-	column DELEGATION_ID
+	column ID_DELEGACION
 		dataType: string
-		lineageTag: 3cef3947-0030-436a-ba60-77ad2fa78c88
+		lineageTag: d8c58d65-d80f-4c32-8c91-84f395860c4d
 		summarizeBy: none
-		sourceColumn: DELEGATION_ID
+		sourceColumn: ID_DELEGACION
 
 		annotation SummarizationSetBy = Automatic
 
-	column DELEGATION_NAME
+	column NOMBRE_DELEGACION
 		dataType: string
-		lineageTag: 7318c5d5-533a-4aab-acc6-2d3c01788859
+		lineageTag: cbdc7954-cad9-4bce-b747-3fb9d98284b0
 		summarizeBy: none
-		sourceColumn: DELEGATION_NAME
+		sourceColumn: NOMBRE_DELEGACION
 
 		annotation SummarizationSetBy = Automatic
 
-	column EVENT_ID
+	column ID_EVENTO
 		dataType: string
-		lineageTag: 3b9e3286-1afc-49b9-9044-aee1fd7d1d70
+		lineageTag: b2d4d40f-e0cc-4034-9cf6-fe28d7056a53
 		summarizeBy: none
-		sourceColumn: EVENT_ID
+		sourceColumn: ID_EVENTO
 
 		annotation SummarizationSetBy = Automatic
 
-	column EVENT_NAME
+	column NOMBRE_EVENTO
 		dataType: string
-		lineageTag: 40ab3aae-ae09-487d-b372-912ab1d52a11
+		lineageTag: 0e7838f8-b09b-4193-8d54-de7c02e023ff
 		summarizeBy: none
-		sourceColumn: EVENT_NAME
+		sourceColumn: NOMBRE_EVENTO
 
 		annotation SummarizationSetBy = Automatic
 
-	column DISCIPLINE_NAME
+	column NOMBRE_DISCIPLINA
 		dataType: string
-		lineageTag: 135700ae-9345-45c1-be21-43679d0263e5
+		lineageTag: 8d71183e-2c50-4764-9114-d929da12f34e
 		summarizeBy: none
-		sourceColumn: DISCIPLINE_NAME
+		sourceColumn: NOMBRE_DISCIPLINA
 
 		annotation SummarizationSetBy = Automatic
 
-	column SPORT_NAME
+	column NOMBRE_DEPORTE
 		dataType: string
-		lineageTag: b9ec48c8-ee26-4c1c-abc0-2e7b3e5d8aa0
+		lineageTag: c09c8c44-10f5-4d16-b29c-2c25c07b5872
 		summarizeBy: none
-		sourceColumn: SPORT_NAME
+		sourceColumn: NOMBRE_DEPORTE
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS3_ID
+	column ID_NUTS3
 		dataType: string
-		lineageTag: d89a9ecd-205d-4c9a-a9dc-43be8aa15054
+		lineageTag: 8245c190-738d-4252-aca1-bd447a10d385
 		summarizeBy: none
-		sourceColumn: NUTS3_ID
+		sourceColumn: ID_NUTS3
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS3_NAME
+	column NOMBRE_NUTS3
 		dataType: string
-		lineageTag: 19441d8f-2bb1-4f12-8726-34e2a23f85ca
+		lineageTag: 8e30d6cb-d93d-4df0-8f15-2449ef93946a
 		summarizeBy: none
-		sourceColumn: NUTS3_NAME
+		sourceColumn: NOMBRE_NUTS3
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS2_ID
+	column ID_NUTS2
 		dataType: string
-		lineageTag: f4ae35ce-6398-4ce5-8c06-7c0c0e86b827
+		lineageTag: 65451b61-7ee6-46e4-ac4a-42f598f60264
 		summarizeBy: none
-		sourceColumn: NUTS2_ID
+		sourceColumn: ID_NUTS2
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS2_NAME
+	column NOMBRE_NUTS2
 		dataType: string
-		lineageTag: d1582b4e-94ef-4ac5-a740-df5b027bd213
+		lineageTag: f782ee08-5dea-4c06-8ceb-8aa6c5c3ed8f
 		summarizeBy: none
-		sourceColumn: NUTS2_NAME
+		sourceColumn: NOMBRE_NUTS2
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS1_ID
+	column ID_NUTS1
 		dataType: string
-		lineageTag: 0367fa5c-615f-4626-8855-d056d6a488d8
+		lineageTag: 5989aa37-6155-4bda-98b7-f81f5120229f
 		summarizeBy: none
-		sourceColumn: NUTS1_ID
+		sourceColumn: ID_NUTS1
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS1_NAME
+	column NOMBRE_NUTS1
 		dataType: string
-		lineageTag: 0d3d7cc3-092c-4586-b772-756790da7c26
+		lineageTag: 35bb84f2-2522-4639-a62b-e5de1c312fcc
 		summarizeBy: none
-		sourceColumn: NUTS1_NAME
+		sourceColumn: NOMBRE_NUTS1
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS0_ID
+	column ID_NUTS0
 		dataType: string
-		lineageTag: 1d69c109-b928-4a04-8eca-1d1d824584f0
+		lineageTag: 5b150b9b-2339-403b-921f-061da5f2c414
 		summarizeBy: none
-		sourceColumn: NUTS0_ID
+		sourceColumn: ID_NUTS0
 
 		annotation SummarizationSetBy = Automatic
 
-	column NUTS_COUNTRY_NAME
+	column NOMBRE_PAIS_NUTS
 		dataType: string
-		lineageTag: da69389f-6c74-469a-9220-6f571c3db3a3
+		lineageTag: e055dc63-5eee-4bce-825d-fa271c0ac070
 		summarizeBy: none
-		sourceColumn: NUTS_COUNTRY_NAME
+		sourceColumn: NOMBRE_PAIS_NUTS
 
 		annotation SummarizationSetBy = Automatic
+
+	column EDAD
+		dataType: int64
+		lineageTag: aa000001-0000-0000-0000-000000000011
+		summarizeBy: average
+		expression = YEAR(DATE(2024, 7, 26)) - YEAR([FECHA_NACIMIENTO])
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Medallas' = COUNTROWS(FACT_MEDALLA)
+		formatString: "#,##0"
+		lineageTag: aa000001-0000-0000-0000-000000000001
+		displayFolder: KPIs
+
+	measure 'Medallistas Únicos' = DISTINCTCOUNT(FACT_MEDALLA[ID_ATLETA])
+		formatString: "#,##0"
+		lineageTag: aa000001-0000-0000-0000-000000000002
+		displayFolder: KPIs
+
+	measure 'Países Representados' = DISTINCTCOUNT(FACT_MEDALLA[NOMBRE_PAIS])
+		formatString: "#,##0"
+		lineageTag: aa000001-0000-0000-0000-000000000003
+		displayFolder: KPIs
+
+	measure 'Deportes Únicos' = DISTINCTCOUNT(FACT_MEDALLA[NOMBRE_DEPORTE])
+		formatString: "#,##0"
+		lineageTag: aa000001-0000-0000-0000-000000000004
+		displayFolder: KPIs
+
+	measure 'Medallas Oro' =
+			COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "gold"))
+		formatString: "#,##0"
+		lineageTag: aa000001-0000-0000-0000-000000000005
+		displayFolder: KPIs
+
+	measure 'Medallas Plata' =
+			COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "silver"))
+		formatString: "#,##0"
+		lineageTag: aa000001-0000-0000-0000-000000000006
+		displayFolder: KPIs
+
+	measure 'Medallas Bronce' =
+			COUNTROWS(FILTER(FACT_MEDALLA, FACT_MEDALLA[TIPO_MEDALLA] = "bronze"))
+		formatString: "#,##0"
+		lineageTag: aa000001-0000-0000-0000-000000000007
+		displayFolder: KPIs
+
+	measure 'Edad Media' =
+			AVERAGEX(
+			    FACT_MEDALLA,
+			    YEAR(DATE(2024, 7, 26)) - YEAR(FACT_MEDALLA[FECHA_NACIMIENTO])
+			)
+		formatString: "#,##0.0"
+		lineageTag: aa000001-0000-0000-0000-000000000008
+		displayFolder: KPIs
+
+	measure '% Femenino' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(FACT_MEDALLA), FACT_MEDALLA[SEXO] = "female"),
+			    COUNTROWS(FACT_MEDALLA),
+			    0
+			)
+		formatString: "0.0%"
+		lineageTag: aa000001-0000-0000-0000-000000000009
+		displayFolder: KPIs
+
+	measure 'Medallas / Atleta' =
+			DIVIDE(
+			    COUNTROWS(FACT_MEDALLA),
+			    DISTINCTCOUNT(FACT_MEDALLA[ID_ATLETA]),
+			    0
+			)
+		formatString: "#,##0.0"
+		lineageTag: aa000001-0000-0000-0000-000000000010
+		displayFolder: KPIs
 
 	partition FACT_MEDALLA = m
 		mode: import
@@ -255,4 +332,8 @@ table FACT_MEDALLA
 				    FACT_MEDALLA_Table = DBT_LGARCIADIAZ_Schema{[Name="FACT_MEDALLA",Kind="Table"]}[Data]
 				in
 				    FACT_MEDALLA_Table
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
 

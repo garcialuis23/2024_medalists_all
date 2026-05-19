@@ -1,90 +1,90 @@
 table DIM_PAIS
-	lineageTag: faec03a7-c02d-4abe-8673-9b552d22cbdc
+	lineageTag: 9c17aa27-d01d-41e1-a4e6-2b6f455949f9
 
-	column COUNTRY_ID
+	column ID_PAIS
 		dataType: string
-		lineageTag: 628579df-49b2-4ebc-9955-1788dea4d072
+		lineageTag: a8e9ef5c-3a13-458d-812a-fd4b160b0124
 		summarizeBy: none
-		sourceColumn: COUNTRY_ID
+		sourceColumn: ID_PAIS
 
 		annotation SummarizationSetBy = Automatic
 
-	column NAME
+	column NOMBRE
 		dataType: string
-		lineageTag: 70e8bd2a-1a84-45b8-9224-7a80d7b4fe7b
+		lineageTag: b453a45d-36c1-485c-ad03-f6cc260b7f20
 		summarizeBy: none
-		sourceColumn: NAME
+		sourceColumn: NOMBRE
 
 		annotation SummarizationSetBy = Automatic
 
-	column CODE2
+	column CODIGO_ISO2
 		dataType: string
-		lineageTag: 0eabf068-1b2c-4580-a74c-25da9b9994ec
+		lineageTag: 3fc66e01-05ae-4556-a230-c06f955617a3
 		summarizeBy: none
-		sourceColumn: CODE2
+		sourceColumn: CODIGO_ISO2
 
 		annotation SummarizationSetBy = Automatic
 
-	column CODE3
+	column CODIGO_ISO3
 		dataType: string
-		lineageTag: e0aa0fb8-8874-48f7-90a0-68a3a7514b59
+		lineageTag: 472edc1b-6ef2-41d1-a704-852f1866c8f1
 		summarizeBy: none
-		sourceColumn: CODE3
+		sourceColumn: CODIGO_ISO3
 
 		annotation SummarizationSetBy = Automatic
 
-	column IOC_CODE
+	column CODIGO_COI
 		dataType: string
-		lineageTag: d39e77f2-6a5a-424e-a653-d714c8f49bcb
+		lineageTag: 308f76ea-557b-48b0-99bb-a51f9b3dd421
 		summarizeBy: none
-		sourceColumn: IOC_CODE
+		sourceColumn: CODIGO_COI
 
 		annotation SummarizationSetBy = Automatic
 
-	column IS_KNOWN_COUNTRY
+	column ES_PAIS_CONOCIDO
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 004acab9-8ca4-42dd-9518-31c7b7a3ed84
+		lineageTag: e8786e62-eed4-4cc3-b0b7-9c98e93b1d8b
 		summarizeBy: none
-		sourceColumn: IS_KNOWN_COUNTRY
+		sourceColumn: ES_PAIS_CONOCIDO
 
 		annotation SummarizationSetBy = Automatic
 
-	column TOTAL_MEDALS
+	column TOTAL_MEDALLAS
 		dataType: double
-		lineageTag: b753b591-61bf-4631-97ab-a519a3b9561d
+		lineageTag: f4ebe2b5-0313-4546-9af3-be1cbffb44d6
 		summarizeBy: none
-		sourceColumn: TOTAL_MEDALS
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column GOLD_MEDALS
-		dataType: double
-		lineageTag: cb234546-6424-43b8-ad22-ca3a458bfa4e
-		summarizeBy: none
-		sourceColumn: GOLD_MEDALS
+		sourceColumn: TOTAL_MEDALLAS
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column SILVER_MEDALS
+	column MEDALLAS_ORO
 		dataType: double
-		lineageTag: e69720ae-fa14-4e41-8346-ce168df7d10e
+		lineageTag: 32816f82-19d7-405d-834d-d3b43a9650d6
 		summarizeBy: none
-		sourceColumn: SILVER_MEDALS
+		sourceColumn: MEDALLAS_ORO
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column BRONZE_MEDALS
+	column MEDALLAS_PLATA
 		dataType: double
-		lineageTag: 30a1c02d-b9b2-4c1c-b84e-75f59705a9e0
+		lineageTag: 6b6f5975-89e3-4174-abcc-269ef5286ae6
 		summarizeBy: none
-		sourceColumn: BRONZE_MEDALS
+		sourceColumn: MEDALLAS_PLATA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MEDALLAS_BRONCE
+		dataType: double
+		lineageTag: 9ddf3aaa-381d-49c3-ba20-46ea05379515
+		summarizeBy: none
+		sourceColumn: MEDALLAS_BRONCE
 
 		annotation SummarizationSetBy = Automatic
 
@@ -100,4 +100,8 @@ table DIM_PAIS
 				    DIM_PAIS_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_PAIS",Kind="Table"]}[Data]
 				in
 				    DIM_PAIS_Table
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
 

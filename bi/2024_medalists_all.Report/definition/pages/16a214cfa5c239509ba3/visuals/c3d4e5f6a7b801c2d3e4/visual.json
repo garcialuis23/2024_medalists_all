@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
-  "name": "e5f6a7b8c9d001e2f3a4",
+  "name": "c3d4e5f6a7b801c2d3e4",
   "position": {
-    "x": 429,
-    "y": 405,
+    "x": 856,
+    "y": 112,
     "z": 0,
-    "height": 315,
-    "width": 422,
-    "tabOrder": 50
+    "height": 288,
+    "width": 424,
+    "tabOrder": 30
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
         "Category": {
@@ -19,10 +19,10 @@
               "field": {
                 "Column": {
                   "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
-                  "Property": "EDAD"
+                  "Property": "SEXO"
                 }
               },
-              "queryRef": "FACT_MEDALLA.EDAD",
+              "queryRef": "FACT_MEDALLA.SEXO",
               "active": true
             }
           ]
@@ -45,8 +45,12 @@
     },
     "drillFilterOtherVisuals": true,
     "title": {
-      "show": { "expr": { "Literal": { "Value": "true" } } },
-      "titleText": { "expr": { "Literal": { "Value": "'Distribución de Edades de Medallistas'" } } }
+      "show": {
+        "expr": { "Literal": { "Value": "true" } }
+      },
+      "titleText": {
+        "expr": { "Literal": { "Value": "'Distribución por Sexo'" } }
+      }
     }
   }
 }
