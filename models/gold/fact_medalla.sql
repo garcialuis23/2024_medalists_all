@@ -9,11 +9,11 @@ select
     a.nombre                            as nombre_atleta,
     a.fecha_nacimiento,
 
-    -- país acreedor
-    c.wikidata_id_pais                  as id_pais,
+    -- país acreedor (join a dim Gold, no a Silver directamente)
+    p.id_pais,
 
-    -- delegación
-    d.wikidata_id_delegacion            as id_delegacion,
+    -- delegación (ID ya disponible en silver_medalla, sin saltar a capa Silver)
+    m.wikidata_id_delegacion            as id_delegacion,
 
     -- evento / disciplina / deporte
     e.id_evento,
@@ -27,9 +27,8 @@ select
     n.id_nuts1,
     n.id_nuts0,
 
-from {{ ref('silver_medalla') }} m
-join {{ ref('dim_atleta') }}        a on m.wikidata_id_atleta     = a.id_atleta
-join {{ ref('silver_pais') }}       c on m.wikidata_id_pais       = c.wikidata_id_pais
-join {{ ref('silver_delegacion') }} d on m.wikidata_id_delegacion = d.wikidata_id_delegacion
-join {{ ref('dim_evento') }}        e on m.wikidata_id_evento      = e.id_evento
-left join {{ ref('dim_nuts') }}     n on a.id_nuts3_nacimiento     = n.id_nuts3
+from {{ ref('silver_medalla') }}  m
+join      {{ ref('dim_atleta') }} a on m.wikidata_id_atleta  = a.id_atleta
+join      {{ ref('dim_pais') }}   p on m.wikidata_id_pais    = p.id_pais
+join      {{ ref('dim_evento') }} e on m.wikidata_id_evento  = e.id_evento
+left join {{ ref('dim_nuts') }}   n on a.id_nuts3_nacimiento = n.id_nuts3
