@@ -4,84 +4,83 @@ models:
   - name: dim_pais
     description: >
       Dimensión de países Gold. Una fila por país (90 registros, incluido 'País Desconocido').
-      Combina atributos descriptivos del país (códigos ISO, IOC) con métricas de medallas
-      pre-agregadas (gold/silver/bronze/total) para facilitar queries analíticos sin JOINs
-      adicionales. Usar is_known_country = TRUE para excluir el registro comodín en rankings.
+      Combina atributos descriptivos del país (códigos ISO, COI) con métricas de medallas
+      pre-agregadas para facilitar queries analíticos sin JOINs adicionales.
+      Usar es_pais_conocido = TRUE para excluir el registro comodín en rankings.
     columns:
-      - name: country_id
+      - name: id_pais
         description: "PK. Identificador Wikidata del país. 'N/A' para el registro 'País Desconocido'."
         tests: [not_null, unique]
-      - name: name
+      - name: nombre
         description: "Nombre del país. 'País Desconocido' para el registro comodín."
         tests: [not_null]
-      - name: code2
+      - name: codigo_iso2
         description: "Código ISO 3166-1 alpha-2 (2 letras, p. ej. ES). NULL para el comodín."
-      - name: code3
+      - name: codigo_iso3
         description: "Código ISO 3166-1 alpha-3 (3 letras, p. ej. ESP). NULL para el comodín."
-      - name: ioc_code
+      - name: codigo_coi
         description: "Código del Comité Olímpico Internacional (3 letras). NULL para el comodín."
-      - name: is_known_country
+      - name: es_pais_conocido
         description: "TRUE para países reales, FALSE para el registro comodín 'N/A'. Filtrar en rankings y dashboards."
         tests: [not_null]
-      - name: total_medals
+      - name: total_medallas
         description: "Total de medallas acreditadas al país en París 2024."
-      - name: gold_medals
+      - name: medallas_oro
         description: "Número de medallas de oro del país."
-      - name: silver_medallas
+      - name: medallas_plata
         description: "Número de medallas de plata del país."
-      - name: bronze_medals
+      - name: medallas_bronce
         description: "Número de medallas de bronce del país."
 
   - name: dim_atleta
     description: >
       Dimensión de atletas Gold (1,949 registros). Desnormaliza el lugar de nacimiento
-      de silver_place directamente en el atleta: nombre del lugar, región, coordenadas
-      y código NUTS3 europeo. Los atletas no europeos tendrán NULL en birthplace_nuts3_id.
+      directamente en el atleta: nombre del lugar, región, coordenadas y código NUTS3 europeo.
+      Los atletas no europeos tendrán NULL en id_nuts3_nacimiento.
     columns:
-      - name: athlete_id
+      - name: id_atleta
         description: "PK. Identificador Wikidata del atleta."
         tests: [not_null, unique]
-      - name: name
+      - name: nombre
         description: "Nombre completo del atleta."
         tests: [not_null]
-      - name: link
+      - name: enlace
         description: "URL de la página Wikidata del atleta."
-      - name: date_of_birth
+      - name: fecha_nacimiento
         description: "Fecha de nacimiento (DATE). NULL para los 17 atletas sin dato."
-      - name: sex
+      - name: sexo
         description: "Sexo o género del atleta (p. ej. male, female)."
-      - name: birthplace
+      - name: lugar_nacimiento
         description: "Nombre del lugar de nacimiento. NULL si no consta en Wikidata."
-      - name: birthplace_region
+      - name: region_nacimiento
         description: "Nombre de la entidad administrativa superior del lugar de nacimiento."
-      - name: birthplace_lat
+      - name: lat_nacimiento
         description: "Latitud del lugar de nacimiento en grados decimales (FLOAT)."
-      - name: birthplace_lon
+      - name: lon_nacimiento
         description: "Longitud del lugar de nacimiento en grados decimales (FLOAT)."
-      - name: birthplace_nuts3_id
+      - name: id_nuts3_nacimiento
         description: "Código NUTS3 del lugar de nacimiento. NULL para atletas no europeos (aprox. 56% del dataset)."
 
   - name: dim_evento
     description: >
-      Dimensión de eventos Gold (325 registros). Aplanada (flattened): una sola fila
-      por evento contiene el nombre del evento, su disciplina y su deporte, evitando
-      JOINs en cascada en las queries analíticas.
+      Dimensión de eventos Gold (325 registros). Aplanada: una sola fila por evento
+      contiene el nombre del evento, su disciplina y su deporte, evitando JOINs en cascada.
     columns:
-      - name: event_id
+      - name: id_evento
         description: "PK. Identificador Wikidata del evento olímpico."
         tests: [not_null, unique]
-      - name: event_name
+      - name: nombre_evento
         description: "Nombre completo del evento (p. ej. Men's 100m Athletics)."
         tests: [not_null]
-      - name: event_link
+      - name: enlace_evento
         description: "URL de la página Wikidata del evento."
-      - name: discipline_id
+      - name: id_disciplina
         description: "Identificador Wikidata de la disciplina. 'N/A' para el evento sin disciplina asignada."
-      - name: discipline_name
+      - name: nombre_disciplina
         description: "Nombre de la disciplina (p. ej. athletics at the 2024 Summer Olympics)."
-      - name: sport_id
+      - name: id_deporte
         description: "Identificador Wikidata del deporte."
-      - name: sport_name
+      - name: nombre_deporte
         description: "Nombre del deporte (p. ej. athletics, swimming)."
 
   - name: dim_nuts
@@ -89,128 +88,125 @@ models:
       Jerarquía NUTS completa desnormalizada Gold (445 registros NUTS3).
       Una fila por región NUTS3 con todos sus niveles superiores resueltos (NUTS2, NUTS1, NUTS0).
       Solo cubre regiones con al menos un atleta europeo en el dataset.
-      Útil para análisis geoespacial y agregaciones por región/país europeo.
     columns:
-      - name: nuts3_id
+      - name: id_nuts3
         description: "PK. Código NUTS nivel 3 (unidad local, p. ej. ES300)."
         tests: [not_null, unique]
-      - name: nuts3_name
+      - name: nombre_nuts3
         description: "Nombre de la unidad local NUTS3."
-      - name: nuts3_population
+      - name: poblacion_nuts3
         description: "Población de la unidad NUTS3 (fuente Eurostat)."
-      - name: nuts3_gdp
+      - name: pib_nuts3
         description: "PIB de la unidad NUTS3 en millones EUR (fuente Eurostat)."
-      - name: nuts2_id
-        description: "Código NUTS nivel 2 (subregión, p. ej. ES30) al que pertenece esta NUTS3."
-      - name: nuts2_name
+      - name: id_nuts2
+        description: "Código NUTS nivel 2 (subregión, p. ej. ES30)."
+      - name: nombre_nuts2
         description: "Nombre de la subregión NUTS2."
-      - name: nuts2_population
+      - name: poblacion_nuts2
         description: "Población de la subregión NUTS2."
-      - name: nuts2_gdp
+      - name: pib_nuts2
         description: "PIB de la subregión NUTS2 en millones EUR."
-      - name: nuts1_id
-        description: "Código NUTS nivel 1 (gran región, p. ej. ES3) al que pertenece esta NUTS3."
-      - name: nuts1_name
+      - name: id_nuts1
+        description: "Código NUTS nivel 1 (gran región, p. ej. ES3)."
+      - name: nombre_nuts1
         description: "Nombre de la gran región NUTS1."
-      - name: nuts0_id
-        description: "Código NUTS nivel 0 (país, p. ej. ES) al que pertenece esta NUTS3."
-      - name: nuts0_name
+      - name: id_nuts0
+        description: "Código NUTS nivel 0 (país, p. ej. ES)."
+      - name: nombre_nuts0
         description: "Nombre del país NUTS0."
 
   - name: fact_medalla
     description: >
       Tabla de hechos analítica Gold (2,202 registros). Una fila por medalla con todas
-      las dimensiones resueltas y desnormalizadas: atleta (datos demográficos y geográficos),
-      país, delegación, evento (disciplina y deporte) y jerarquía NUTS europea.
-      Diseñada para consumo directo en herramientas BI sin JOINs adicionales.
+      las dimensiones resueltas y desnormalizadas. Diseñada para consumo directo en BI sin JOINs.
       El 56% de las medallas no tiene datos NUTS (atletas no europeos).
     columns:
-      - name: medal_id
+      - name: id_medalla
         description: "PK surrogate. MD5 de (wikidata_id_atleta || '|' || wikidata_id_evento). Reproducible."
         tests: [not_null, unique]
-      - name: medal_type
+      - name: tipo_medalla
         description: "Tipo de medalla: gold, silver o bronze."
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['gold', 'silver', 'bronze']
-      - name: athlete_id
-        description: "FK → dim_athlete. Identificador Wikidata del atleta."
+      - name: id_atleta
+        description: "FK → dim_atleta."
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('dim_atleta')
-                field: athlete_id
-      - name: athlete_name
+                field: id_atleta
+      - name: nombre_atleta
         description: "Nombre completo del atleta."
-      - name: date_of_birth
+      - name: fecha_nacimiento
         description: "Fecha de nacimiento del atleta (DATE). NULL para 17 atletas sin dato."
-      - name: sex
+      - name: sexo
         description: "Sexo o género del atleta."
-      - name: birthplace
+      - name: lugar_nacimiento
         description: "Nombre del lugar de nacimiento del atleta."
-      - name: birthplace_region
+      - name: region_nacimiento
         description: "Entidad administrativa superior del lugar de nacimiento."
-      - name: birthplace_lat
+      - name: lat_nacimiento
         description: "Latitud del lugar de nacimiento (FLOAT)."
-      - name: birthplace_lon
+      - name: lon_nacimiento
         description: "Longitud del lugar de nacimiento (FLOAT)."
-      - name: country_id
-        description: "FK → dim_country. País acreedor de la medalla. 'N/A' para refugiados y neutrales AIN."
+      - name: id_pais
+        description: "FK → dim_pais. País acreedor de la medalla. 'N/A' para refugiados y neutrales AIN."
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('dim_pais')
-                field: country_id
-      - name: country_name
+                field: id_pais
+      - name: nombre_pais
         description: "Nombre del país acreedor."
-      - name: country_code2
+      - name: codigo_iso2_pais
         description: "Código ISO alpha-2 del país."
-      - name: country_code3
+      - name: codigo_iso3_pais
         description: "Código ISO alpha-3 del país."
-      - name: country_ioc_code
-        description: "Código IOC del país."
-      - name: delegation_id
+      - name: codigo_coi_pais
+        description: "Código COI del país."
+      - name: id_delegacion
         description: "Identificador Wikidata de la delegación bajo la que compitió el atleta."
-      - name: delegation_name
+      - name: nombre_delegacion
         description: "Nombre de la delegación olímpica."
-      - name: event_id
-        description: "FK → dim_event. Identificador Wikidata del evento."
+      - name: id_evento
+        description: "FK → dim_evento."
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('dim_evento')
-                field: event_id
-      - name: event_name
+                field: id_evento
+      - name: nombre_evento
         description: "Nombre completo del evento olímpico."
-      - name: discipline_name
+      - name: nombre_disciplina
         description: "Nombre de la disciplina del evento."
-      - name: sport_name
+      - name: nombre_deporte
         description: "Nombre del deporte del evento."
-      - name: nuts3_id
+      - name: id_nuts3
         description: "FK → dim_nuts. Código NUTS3 del lugar de nacimiento. NULL para atletas no europeos."
         tests:
           - relationships:
               arguments:
                 to: ref('dim_nuts')
-                field: nuts3_id
+                field: id_nuts3
               config:
                 severity: warn
-      - name: nuts3_name
+      - name: nombre_nuts3
         description: "Nombre de la unidad NUTS3."
-      - name: nuts2_id
+      - name: id_nuts2
         description: "Código NUTS2 de la subregión."
-      - name: nuts2_name
+      - name: nombre_nuts2
         description: "Nombre de la subregión NUTS2."
-      - name: nuts1_id
+      - name: id_nuts1
         description: "Código NUTS1 de la gran región."
-      - name: nuts1_name
+      - name: nombre_nuts1
         description: "Nombre de la gran región NUTS1."
-      - name: nuts0_id
+      - name: id_nuts0
         description: "Código NUTS0 del país europeo."
-      - name: nuts_country_name
+      - name: nombre_pais_nuts
         description: "Nombre del país europeo (NUTS0). NULL para atletas no europeos."

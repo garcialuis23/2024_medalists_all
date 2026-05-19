@@ -1,0 +1,94 @@
+// Paris 2024 Medalists 
+// ─────────────────────────────────────────
+// CAPA GOLD — modelo dimensional (BI-ready)
+// ─────────────────────────────────────────
+
+TableGroup Gold {
+  dim_pais
+  dim_atleta
+  dim_evento
+  dim_nuts
+  fact_medalla
+}
+
+Table dim_pais {
+  country_id varchar [pk, note: 'Wikidata ID. N/A = comodín']
+  name varchar [not null]
+  code2 char(2)
+  code3 char(3)
+  ioc_code char(3)
+  is_known_country boolean [not null]
+  total_medals int
+  gold_medals int
+  silver_medals int
+  bronze_medals int
+}
+
+Table dim_atleta {
+  athlete_id varchar [pk, note: 'Wikidata ID']
+  name varchar [not null]
+  link varchar
+  date_of_birth date
+  sex varchar
+  birthplace varchar
+  birthplace_region varchar
+  birthplace_lat float
+  birthplace_lon float
+  birthplace_nuts3_id varchar [ref: > dim_nuts.nuts3_id]
+}
+
+Table dim_evento {
+  event_id varchar [pk, note: 'Wikidata ID']
+  event_name varchar [not null]
+  event_link varchar
+  discipline_id varchar
+  discipline_name varchar
+  sport_id varchar
+  sport_name varchar
+}
+
+Table dim_nuts {
+  nuts3_id varchar [pk, note: 'Código NUTS3 (ej. ES300)']
+  nuts3_name varchar
+  nuts3_population float
+  nuts3_gdp float
+  nuts2_id varchar
+  nuts2_name varchar
+  nuts2_population float
+  nuts2_gdp float
+  nuts1_id varchar
+  nuts1_name varchar
+  nuts0_id varchar
+  nuts0_name varchar
+}
+
+Table fact_medalla {
+  medal_id varchar [pk, note: 'MD5(atleta|evento)']
+  medal_type varchar [not null, note: 'gold / silver / bronze']
+  athlete_id varchar [not null, ref: > dim_atleta.athlete_id]
+  athlete_name varchar
+  date_of_birth date
+  sex varchar
+  birthplace varchar
+  birthplace_region varchar
+  birthplace_lat float
+  birthplace_lon float
+  country_id varchar [not null, ref: > dim_pais.country_id]
+  country_name varchar
+  country_code2 char(2)
+  country_code3 char(3)
+  country_ioc_code char(3)
+  delegation_id varchar
+  delegation_name varchar
+  event_id varchar [not null, ref: > dim_evento.event_id]
+  event_name varchar
+  discipline_name varchar
+  sport_name varchar
+  nuts3_id varchar [ref: > dim_nuts.nuts3_id]
+  nuts3_name varchar
+  nuts2_id varchar
+  nuts2_name varchar
+  nuts1_id varchar
+  nuts1_name varchar
+  nuts0_id varchar
+  nuts_country_name varchar

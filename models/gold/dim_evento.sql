@@ -1,15 +1,13 @@
 {{ config(materialized='table', database=("GOLD_DB_PRO" if target.name == "pro" else "GOLD_DB_DEV")) }}
 
--- Dimensión eventos con disciplina y deporte flattened en una sola fila.
-
 select
-    e.wikidata_id_evento        as event_id,
-    e.nombre                    as event_name,
-    e.enlace                    as event_link,
-    d.wikidata_id_disciplina    as discipline_id,
-    d.nombre                    as discipline_name,
-    s.wikidata_id_deporte       as sport_id,
-    s.nombre                    as sport_name
+    e.wikidata_id_evento        as id_evento,
+    e.nombre                    as nombre_evento,
+    e.enlace                    as enlace_evento,
+    d.wikidata_id_disciplina    as id_disciplina,
+    d.nombre                    as nombre_disciplina,
+    s.wikidata_id_deporte       as id_deporte,
+    s.nombre                    as nombre_deporte
 
 from {{ ref('silver_evento') }} e
 left join {{ ref('silver_disciplina') }} d

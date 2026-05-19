@@ -1,75 +1,188 @@
 // Paris 2024 Medalists — Modelo Relacional
 // Compatible con dbdiagram.io
 
-Table country {
-  country_id varchar [pk, note: 'Wikidata ID (ej. Q30)']
-  name varchar [not null]
-  code2 char(2)
-  code3 char(3)
-  ioc_code char(3)
+// ─────────────────────────────────────────
+// CAPA SILVER — modelo normalizado
+// ─────────────────────────────────────────
+
+TableGroup Silver {
+  silver_pais
+  silver_delegacion
+  silver_deporte
+  silver_disciplina
+  silver_evento
+  silver_region_nuts
+  silver_lugar
+  silver_atleta
+  silver_medalla
 }
 
-Table delegation {
-  delegation_id varchar [pk, note: 'Wikidata ID']
-  name varchar [not null]
-  link varchar
-  country_id varchar [ref: > country.country_id]
+Table silver_pais {
+  wikidata_id_pais varchar [pk, note: 'Wikidata ID (ej. Q30). N/A = comodín']
+  nombre varchar [not null]
+  codigo_iso2 char(2)
+  codigo_iso3 char(3)
+  codigo_coi char(3)
+  es_pais_conocido boolean [not null, note: 'FALSE para el registro comodín N/A']
 }
 
-Table sport {
-  sport_id varchar [pk, note: 'Wikidata ID']
-  name varchar [not null]
+Table silver_delegacion {
+  wikidata_id_delegacion varchar [pk, note: 'Wikidata ID']
+  nombre varchar
+  enlace varchar
+  wikidata_id_pais varchar [ref: > silver_pais.wikidata_id_pais]
 }
 
-Table discipline {
-  discipline_id varchar [pk, note: 'Wikidata ID']
-  name varchar [not null]
-  sport_id varchar [ref: > sport.sport_id]
+Table silver_deporte {
+  wikidata_id_deporte varchar [pk, note: 'Wikidata ID. N/A = comodín']
+  nombre varchar [not null]
 }
 
-Table event {
-  event_id varchar [pk, note: 'Wikidata ID']
-  name varchar [not null]
-  link varchar
-  discipline_id varchar [ref: > discipline.discipline_id]
+Table silver_disciplina {
+  wikidata_id_disciplina varchar [pk, note: 'Wikidata ID. N/A = comodín']
+  nombre varchar
+  wikidata_id_deporte varchar [ref: > silver_deporte.wikidata_id_deporte]
 }
 
-Table nuts_region {
-  nuts_id varchar [pk, note: 'Código NUTS (ej. ES61)']
-  level smallint [not null, note: '0, 1, 2 o 3']
-  name varchar [not null]
-  parent_nuts_id varchar [ref: > nuts_region.nuts_id, note: 'NULL en nivel 0']
-  population float
-  gdp float
+Table silver_evento {
+  wikidata_id_evento varchar [pk, note: 'Wikidata ID']
+  nombre varchar [not null]
+  enlace varchar
+  wikidata_id_disciplina varchar [ref: > silver_disciplina.wikidata_id_disciplina]
 }
 
-Table place {
-  place_id varchar [pk, note: 'Wikidata ID']
-  name varchar [not null]
-  located_in_id varchar [ref: > place.place_id, note: 'Self-ref']
-  lat float
-  lon float
-  nuts3_id varchar [ref: > nuts_region.nuts_id, note: 'NULL si no es Europa']
+Table silver_region_nuts {
+  id_nuts varchar [pk, note: 'Código NUTS (ej. ES300)']
+  nivel smallint [not null, note: '0=país  1=región  2=subregión  3=unidad local']
+  nombre varchar
+  id_nuts_padre varchar [ref: > silver_region_nuts.id_nuts, note: 'NULL en nivel 0']
+  poblacion float
+  pib float
 }
 
-Table athlete {
-  athlete_id varchar [pk, note: 'Wikidata ID']
-  name varchar [not null]
-  link varchar
-  date_of_birth date
-  sex_or_gender varchar
-  place_id varchar [ref: > place.place_id]
+Table silver_lugar {
+  wikidata_id_lugar varchar [pk, note: 'Wikidata ID']
+  nombre varchar
+  wikidata_id_ubicado_en varchar
+  nombre_ubicado_en varchar
+  latitud float
+  longitud float
+  id_nuts3 varchar [ref: > silver_region_nuts.id_nuts, note: 'NULL fuera de Europa']
 }
 
-Table medal {
-  medal_id varchar [pk]
-  athlete_id varchar [not null, ref: > athlete.athlete_id]
-  event_id varchar [not null, ref: > event.event_id]
-  delegation_id varchar [ref: > delegation.delegation_id]
-  country_id varchar [ref: > country.country_id]
-  type varchar [not null, note: 'gold / silver / bronze']
+Table silver_atleta {
+  wikidata_id_atleta varchar [pk, note: 'Wikidata ID']
+  nombre varchar [not null]
+  enlace varchar
+  fecha_nacimiento date
+  sexo varchar
+  wikidata_id_lugar varchar [ref: > silver_lugar.wikidata_id_lugar]
+}
+
+Table silver_medalla {
+  id_medalla varchar [pk, note: 'MD5(atleta|evento)']
+  wikidata_id_atleta varchar [not null, ref: > silver_atleta.wikidata_id_atleta]
+  wikidata_id_evento varchar [not null, ref: > silver_evento.wikidata_id_evento]
+  wikidata_id_delegacion varchar [ref: > silver_delegacion.wikidata_id_delegacion]
+  wikidata_id_pais varchar [ref: > silver_pais.wikidata_id_pais]
+  tipo varchar [not null, note: 'gold / silver / bronze']
 
   indexes {
-    (athlete_id, event_id) [unique, name: 'uq_athlete_event']
+    (wikidata_id_atleta, wikidata_id_evento) [unique, name: 'uq_atleta_evento']
   }
+}
+
+// ─────────────────────────────────────────
+// CAPA GOLD — modelo dimensional (BI-ready)
+// ─────────────────────────────────────────
+
+TableGroup Gold {
+  dim_pais
+  dim_atleta
+  dim_evento
+  dim_nuts
+  fact_medalla
+}
+
+Table dim_pais {
+  id_pais varchar [pk, note: 'Wikidata ID. N/A = comodín']
+  nombre varchar [not null]
+  codigo_iso2 char(2)
+  codigo_iso3 char(3)
+  codigo_coi char(3)
+  es_pais_conocido boolean [not null]
+  total_medallas int
+  medallas_oro int
+  medallas_plata int
+  medallas_bronce int
+}
+
+Table dim_atleta {
+  id_atleta varchar [pk, note: 'Wikidata ID']
+  nombre varchar [not null]
+  enlace varchar
+  fecha_nacimiento date
+  sexo varchar
+  lugar_nacimiento varchar
+  region_nacimiento varchar
+  lat_nacimiento float
+  lon_nacimiento float
+  id_nuts3_nacimiento varchar [ref: > dim_nuts.id_nuts3]
+}
+
+Table dim_evento {
+  id_evento varchar [pk, note: 'Wikidata ID']
+  nombre_evento varchar [not null]
+  enlace_evento varchar
+  id_disciplina varchar
+  nombre_disciplina varchar
+  id_deporte varchar
+  nombre_deporte varchar
+}
+
+Table dim_nuts {
+  id_nuts3 varchar [pk, note: 'Código NUTS3 (ej. ES300)']
+  nombre_nuts3 varchar
+  poblacion_nuts3 float
+  pib_nuts3 float
+  id_nuts2 varchar
+  nombre_nuts2 varchar
+  poblacion_nuts2 float
+  pib_nuts2 float
+  id_nuts1 varchar
+  nombre_nuts1 varchar
+  id_nuts0 varchar
+  nombre_nuts0 varchar
+}
+
+Table fact_medalla {
+  id_medalla varchar [pk, note: 'MD5(atleta|evento)']
+  tipo_medalla varchar [not null, note: 'gold / silver / bronze']
+  id_atleta varchar [not null, ref: > dim_atleta.id_atleta]
+  nombre_atleta varchar
+  fecha_nacimiento date
+  sexo varchar
+  lugar_nacimiento varchar
+  region_nacimiento varchar
+  lat_nacimiento float
+  lon_nacimiento float
+  id_pais varchar [not null, ref: > dim_pais.id_pais]
+  nombre_pais varchar
+  codigo_iso2_pais char(2)
+  codigo_iso3_pais char(3)
+  codigo_coi_pais char(3)
+  id_delegacion varchar
+  nombre_delegacion varchar
+  id_evento varchar [not null, ref: > dim_evento.id_evento]
+  nombre_evento varchar
+  nombre_disciplina varchar
+  nombre_deporte varchar
+  id_nuts3 varchar [ref: > dim_nuts.id_nuts3]
+  nombre_nuts3 varchar
+  id_nuts2 varchar
+  nombre_nuts2 varchar
+  id_nuts1 varchar
+  nombre_nuts1 varchar
+  id_nuts0 varchar
+  nombre_pais_nuts varchar
 }

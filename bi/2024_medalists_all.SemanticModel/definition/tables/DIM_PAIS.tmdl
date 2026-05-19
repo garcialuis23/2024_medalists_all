@@ -1,9 +1,9 @@
-table DIM_COUNTRY
-	lineageTag: d71dc27a-f010-4ac0-adc1-3af48361b9f9
+table DIM_PAIS
+	lineageTag: faec03a7-c02d-4abe-8673-9b552d22cbdc
 
 	column COUNTRY_ID
 		dataType: string
-		lineageTag: 6d9cb148-df8e-4bbb-aa3a-4ce5b7c63bcd
+		lineageTag: 628579df-49b2-4ebc-9955-1788dea4d072
 		summarizeBy: none
 		sourceColumn: COUNTRY_ID
 
@@ -11,7 +11,7 @@ table DIM_COUNTRY
 
 	column NAME
 		dataType: string
-		lineageTag: 1f3fe87e-bff8-4d56-9cfb-9b44008b3fb3
+		lineageTag: 70e8bd2a-1a84-45b8-9224-7a80d7b4fe7b
 		summarizeBy: none
 		sourceColumn: NAME
 
@@ -19,7 +19,7 @@ table DIM_COUNTRY
 
 	column CODE2
 		dataType: string
-		lineageTag: 19b4f1ba-f2de-4fd0-840c-9f0e56a2086b
+		lineageTag: 0eabf068-1b2c-4580-a74c-25da9b9994ec
 		summarizeBy: none
 		sourceColumn: CODE2
 
@@ -27,7 +27,7 @@ table DIM_COUNTRY
 
 	column CODE3
 		dataType: string
-		lineageTag: e94fdb13-2980-4ab9-be96-1666ccb7a158
+		lineageTag: e0aa0fb8-8874-48f7-90a0-68a3a7514b59
 		summarizeBy: none
 		sourceColumn: CODE3
 
@@ -35,7 +35,7 @@ table DIM_COUNTRY
 
 	column IOC_CODE
 		dataType: string
-		lineageTag: e4fd2dbe-4243-4a56-9778-ff1359ad1350
+		lineageTag: d39e77f2-6a5a-424e-a653-d714c8f49bcb
 		summarizeBy: none
 		sourceColumn: IOC_CODE
 
@@ -44,7 +44,7 @@ table DIM_COUNTRY
 	column IS_KNOWN_COUNTRY
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: dce9e278-d88f-4cef-8330-9966c7c74a94
+		lineageTag: 004acab9-8ca4-42dd-9518-31c7b7a3ed84
 		summarizeBy: none
 		sourceColumn: IS_KNOWN_COUNTRY
 
@@ -52,7 +52,7 @@ table DIM_COUNTRY
 
 	column TOTAL_MEDALS
 		dataType: double
-		lineageTag: 391136ba-9566-4e87-9d32-d7a6ee1b3827
+		lineageTag: b753b591-61bf-4631-97ab-a519a3b9561d
 		summarizeBy: none
 		sourceColumn: TOTAL_MEDALS
 
@@ -62,7 +62,7 @@ table DIM_COUNTRY
 
 	column GOLD_MEDALS
 		dataType: double
-		lineageTag: 210b825d-687d-41a9-874b-2b75b5bd0779
+		lineageTag: cb234546-6424-43b8-ad22-ca3a458bfa4e
 		summarizeBy: none
 		sourceColumn: GOLD_MEDALS
 
@@ -72,7 +72,7 @@ table DIM_COUNTRY
 
 	column SILVER_MEDALS
 		dataType: double
-		lineageTag: 1540cc07-5213-4833-91ca-9b68c1a345ff
+		lineageTag: e69720ae-fa14-4e41-8346-ce168df7d10e
 		summarizeBy: none
 		sourceColumn: SILVER_MEDALS
 
@@ -82,7 +82,7 @@ table DIM_COUNTRY
 
 	column BRONZE_MEDALS
 		dataType: double
-		lineageTag: ccdb0c5b-b245-4d3d-be27-051310cdba7e
+		lineageTag: 30a1c02d-b9b2-4c1c-b84e-75f59705a9e0
 		summarizeBy: none
 		sourceColumn: BRONZE_MEDALS
 
@@ -90,14 +90,14 @@ table DIM_COUNTRY
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	partition DIM_COUNTRY = m
+	partition DIM_PAIS = m
 		mode: import
 		source =
 				let
 				    Origen = Snowflake.Databases("XKSHHPS-BG70575.snowflakecomputing.com","COMPUTE_WH",[Implementation="2.0"]),
 				    GOLD_DB_DEV_Database = Origen{[Name="GOLD_DB_DEV",Kind="Database"]}[Data],
 				    DBT_LGARCIADIAZ_Schema = GOLD_DB_DEV_Database{[Name="DBT_LGARCIADIAZ",Kind="Schema"]}[Data],
-				    DIM_COUNTRY_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_COUNTRY",Kind="Table"]}[Data]
+				    DIM_PAIS_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_PAIS",Kind="Table"]}[Data]
 				in
-				    DIM_COUNTRY_Table
+				    DIM_PAIS_Table
 

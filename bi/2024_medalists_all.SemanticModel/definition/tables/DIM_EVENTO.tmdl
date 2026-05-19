@@ -1,9 +1,9 @@
-table DIM_EVENT
-	lineageTag: 90ade844-c2e8-4504-bbab-a8acf3195989
+table DIM_EVENTO
+	lineageTag: 831db766-8260-419d-84a1-2ef77506d9a1
 
 	column EVENT_ID
 		dataType: string
-		lineageTag: 8ce2c0b8-724b-4cf1-92db-d45a176566b9
+		lineageTag: 4eeb6c62-5a9f-4d41-a992-48ec1be57672
 		summarizeBy: none
 		sourceColumn: EVENT_ID
 
@@ -11,7 +11,7 @@ table DIM_EVENT
 
 	column EVENT_NAME
 		dataType: string
-		lineageTag: 3d744184-2306-47f8-97e1-ec50dd0d840c
+		lineageTag: e381c463-3cfe-4e64-9c1f-8f33035e2dd6
 		summarizeBy: none
 		sourceColumn: EVENT_NAME
 
@@ -19,7 +19,7 @@ table DIM_EVENT
 
 	column EVENT_LINK
 		dataType: string
-		lineageTag: 47eedaa1-bc9f-471d-a38e-5edded216a15
+		lineageTag: c8521226-c325-4a30-b7c8-106b03ccc512
 		summarizeBy: none
 		sourceColumn: EVENT_LINK
 
@@ -27,7 +27,7 @@ table DIM_EVENT
 
 	column DISCIPLINE_ID
 		dataType: string
-		lineageTag: 5613afa0-72a1-4325-8803-83bd0b8d7816
+		lineageTag: d91608a7-6e88-445f-b639-7ec5f7b21a2d
 		summarizeBy: none
 		sourceColumn: DISCIPLINE_ID
 
@@ -35,7 +35,7 @@ table DIM_EVENT
 
 	column DISCIPLINE_NAME
 		dataType: string
-		lineageTag: eee65d9f-784b-4695-bf2b-e76ef2ff5f8c
+		lineageTag: 67db9604-aa23-4be0-b329-6f19898664bd
 		summarizeBy: none
 		sourceColumn: DISCIPLINE_NAME
 
@@ -43,7 +43,7 @@ table DIM_EVENT
 
 	column SPORT_ID
 		dataType: string
-		lineageTag: 4a2e5cbf-091e-45e6-b682-e413946dd8df
+		lineageTag: 9c14b3f3-318b-4074-abd7-d90d3f98550c
 		summarizeBy: none
 		sourceColumn: SPORT_ID
 
@@ -51,20 +51,20 @@ table DIM_EVENT
 
 	column SPORT_NAME
 		dataType: string
-		lineageTag: 9dab83f3-fc4a-4a5e-bac2-ed1659c46e35
+		lineageTag: 2567abf2-66f5-458f-b7d2-3111be944b43
 		summarizeBy: none
 		sourceColumn: SPORT_NAME
 
 		annotation SummarizationSetBy = Automatic
 
-	partition DIM_EVENT = m
+	partition DIM_EVENTO = m
 		mode: import
 		source =
 				let
 				    Origen = Snowflake.Databases("XKSHHPS-BG70575.snowflakecomputing.com","COMPUTE_WH",[Implementation="2.0"]),
 				    GOLD_DB_DEV_Database = Origen{[Name="GOLD_DB_DEV",Kind="Database"]}[Data],
 				    DBT_LGARCIADIAZ_Schema = GOLD_DB_DEV_Database{[Name="DBT_LGARCIADIAZ",Kind="Schema"]}[Data],
-				    DIM_EVENT_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_EVENT",Kind="Table"]}[Data]
+				    DIM_EVENTO_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_EVENTO",Kind="Table"]}[Data]
 				in
-				    DIM_EVENT_Table
+				    DIM_EVENTO_Table
 

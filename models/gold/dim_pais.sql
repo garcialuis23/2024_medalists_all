@@ -1,18 +1,16 @@
 {{ config(materialized='table', database=("GOLD_DB_PRO" if target.name == "pro" else "GOLD_DB_DEV")) }}
 
--- Dimensión países con recuento de medallas por tipo.
-
 select
-    c.wikidata_id_pais                                          as country_id,
-    c.nombre                                                    as name,
-    c.codigo_iso2                                               as code2,
-    c.codigo_iso3                                               as code3,
-    c.codigo_coi                                                as ioc_code,
-    c.es_pais_conocido                                          as is_known_country,
-    count(m.id_medalla)                                         as total_medals,
-    count(case when m.tipo = 'gold'   then 1 end)               as gold_medals,
-    count(case when m.tipo = 'silver' then 1 end)               as silver_medals,
-    count(case when m.tipo = 'bronze' then 1 end)               as bronze_medals
+    c.wikidata_id_pais                                          as id_pais,
+    c.nombre                                                    as nombre,
+    c.codigo_iso2                                               as codigo_iso2,
+    c.codigo_iso3                                               as codigo_iso3,
+    c.codigo_coi                                                as codigo_coi,
+    c.es_pais_conocido                                          as es_pais_conocido,
+    count(m.id_medalla)                                         as total_medallas,
+    count(case when m.tipo = 'gold'   then 1 end)               as medallas_oro,
+    count(case when m.tipo = 'silver' then 1 end)               as medallas_plata,
+    count(case when m.tipo = 'bronze' then 1 end)               as medallas_bronce
 
 from {{ ref('silver_pais') }} c
 left join {{ ref('silver_medalla') }} m

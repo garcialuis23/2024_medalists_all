@@ -1,9 +1,9 @@
-table DIM_ATHLETE
-	lineageTag: 09cd42e5-1a94-40f5-b21e-afe7c3168b25
+table DIM_ATLETA
+	lineageTag: 9354cccd-8838-4c05-9271-a9a6f2ba91de
 
 	column ATHLETE_ID
 		dataType: string
-		lineageTag: 00855847-5869-43e9-ba36-19953a88957c
+		lineageTag: f61c478b-3837-45d0-833e-43e89a809ec5
 		summarizeBy: none
 		sourceColumn: ATHLETE_ID
 
@@ -11,7 +11,7 @@ table DIM_ATHLETE
 
 	column NAME
 		dataType: string
-		lineageTag: 0475582c-a469-424a-a1cd-2d515e3ee678
+		lineageTag: e9b9cd9c-b71e-421e-8875-85473303aad3
 		summarizeBy: none
 		sourceColumn: NAME
 
@@ -19,7 +19,7 @@ table DIM_ATHLETE
 
 	column LINK
 		dataType: string
-		lineageTag: 482e5b39-6e6d-4f83-b6ce-e72d399ed1ce
+		lineageTag: 472610bb-ca2c-44a1-a14e-99eae5146487
 		summarizeBy: none
 		sourceColumn: LINK
 
@@ -28,14 +28,14 @@ table DIM_ATHLETE
 	column DATE_OF_BIRTH
 		dataType: dateTime
 		formatString: Long Date
-		lineageTag: ce265c48-a833-4829-9816-e382112b8955
+		lineageTag: 2aee89f5-fed7-48c8-b82f-99fdb4136c0d
 		summarizeBy: none
 		sourceColumn: DATE_OF_BIRTH
 
 		variation Variación
 			isDefault
-			relationship: 9ebb9443-3976-40ec-b043-7bde6d80102c
-			defaultHierarchy: LocalDateTable_97c2a585-6162-466b-8d0c-18ebe85fbfa8.'Jerarquía de fechas'
+			relationship: c7846551-bad9-484c-9952-f3cd5a86b797
+			defaultHierarchy: LocalDateTable_614cd1c6-a7de-4d4e-9be9-97d72e38d5f3.'Jerarquía de fechas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -43,7 +43,7 @@ table DIM_ATHLETE
 
 	column SEX
 		dataType: string
-		lineageTag: c3cfe73d-3459-41c9-98dd-cf81dfdc148d
+		lineageTag: 88d82183-3a7a-4a29-a20d-47adff1bc8f7
 		summarizeBy: none
 		sourceColumn: SEX
 
@@ -51,7 +51,7 @@ table DIM_ATHLETE
 
 	column BIRTHPLACE
 		dataType: string
-		lineageTag: 171cb7bc-83e3-478f-a603-3427086cc82d
+		lineageTag: dde918e7-018e-4f16-a595-1e026b57b3ac
 		summarizeBy: none
 		sourceColumn: BIRTHPLACE
 
@@ -59,7 +59,7 @@ table DIM_ATHLETE
 
 	column BIRTHPLACE_REGION
 		dataType: string
-		lineageTag: d3d62d1d-577d-4f84-9cf5-cfc24168f7be
+		lineageTag: 28614441-2228-4d93-b7ce-7149433b48b8
 		summarizeBy: none
 		sourceColumn: BIRTHPLACE_REGION
 
@@ -67,7 +67,7 @@ table DIM_ATHLETE
 
 	column BIRTHPLACE_LAT
 		dataType: double
-		lineageTag: e249fc11-7fea-466d-b108-13e30ca3b84e
+		lineageTag: f6dfc370-b847-41a2-94d9-3b1439dd38bf
 		summarizeBy: sum
 		sourceColumn: BIRTHPLACE_LAT
 
@@ -77,7 +77,7 @@ table DIM_ATHLETE
 
 	column BIRTHPLACE_LON
 		dataType: double
-		lineageTag: b3767be8-75ab-4c86-96ad-7a4470e7f647
+		lineageTag: a3be4310-0ca7-4eb4-bf95-870f784e9b76
 		summarizeBy: sum
 		sourceColumn: BIRTHPLACE_LON
 
@@ -87,20 +87,20 @@ table DIM_ATHLETE
 
 	column BIRTHPLACE_NUTS3_ID
 		dataType: string
-		lineageTag: ac887a1e-0692-4a1e-8268-1af411d81f8d
+		lineageTag: 1db5d200-b6fc-4af7-9b80-3c9017f3adf1
 		summarizeBy: none
 		sourceColumn: BIRTHPLACE_NUTS3_ID
 
 		annotation SummarizationSetBy = Automatic
 
-	partition DIM_ATHLETE = m
+	partition DIM_ATLETA = m
 		mode: import
 		source =
 				let
 				    Origen = Snowflake.Databases("XKSHHPS-BG70575.snowflakecomputing.com","COMPUTE_WH",[Implementation="2.0"]),
 				    GOLD_DB_DEV_Database = Origen{[Name="GOLD_DB_DEV",Kind="Database"]}[Data],
 				    DBT_LGARCIADIAZ_Schema = GOLD_DB_DEV_Database{[Name="DBT_LGARCIADIAZ",Kind="Schema"]}[Data],
-				    DIM_ATHLETE_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_ATHLETE",Kind="Table"]}[Data]
+				    DIM_ATLETA_Table = DBT_LGARCIADIAZ_Schema{[Name="DIM_ATLETA",Kind="Table"]}[Data]
 				in
-				    DIM_ATHLETE_Table
+				    DIM_ATLETA_Table
 
