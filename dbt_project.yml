@@ -2,7 +2,7 @@ name: '2024-medalists-all'
 version: '1.0.0'
 config-version: 2
 
-profile: 'operation_medallion'
+profile: '2024-medalists-all'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
