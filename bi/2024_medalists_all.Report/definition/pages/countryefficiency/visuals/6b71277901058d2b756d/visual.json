@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "6b71277901058d2b756d",
+  "position": {
+    "x": 660,
+    "y": 11.428571428571429,
+    "z": 3000,
+    "height": 114.28571428571429,
+    "width": 324.28571428571433,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "NOMBRE_DISCIPLINA"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_DISCIPLINA",
+              "nativeQueryRef": "NOMBRE_DISCIPLINA"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_MEDALLA"
+                  }
+                },
+                "Property": "NOMBRE_DISCIPLINA"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

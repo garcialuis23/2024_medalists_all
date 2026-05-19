@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "98ca37d9e90791b56c4f",
+  "position": {
+    "x": 1072.8571428571429,
+    "y": 11.428571428571429,
+    "z": 2000,
+    "height": 114.28571428571429,
+    "width": 182.85714285714286,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "NOMBRE_ATLETA"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_ATLETA",
+              "nativeQueryRef": "NOMBRE_ATLETA"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_MEDALLA"
+                  }
+                },
+                "Property": "NOMBRE_ATLETA"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

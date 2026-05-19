@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "e5f6a7b8c9d001e2f3a4",
   "position": {
-    "x": 429,
-    "y": 405,
-    "z": 0,
-    "height": 315,
-    "width": 422,
-    "tabOrder": 50
+    "x": 121.42857142857143,
+    "y": 111.42857142857143,
+    "z": 2000,
+    "height": 327.14285714285717,
+    "width": 531.42857142857144,
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -18,11 +18,15 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
-                  "Property": "EDAD"
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "GRUPO_EDAD"
                 }
               },
-              "queryRef": "FACT_MEDALLA.EDAD",
+              "queryRef": "FACT_MEDALLA.GRUPO_EDAD",
               "active": true
             }
           ]
@@ -32,7 +36,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "Total Medallas"
                 }
               },
@@ -41,12 +49,129 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_MEDALLA"
+                  }
+                },
+                "Property": "GRUPO_EDAD"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
-    "drillFilterOtherVisuals": true,
-    "title": {
-      "show": { "expr": { "Literal": { "Value": "true" } } },
-      "titleText": { "expr": { "Literal": { "Value": "'Distribución de Edades de Medallistas'" } } }
-    }
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Edad del medallista'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Nº de atletas'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a00d939be24c494ac386",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_MEDALLA"
+              }
+            },
+            "Property": "GRUPO_EDAD"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "FACT_MEDALLA",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "f"
+                              }
+                            },
+                            "Property": "GRUPO_EDAD"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2020-2024'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }

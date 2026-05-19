@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "tableefficiency",
+  "position": {
+    "x": 12.857142857142858,
+    "y": 11.428571428571429,
+    "z": 1000,
+    "height": 692.85714285714289,
+    "width": 627.14285714285722,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "NOMBRE_PAIS"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_PAIS",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "Medallistas Únicos"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.Medallistas Únicos",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "Total Medallas"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.Total Medallas",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "Medallas / Atleta"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.Medallas / Atleta",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "% Medallas Oro"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.% Medallas Oro",
+              "active": true
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_MEDALLA"
+                  }
+                },
+                "Property": "Medallistas Únicos"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

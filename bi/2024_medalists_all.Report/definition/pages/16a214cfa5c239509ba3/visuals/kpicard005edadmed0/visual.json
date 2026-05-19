@@ -1,7 +1,14 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "kpicard005edadmed0",
-  "position": { "x": 1024, "y": 35, "z": 0, "height": 72, "width": 256, "tabOrder": 5 },
+  "position": {
+    "x": 1004.2857142857143,
+    "y": 8.5714285714285712,
+    "z": 7000,
+    "height": 90,
+    "width": 255.71428571428572,
+    "tabOrder": 4000
+  },
   "visual": {
     "visualType": "card",
     "query": {
@@ -11,7 +18,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "Edad Media"
                 }
               },

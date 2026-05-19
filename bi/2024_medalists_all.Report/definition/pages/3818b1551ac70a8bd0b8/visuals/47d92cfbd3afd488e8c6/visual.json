@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "47d92cfbd3afd488e8c6",
   "position": {
-    "x": 0,
-    "y": 0,
+    "x": 11.428571428571429,
+    "y": 12.857142857142858,
     "z": 0,
-    "height": 720,
-    "width": 1280,
+    "height": 694.28571428571433,
+    "width": 1255.7142857142858,
     "tabOrder": 0
   },
   "visual": {
@@ -18,7 +18,11 @@
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_ATLETA"
+                    }
+                  },
                   "Property": "NOMBRE"
                 }
               },
@@ -29,30 +33,29 @@
           ]
         },
         "Latitude": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
-                  "Property": "LAT_NACIMIENTO"
-                }
-              },
-              "queryRef": "DIM_ATLETA.LAT_NACIMIENTO",
-              "active": true
-            }
-          ]
+          "projections": []
         },
         "Longitude": {
+          "projections": []
+        },
+        "PathID": {
+          "projections": []
+        },
+        "Series": {
           "projections": [
             {
               "field": {
                 "Column": {
-                  "Expression": { "SourceRef": { "Entity": "DIM_ATLETA" } },
-                  "Property": "LON_NACIMIENTO"
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "TIPO_MEDALLA"
                 }
               },
-              "queryRef": "DIM_ATLETA.LON_NACIMIENTO",
-              "active": true
+              "queryRef": "FACT_MEDALLA.TIPO_MEDALLA",
+              "nativeQueryRef": "TIPO_MEDALLA"
             }
           ]
         },
@@ -61,7 +64,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "Total Medallas"
                 }
               },
@@ -70,19 +77,11 @@
             }
           ]
         },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
-                  "Property": "TIPO_MEDALLA"
-                }
-              },
-              "queryRef": "FACT_MEDALLA.TIPO_MEDALLA",
-              "nativeQueryRef": "TIPO_MEDALLA"
-            }
-          ]
+        "Tooltips": {
+          "projections": []
+        },
+        "Y": {
+          "projections": []
         }
       }
     },
@@ -90,23 +89,89 @@
       "mapControls": [
         {
           "properties": {
-            "defaultStyle": { "expr": { "Literal": { "Value": "'road'" } } },
-            "showStylePicker": { "expr": { "Literal": { "Value": "false" } } },
-            "showNavigationControls": { "expr": { "Literal": { "Value": "true" } } },
-            "showSelectionControl": { "expr": { "Literal": { "Value": "false" } } }
+            "defaultStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'road'"
+                }
+              }
+            },
+            "showStylePicker": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showNavigationControls": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showSelectionControl": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
           }
         }
       ],
       "bubbleLayer": [
         {
           "properties": {
-            "show": { "expr": { "Literal": { "Value": "true" } } },
-            "bubbleRadius": { "expr": { "Literal": { "Value": "8L" } } },
-            "minBubbleRadius": { "expr": { "Literal": { "Value": "4L" } } },
-            "maxRadius": { "expr": { "Literal": { "Value": "30L" } } },
-            "bubbleStrokeWidth": { "expr": { "Literal": { "Value": "1L" } } },
-            "autoStrokeColor": { "expr": { "Literal": { "Value": "true" } } },
-            "layerPosition": { "expr": { "Literal": { "Value": "''" } } }
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "bubbleRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8L"
+                }
+              }
+            },
+            "minBubbleRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "4L"
+                }
+              }
+            },
+            "maxRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "30L"
+                }
+              }
+            },
+            "bubbleStrokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "autoStrokeColor": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "layerPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
           }
         }
       ]

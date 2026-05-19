@@ -118,11 +118,13 @@ models:
   - name: fact_medalla
     description: >
       Tabla de hechos analítica Gold (2,202 registros). Una fila por medalla con todas
-      las dimensiones resueltas y desnormalizadas. Diseñada para consumo directo en BI sin JOINs.
-      El 56% de las medallas no tiene datos NUTS (atletas no europeos).
+      las dimensiones clave resueltas: atleta, país acreedor, delegación, evento con
+      disciplina y deporte desnormalizados, y jerarquía NUTS completa (niveles 0–3)
+      para atletas europeos. El ~56% de las medallas tiene id_nuts3 = NULL (atletas
+      no europeos). Diseñada para consumo directo en BI sin JOINs adicionales.
     columns:
       - name: id_medalla
-        description: "PK surrogate. MD5 de (wikidata_id_atleta || '|' || wikidata_id_evento). Reproducible."
+        description: "PK surrogate. MD5 de (wikidata_id_atleta || '|' || wikidata_id_evento). Reproducible entre runs."
         tests: [not_null, unique]
       - name: tipo_medalla
         description: "Tipo de medalla: gold, silver o bronze."
@@ -132,7 +134,7 @@ models:
               arguments:
                 values: ['gold', 'silver', 'bronze']
       - name: id_atleta
-        description: "FK → dim_atleta."
+        description: "FK → dim_atleta. Identificador Wikidata del atleta."
         tests:
           - not_null
           - relationships:
@@ -140,19 +142,9 @@ models:
                 to: ref('dim_atleta')
                 field: id_atleta
       - name: nombre_atleta
-        description: "Nombre completo del atleta."
+        description: "Nombre completo del atleta (desnormalizado desde dim_atleta)."
       - name: fecha_nacimiento
-        description: "Fecha de nacimiento del atleta (DATE). NULL para 17 atletas sin dato."
-      - name: sexo
-        description: "Sexo o género del atleta."
-      - name: lugar_nacimiento
-        description: "Nombre del lugar de nacimiento del atleta."
-      - name: region_nacimiento
-        description: "Entidad administrativa superior del lugar de nacimiento."
-      - name: lat_nacimiento
-        description: "Latitud del lugar de nacimiento (FLOAT)."
-      - name: lon_nacimiento
-        description: "Longitud del lugar de nacimiento (FLOAT)."
+        description: "Fecha de nacimiento del atleta (DATE). NULL para los 17 atletas sin dato."
       - name: id_pais
         description: "FK → dim_pais. País acreedor de la medalla. 'N/A' para refugiados y neutrales AIN."
         tests:
@@ -161,20 +153,10 @@ models:
               arguments:
                 to: ref('dim_pais')
                 field: id_pais
-      - name: nombre_pais
-        description: "Nombre del país acreedor."
-      - name: codigo_iso2_pais
-        description: "Código ISO alpha-2 del país."
-      - name: codigo_iso3_pais
-        description: "Código ISO alpha-3 del país."
-      - name: codigo_coi_pais
-        description: "Código COI del país."
       - name: id_delegacion
         description: "Identificador Wikidata de la delegación bajo la que compitió el atleta."
-      - name: nombre_delegacion
-        description: "Nombre de la delegación olímpica."
       - name: id_evento
-        description: "FK → dim_evento."
+        description: "FK → dim_evento. Identificador Wikidata del evento olímpico."
         tests:
           - not_null
           - relationships:
@@ -182,13 +164,13 @@ models:
                 to: ref('dim_evento')
                 field: id_evento
       - name: nombre_evento
-        description: "Nombre completo del evento olímpico."
+        description: "Nombre completo del evento (desnormalizado desde dim_evento)."
       - name: nombre_disciplina
-        description: "Nombre de la disciplina del evento."
+        description: "Nombre de la disciplina del evento (desnormalizado desde dim_evento)."
       - name: nombre_deporte
-        description: "Nombre del deporte del evento."
+        description: "Nombre del deporte del evento (desnormalizado desde dim_evento)."
       - name: id_nuts3
-        description: "FK → dim_nuts. Código NUTS3 del lugar de nacimiento. NULL para atletas no europeos."
+        description: "FK → dim_nuts. Código NUTS3 del lugar de nacimiento. NULL para atletas no europeos (~56%)."
         tests:
           - relationships:
               arguments:
@@ -196,17 +178,9 @@ models:
                 field: id_nuts3
               config:
                 severity: warn
-      - name: nombre_nuts3
-        description: "Nombre de la unidad NUTS3."
       - name: id_nuts2
-        description: "Código NUTS2 de la subregión."
-      - name: nombre_nuts2
-        description: "Nombre de la subregión NUTS2."
+        description: "Código NUTS2 (subregión). NULL para atletas no europeos."
       - name: id_nuts1
-        description: "Código NUTS1 de la gran región."
-      - name: nombre_nuts1
-        description: "Nombre de la gran región NUTS1."
+        description: "Código NUTS1 (gran región). NULL para atletas no europeos."
       - name: id_nuts0
-        description: "Código NUTS0 del país europeo."
-      - name: nombre_pais_nuts
-        description: "Nombre del país europeo (NUTS0). NULL para atletas no europeos."
+        description: "Código NUTS0 (país europeo). NULL para atletas no europeos."

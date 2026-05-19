@@ -39,7 +39,11 @@ models:
       - name: enlace
         description: "URL de la página Wikidata de la delegación."
       - name: wikidata_id_pais
-        description: "FK → silver_country. País al que pertenece la delegación. Puede ser NULL (warn)."
+        description: >
+          FK → silver_pais. País al que pertenece la delegación. NULL para delegaciones del
+          Equipo Olímpico de Refugiados y competidores neutrales AIN, que no tienen país
+          asignado en la fuente. Genera warn en cada build (not_null_silver_delegacion_wikidata_id_pais).
+          En silver_medalla y Gold este caso queda cubierto con el comodín 'N/A'.
         tests:
           - not_null:
               config:
@@ -147,7 +151,11 @@ models:
         description: "PK. Identificador Wikidata del lugar de nacimiento."
         tests: [not_null, unique]
       - name: nombre
-        description: "Nombre del lugar de nacimiento. Puede ser NULL (warn) si no consta en Wikidata."
+        description: >
+          Nombre del lugar de nacimiento. NULL cuando Wikidata tiene el identificador del
+          lugar pero carece del topónimo (place_of_birth = 'NA' en la fuente).
+          Genera warn en cada build (not_null_silver_lugar_nombre). En Gold, el atleta
+          afectado tendrá lugar_nacimiento = NULL en dim_atleta y fact_medalla.
         tests:
           - not_null:
               config:

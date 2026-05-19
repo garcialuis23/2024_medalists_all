@@ -1,7 +1,14 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "kpicard003paises00",
-  "position": { "x": 512, "y": 35, "z": 0, "height": 72, "width": 255, "tabOrder": 3 },
+  "position": {
+    "x": 247.14285714285717,
+    "y": 8.5714285714285712,
+    "z": 5000,
+    "height": 90,
+    "width": 240.00000000000003,
+    "tabOrder": 2000
+  },
   "visual": {
     "visualType": "card",
     "query": {
@@ -11,7 +18,11 @@
             {
               "field": {
                 "Measure": {
-                  "Expression": { "SourceRef": { "Entity": "FACT_MEDALLA" } },
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
                   "Property": "Países Representados"
                 }
               },
