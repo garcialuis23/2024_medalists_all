@@ -33,40 +33,13 @@
           ]
         },
         "Latitude": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_ATLETA"
-                    }
-                  },
-                  "Property": "LAT_NACIMIENTO"
-                }
-              },
-              "queryRef": "DIM_ATLETA.LAT_NACIMIENTO",
-              "active": true
-            }
-          ]
+          "projections": []
         },
         "Longitude": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_ATLETA"
-                    }
-                  },
-                  "Property": "LON_NACIMIENTO"
-                }
-              },
-              "queryRef": "DIM_ATLETA.LON_NACIMIENTO",
-              "active": true
-            }
-          ]
+          "projections": []
+        },
+        "PathID": {
+          "projections": []
         },
         "Series": {
           "projections": [
@@ -103,6 +76,12 @@
               "active": true
             }
           ]
+        },
+        "Tooltips": {
+          "projections": []
+        },
+        "Y": {
+          "projections": []
         }
       }
     },
