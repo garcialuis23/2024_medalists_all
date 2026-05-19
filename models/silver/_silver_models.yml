@@ -181,11 +181,11 @@ models:
       - name: fecha_nacimiento
         description: "Fecha de nacimiento del atleta (DATE). NULL para los 17 atletas sin dato en Wikidata."
         tests:
-          - dbt_utils.expression_is_true:
-              arguments:
-                expression: "fecha_nacimiento IS NULL OR (fecha_nacimiento >= '1900-01-01' AND fecha_nacimiento <= '2008-12-31')"
-                config:
-                  severity: warn
+        - dbt_utils.expression_is_true:
+            arguments:
+              expression: "IS NULL OR (fecha_nacimiento >= '1900-01-01' AND fecha_nacimiento <= '2008-12-31')"
+              config:
+                severity: warn
       - name: sexo
         description: "Sexo o género del atleta (p. ej. male, female)."
       - name: wikidata_id_lugar
