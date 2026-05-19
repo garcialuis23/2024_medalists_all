@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "e5f6a7b8c9d001e2f3a4",
   "position": {
-    "x": 430,
-    "y": 360,
+    "x": 0,
+    "y": 0,
     "z": 0,
     "height": 350,
     "width": 400,
@@ -32,49 +32,8 @@
           ]
         },
         "Y": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "FACT_MEDAL"
-                        }
-                      },
-                      "Property": "MEDAL_ID"
-                    }
-                  },
-                  "Function": 5
-                }
-              },
-              "queryRef": "CountNonNull(FACT_MEDAL.MEDAL_ID)"
-            }
-          ]
+          "projections": []
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Aggregation": {
-                "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "FACT_MEDAL"
-                      }
-                    },
-                    "Property": "MEDAL_ID"
-                  }
-                },
-                "Function": 5
-              }
-            },
-            "direction": "Descending"
-          }
-        ]
       }
     },
     "drillFilterOtherVisuals": true
@@ -152,25 +111,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "4dc1aeb42cc9984644c7",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "FACT_MEDAL"
-                  }
-                },
-                "Property": "MEDAL_ID"
-              }
-            },
-            "Function": 5
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

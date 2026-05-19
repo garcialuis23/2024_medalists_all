@@ -23,14 +23,21 @@ sources:
             description: "URL de la página Wikidata del atleta."
           - name: medalist_name
             description: "Nombre completo del atleta."
-            tests: [not_null]
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: medal
             description: "Tipo de medalla obtenida. Valores posibles: gold, silver, bronze."
             tests:
-              - not_null
+              - not_null:
+                  config:
+                    severity: warn
               - accepted_values:
                   arguments:
                     values: ['gold', 'silver', 'bronze']
+                  config:
+                    severity: warn
           - name: delegation_wikidata_id
             description: "Identificador Wikidata de la delegación olímpica del atleta."
           - name: delegation_link

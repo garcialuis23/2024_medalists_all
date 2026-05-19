@@ -1,9 +1,9 @@
 table DIM_NUTS
-	lineageTag: 684bcfc4-a558-4b8e-8531-a4498fcfc1c9
+	lineageTag: de5794c5-a3ed-4e4f-a2ae-704fca83060c
 
 	column NUTS3_ID
 		dataType: string
-		lineageTag: 3512b3d7-c8da-45d7-9974-0d8ab9679edc
+		lineageTag: b0028257-d9d4-48b5-9df5-1418ba29fb62
 		summarizeBy: none
 		sourceColumn: NUTS3_ID
 
@@ -11,7 +11,7 @@ table DIM_NUTS
 
 	column NUTS3_NAME
 		dataType: string
-		lineageTag: cb546be3-a43c-4f1c-965d-fb28d64a9469
+		lineageTag: 4a004be7-54c9-4d5c-8d08-9488334f30c7
 		summarizeBy: none
 		sourceColumn: NUTS3_NAME
 
@@ -19,7 +19,7 @@ table DIM_NUTS
 
 	column NUTS3_POPULATION
 		dataType: double
-		lineageTag: b45b06e6-ae18-4e45-acab-e30c5c172064
+		lineageTag: 7d213e6e-12a6-4ed9-8824-5164ece0c1c2
 		summarizeBy: none
 		sourceColumn: NUTS3_POPULATION
 
@@ -29,7 +29,7 @@ table DIM_NUTS
 
 	column NUTS3_GDP
 		dataType: double
-		lineageTag: 0a6b1f28-4b62-4d78-b858-040de46ca633
+		lineageTag: a22ae94d-0cc3-4fdf-92f5-041e1677ab38
 		summarizeBy: none
 		sourceColumn: NUTS3_GDP
 
@@ -39,7 +39,7 @@ table DIM_NUTS
 
 	column NUTS2_ID
 		dataType: string
-		lineageTag: eeeda90b-a679-4e89-a24c-b94f47d5924e
+		lineageTag: 8438cca8-9ef2-4bbb-845c-c644312bb63a
 		summarizeBy: none
 		sourceColumn: NUTS2_ID
 
@@ -47,7 +47,7 @@ table DIM_NUTS
 
 	column NUTS2_NAME
 		dataType: string
-		lineageTag: 9ed5f0cc-cab5-4bd5-acc5-00d32f4301ea
+		lineageTag: 622db893-4512-4304-8fdf-1f426cc16399
 		summarizeBy: none
 		sourceColumn: NUTS2_NAME
 
@@ -55,7 +55,7 @@ table DIM_NUTS
 
 	column NUTS2_POPULATION
 		dataType: double
-		lineageTag: b15dfd74-0127-4e81-b97c-4b51836b182a
+		lineageTag: 3ad450d8-12f1-432e-8ac3-1cf23b1375f9
 		summarizeBy: none
 		sourceColumn: NUTS2_POPULATION
 
@@ -65,7 +65,7 @@ table DIM_NUTS
 
 	column NUTS2_GDP
 		dataType: double
-		lineageTag: f57832dc-2c69-4ac8-a13d-9ddf4989901f
+		lineageTag: 541d2689-b2ee-48b1-97fb-a8596efdbf7f
 		summarizeBy: none
 		sourceColumn: NUTS2_GDP
 
@@ -75,7 +75,7 @@ table DIM_NUTS
 
 	column NUTS1_ID
 		dataType: string
-		lineageTag: 5e1d8f71-a4a3-47ce-a0c6-da228efcb616
+		lineageTag: ac664779-d0b8-4d31-93a3-5218057c43d6
 		summarizeBy: none
 		sourceColumn: NUTS1_ID
 
@@ -83,7 +83,7 @@ table DIM_NUTS
 
 	column NUTS1_NAME
 		dataType: string
-		lineageTag: 9d04028f-988f-41d9-b099-ae014dccef70
+		lineageTag: d44954db-932e-4eb0-89a3-053459285134
 		summarizeBy: none
 		sourceColumn: NUTS1_NAME
 
@@ -91,7 +91,7 @@ table DIM_NUTS
 
 	column NUTS0_ID
 		dataType: string
-		lineageTag: 260f86f1-c9ba-4f40-a75e-722f8e4a94b8
+		lineageTag: 80506be6-7d30-41c1-8684-28c98798bb90
 		summarizeBy: none
 		sourceColumn: NUTS0_ID
 
@@ -99,7 +99,7 @@ table DIM_NUTS
 
 	column NUTS0_NAME
 		dataType: string
-		lineageTag: 66ec6a0d-25af-4840-bd0d-1420c1d09afc
+		lineageTag: fa0125cb-d09f-408f-a942-5ea038b8a0a1
 		summarizeBy: none
 		sourceColumn: NUTS0_NAME
 

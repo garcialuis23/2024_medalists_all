@@ -16,5 +16,5 @@ from {{ ref('bronze_medalists_raw') }}
 where nullif(medalist_wikidata_id, 'NA') is not null
   and nullif(event_wikidata_id, 'NA') is not null
   and coalesce(nullif(country_medal_wikidata_id, 'NA'), 'N/A') in (
-      select wikidata_id_pais from {{ ref('silver_country') }}
+      select wikidata_id_pais from {{ ref('silver_pais') }}
   )

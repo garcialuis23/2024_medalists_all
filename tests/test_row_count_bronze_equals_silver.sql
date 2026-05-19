@@ -5,6 +5,6 @@ FROM (
     SELECT COUNT(*) AS cnt_bronze FROM {{ ref('bronze_medalists_raw') }}
 ) b
 CROSS JOIN (
-    SELECT COUNT(*) AS cnt_silver FROM {{ ref('silver_medal') }}
+    SELECT COUNT(*) AS cnt_silver FROM {{ ref('silver_medalla') }}
 ) s
 WHERE b.cnt_bronze != s.cnt_silver

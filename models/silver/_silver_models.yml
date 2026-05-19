@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: silver_country
+  - name: silver_pais
     description: >
       Países únicos acreditados con al menos una medalla en París 2024.
       Incluye un registro comodín ('N/A', 'País Desconocido') para atletas del
@@ -24,7 +24,7 @@ models:
         description: "Flag booleano. TRUE para países reales, FALSE para el registro 'N/A'. Usar para filtrar en dashboards."
         tests: [not_null]
 
-  - name: silver_delegation
+  - name: silver_delegacion
     description: >
       Delegaciones olímpicas únicas presentes en París 2024.
       Un mismo país puede tener más de una delegación (p. ej. equipos de
@@ -46,10 +46,10 @@ models:
                 severity: warn
           - relationships:
               arguments:
-                to: ref('silver_country')
+                to: ref('silver_pais')
                 field: wikidata_id_pais
 
-  - name: silver_sport
+  - name: silver_deporte
     description: >
       Deportes olímpicos únicos representados en París 2024.
       Incluye un registro comodín ('N/A', 'Deporte Desconocido') para mantener
@@ -62,7 +62,7 @@ models:
         description: "Nombre del deporte (p. ej. athletics, swimming). 'Deporte Desconocido' para el comodín."
         tests: [not_null]
 
-  - name: silver_discipline
+  - name: silver_disciplina
     description: >
       Disciplinas olímpicas únicas en París 2024. Una disciplina agrupa varios eventos
       de un mismo deporte (p. ej. 'athletics at the 2024 Summer Olympics').
@@ -79,10 +79,10 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('silver_sport')
+                to: ref('silver_deporte')
                 field: wikidata_id_deporte
 
-  - name: silver_event
+  - name: silver_evento
     description: >
       Eventos olímpicos únicos en los que se otorgó al menos una medalla en París 2024.
       Cada evento pertenece a una disciplina. El evento Q128645552 (Artistic swimming Team)
@@ -102,10 +102,10 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('silver_discipline')
+                to: ref('silver_disciplina')
                 field: wikidata_id_disciplina
 
-  - name: silver_nuts_region
+  - name: silver_region_nuts
     description: >
       Jerarquía NUTS europea auto-jerárquica con cuatro niveles (0=país, 1=gran región,
       2=subregión, 3=unidad local). Solo cubre regiones con al menos un atleta europeo
@@ -128,7 +128,7 @@ models:
         tests:
           - relationships:
               arguments:
-                to: ref('silver_nuts_region')
+                to: ref('silver_region_nuts')
                 field: id_nuts
               config:
                 severity: warn
@@ -137,7 +137,7 @@ models:
       - name: pib
         description: "PIB de la región en millones EUR (fuente Eurostat). Disponible solo para niveles 2 y 3."
 
-  - name: silver_place
+  - name: silver_lugar
     description: >
       Lugares de nacimiento únicos de los atletas medallistas.
       Incluye coordenadas geográficas y enlace a la jerarquía NUTS cuando el
@@ -163,7 +163,7 @@ models:
       - name: id_nuts3
         description: "FK → silver_nuts_region (nivel 3). NULL para lugares fuera de Europa."
 
-  - name: silver_athlete
+  - name: silver_atleta
     description: >
       Atletas únicos que ganaron al menos una medalla en París 2024 (1,949 registros).
       Deduplicados por wikidata_id_atleta; cuando hay múltiples filas para un mismo
@@ -193,10 +193,10 @@ models:
         tests:
           - relationships:
               arguments:
-                to: ref('silver_place')
+                to: ref('silver_lugar')
                 field: wikidata_id_lugar
 
-  - name: silver_medal
+  - name: silver_medalla
     description: >
       Tabla de hechos Silver: una fila por medalla otorgada (2,202 registros).
       La clave natural es wikidata_id_atleta × wikidata_id_evento.
@@ -219,7 +219,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('silver_athlete')
+                to: ref('silver_atleta')
                 field: wikidata_id_atleta
       - name: wikidata_id_evento
         description: "FK → silver_event. Evento olímpico en el que se ganó la medalla."
@@ -227,7 +227,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('silver_event')
+                to: ref('silver_evento')
                 field: wikidata_id_evento
       - name: wikidata_id_delegacion
         description: "FK → silver_delegation. Delegación bajo la que compitió el atleta."
@@ -235,7 +235,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('silver_delegation')
+                to: ref('silver_delegacion')
                 field: wikidata_id_delegacion
       - name: wikidata_id_pais
         description: "FK → silver_country. País acreedor. 'N/A' para refugiados y neutrales AIN."
@@ -243,7 +243,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('silver_country')
+                to: ref('silver_pais')
                 field: wikidata_id_pais
       - name: tipo
         description: "Tipo de medalla: gold, silver o bronze."
