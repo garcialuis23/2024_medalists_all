@@ -60,3 +60,6 @@ select
     CURRENT_TIMESTAMP() AS _loaded_at
 
 from {{ source('bronze', 'MEDALISTS_2024') }}
+where
+    medalist_name is not null
+    and medal in ('gold', 'silver', 'bronze')

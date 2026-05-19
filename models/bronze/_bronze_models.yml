@@ -3,9 +3,10 @@ version: 2
 models:
   - name: bronze_medalists_raw
     description: >
-      Capa Bronze: ingesta cruda sin transformaciones de la fuente MEDALISTS_2024.
+      Capa Bronze: solo filas que superan las reglas mínimas de calidad (medalist_name no nulo
+      y medal en gold/silver/bronze). Las filas rechazadas van a bronze_medalists_rejected.
       Todos los valores se mantienen como VARCHAR. Los campos vacíos de la fuente
-      llegan como la cadena literal 'NA'; no se realiza ningún casteo ni filtrado.
+      llegan como la cadena literal 'NA'; no se realiza ningún casteo ni filtrado adicional.
       Sirve como única fuente de verdad para todas las capas superiores (Silver, Gold).
     columns:
       - name: medalist_wikidata_id
@@ -100,3 +101,19 @@ models:
         description: "PIB de la subregión NUTS2 en millones EUR."
       - name: nuts3_gdp
         description: "PIB de la unidad NUTS3 en millones EUR."
+      - name: _loaded_at
+        description: "Timestamp de cuándo se ejecutó el dbt build que cargó esta fila."
+
+  - name: bronze_medalists_rejected
+    description: >
+      Cuarentena Bronze: filas de MEDALISTS_2024 que no superan las reglas mínimas
+      (medalist_name nulo o medal con valor inválido). Incluye todas las columnas
+      originales más rejection_reason (motivo/s separados por ' | ') y _loaded_at
+      para auditar a qué batch pertenece cada fila rechazada.
+    columns:
+      - name: rejection_reason
+        description: "Motivo/s de rechazo separados por ' | '. Ej: 'medal inválido: platino | medalist_name es NULL'."
+        tests: [not_null]
+      - name: _loaded_at
+        description: "Timestamp del dbt build que capturó esta fila rechazada."
+        tests: [not_null]
