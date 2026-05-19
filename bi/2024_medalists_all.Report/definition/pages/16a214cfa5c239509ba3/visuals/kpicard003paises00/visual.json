@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "kpicard003paises00",
   "position": {
-    "x": 512.5,
-    "y": 0,
-    "z": 0,
-    "height": 72.5,
-    "width": 255,
-    "tabOrder": 3
+    "x": 311.42857142857144,
+    "y": 8.5714285714285712,
+    "z": 5000,
+    "height": 72.857142857142861,
+    "width": 254.28571428571431,
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "card",

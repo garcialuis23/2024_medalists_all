@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "0b196e034c64842affe4",
+  "position": {
+    "x": 0,
+    "y": 470.00000000000006,
+    "z": 11000,
+    "height": 250.00000000000003,
+    "width": 850,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "NOMBRE_ATLETA"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_ATLETA",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "TIPO_MEDALLA"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.TIPO_MEDALLA",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "NOMBRE_DEPORTE"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_DEPORTE",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "NOMBRE_EVENTO"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_EVENTO",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "NOMBRE_PAIS"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.NOMBRE_PAIS",
+              "active": true
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_MEDALLA"
+                  }
+                },
+                "Property": "NOMBRE_EVENTO"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

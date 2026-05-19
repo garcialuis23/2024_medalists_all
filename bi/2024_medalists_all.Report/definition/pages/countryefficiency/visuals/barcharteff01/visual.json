@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
-  "name": "b2c3d4e5f6a701b2c3d4",
+  "name": "barcharteff01",
   "position": {
-    "x": 429,
-    "y": 112,
+    "x": 660,
+    "y": 141.42857142857144,
     "z": 0,
-    "height": 288,
-    "width": 422,
-    "tabOrder": 6000
+    "height": 562.85714285714289,
+    "width": 595.71428571428578,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -23,10 +23,10 @@
                       "Entity": "FACT_MEDALLA"
                     }
                   },
-                  "Property": "NOMBRE_DEPORTE"
+                  "Property": "NOMBRE_PAIS"
                 }
               },
-              "queryRef": "FACT_MEDALLA.NOMBRE_DEPORTE",
+              "queryRef": "FACT_MEDALLA.NOMBRE_PAIS",
               "active": true
             }
           ]
@@ -41,10 +41,10 @@
                       "Entity": "FACT_MEDALLA"
                     }
                   },
-                  "Property": "Total Medallas"
+                  "Property": "Medallas / Atleta"
                 }
               },
-              "queryRef": "FACT_MEDALLA.Total Medallas",
+              "queryRef": "FACT_MEDALLA.Medallas / Atleta",
               "active": true
             }
           ]
@@ -60,7 +60,7 @@
                     "Entity": "FACT_MEDALLA"
                   }
                 },
-                "Property": "Total Medallas"
+                "Property": "Medallas / Atleta"
               }
             },
             "direction": "Descending"

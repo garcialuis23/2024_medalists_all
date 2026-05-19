@@ -4,10 +4,10 @@
   "position": {
     "x": 856,
     "y": 112,
-    "z": 0,
+    "z": 1000,
     "height": 288,
     "width": 211,
-    "tabOrder": 30
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "card",
@@ -32,28 +32,6 @@
           ]
         }
       }
-    },
-    "objects": {
-      "title": [
-        {
-          "properties": {
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Medallas Femeninas'"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ]
     },
     "drillFilterOtherVisuals": true
   }

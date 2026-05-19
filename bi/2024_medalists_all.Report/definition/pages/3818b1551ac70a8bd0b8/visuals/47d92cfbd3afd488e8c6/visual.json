@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "47d92cfbd3afd488e8c6",
   "position": {
-    "x": 0,
-    "y": 0,
+    "x": 11.428571428571429,
+    "y": 12.857142857142858,
     "z": 0,
-    "height": 720,
-    "width": 1280,
+    "height": 694.28571428571433,
+    "width": 1255.7142857142858,
     "tabOrder": 0
   },
   "visual": {
@@ -68,24 +68,6 @@
             }
           ]
         },
-        "Size": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FACT_MEDALLA"
-                    }
-                  },
-                  "Property": "Total Medallas"
-                }
-              },
-              "queryRef": "FACT_MEDALLA.Total Medallas",
-              "active": true
-            }
-          ]
-        },
         "Series": {
           "projections": [
             {
@@ -101,6 +83,24 @@
               },
               "queryRef": "FACT_MEDALLA.TIPO_MEDALLA",
               "nativeQueryRef": "TIPO_MEDALLA"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_MEDALLA"
+                    }
+                  },
+                  "Property": "Total Medallas"
+                }
+              },
+              "queryRef": "FACT_MEDALLA.Total Medallas",
+              "active": true
             }
           ]
         }

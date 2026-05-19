@@ -4,15 +4,69 @@
   "position": {
     "x": 856,
     "y": 405,
-    "z": 0,
+    "z": 9000,
     "height": 315,
     "width": 424,
-    "tabOrder": 60
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "scatterChart",
     "query": {
       "queryState": {
+        "Details": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_NUTS"
+                    }
+                  },
+                  "Property": "NOMBRE_NUTS3"
+                }
+              },
+              "queryRef": "DIM_NUTS.NOMBRE_NUTS3",
+              "active": true
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_NUTS"
+                    }
+                  },
+                  "Property": "POBLACION_NUTS3"
+                }
+              },
+              "queryRef": "DIM_NUTS.POBLACION_NUTS3",
+              "active": true
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_NUTS"
+                    }
+                  },
+                  "Property": "NOMBRE_NUTS0"
+                }
+              },
+              "queryRef": "DIM_NUTS.NOMBRE_NUTS0",
+              "active": true
+            }
+          ]
+        },
         "X": {
           "projections": [
             {
@@ -45,60 +99,6 @@
                 }
               },
               "queryRef": "FACT_MEDALLA.Total Medallas",
-              "active": true
-            }
-          ]
-        },
-        "Size": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_NUTS"
-                    }
-                  },
-                  "Property": "POBLACION_NUTS3"
-                }
-              },
-              "queryRef": "DIM_NUTS.POBLACION_NUTS3",
-              "active": true
-            }
-          ]
-        },
-        "Details": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_NUTS"
-                    }
-                  },
-                  "Property": "NOMBRE_NUTS3"
-                }
-              },
-              "queryRef": "DIM_NUTS.NOMBRE_NUTS3",
-              "active": true
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_NUTS"
-                    }
-                  },
-                  "Property": "NOMBRE_NUTS0"
-                }
-              },
-              "queryRef": "DIM_NUTS.NOMBRE_NUTS0",
               "active": true
             }
           ]
@@ -179,7 +179,8 @@
               }
             }
           ]
-        }
+        },
+        "howCreated": "User"
       }
     ]
   }

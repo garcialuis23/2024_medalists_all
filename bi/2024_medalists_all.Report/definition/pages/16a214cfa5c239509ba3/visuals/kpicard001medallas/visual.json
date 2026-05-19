@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
   "name": "kpicard001medallas",
   "position": {
-    "x": 0,
-    "y": 0,
-    "z": 0,
+    "x": 8.5714285714285712,
+    "y": 8.5714285714285712,
+    "z": 3000,
     "height": 90,
-    "width": 226.25,
-    "tabOrder": 1
+    "width": 225.71428571428572,
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "card",

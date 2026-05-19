@@ -4,10 +4,10 @@
   "position": {
     "x": 1069,
     "y": 112,
-    "z": 0,
+    "z": 8000,
     "height": 288,
     "width": 211,
-    "tabOrder": 31
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "card",
@@ -32,28 +32,6 @@
           ]
         }
       }
-    },
-    "objects": {
-      "title": [
-        {
-          "properties": {
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Medallas Masculinas'"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ]
     },
     "drillFilterOtherVisuals": true
   }

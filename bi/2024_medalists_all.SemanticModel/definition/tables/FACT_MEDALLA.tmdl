@@ -328,10 +328,8 @@ table FACT_MEDALLA
 			VAR edad = YEAR(DATE(2024, 7, 26)) - YEAR(FACT_MEDALLA[FECHA_NACIMIENTO])
 			VAR b = FLOOR(edad / 5, 1) * 5
 			RETURN FORMAT(b, "00") & "-" & FORMAT(b + 4, "00")
-		dataType: string
 		lineageTag: bb000001-0000-0000-0000-000000000001
 		summarizeBy: none
-		isDataTypeInferred: true
 
 		annotation SummarizationSetBy = Automatic
 
