@@ -23,10 +23,10 @@
                       "Entity": "FACT_MEDALLA"
                     }
                   },
-                  "Property": "FECHA_NACIMIENTO"
+                  "Property": "GRUPO_EDAD"
                 }
               },
-              "queryRef": "FACT_MEDALLA.FECHA_NACIMIENTO",
+              "queryRef": "FACT_MEDALLA.GRUPO_EDAD",
               "active": true
             }
           ]
@@ -60,7 +60,7 @@
                     "Entity": "FACT_MEDALLA"
                   }
                 },
-                "Property": "FECHA_NACIMIENTO"
+                "Property": "GRUPO_EDAD"
               }
             },
             "direction": "Ascending"
@@ -68,6 +68,68 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "title": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Distribución de Edades de Medallistas'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Edad del medallista'"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Nº de atletas'"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

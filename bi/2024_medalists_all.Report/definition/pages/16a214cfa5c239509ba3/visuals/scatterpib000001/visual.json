@@ -84,8 +84,41 @@
               "active": true
             }
           ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_NUTS"
+                    }
+                  },
+                  "Property": "NOMBRE_NUTS0"
+                }
+              },
+              "queryRef": "DIM_NUTS.NOMBRE_NUTS0",
+              "active": true
+            }
+          ]
         }
       }
+    },
+    "objects": {
+      "trend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   },

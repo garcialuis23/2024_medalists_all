@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
-  "name": "c3d4e5f6a7b801c2d3e4",
+  "name": "kpimale00001",
   "position": {
-    "x": 856,
+    "x": 1069,
     "y": 112,
     "z": 0,
     "height": 288,
     "width": 211,
-    "tabOrder": 30
+    "tabOrder": 31
   },
   "visual": {
     "visualType": "card",
@@ -23,10 +23,10 @@
                       "Entity": "FACT_MEDALLA"
                     }
                   },
-                  "Property": "Medallas Femeninas"
+                  "Property": "Medallas Masculinas"
                 }
               },
-              "queryRef": "FACT_MEDALLA.Medallas Femeninas",
+              "queryRef": "FACT_MEDALLA.Medallas Masculinas",
               "active": true
             }
           ]
@@ -40,7 +40,7 @@
             "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Medallas Femeninas'"
+                  "Value": "'Medallas Masculinas'"
                 }
               }
             },

@@ -65,6 +65,21 @@ table FACT_MEDALLA
 		displayFolder: KPIs
 		lineageTag: aa000001-0000-0000-0000-000000000010
 
+	measure 'Medallas Femeninas' = CALCULATE(COUNTROWS(FACT_MEDALLA), FACT_MEDALLA[SEXO] = "female")
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000011
+
+	measure 'Medallas Masculinas' = CALCULATE(COUNTROWS(FACT_MEDALLA), FACT_MEDALLA[SEXO] = "male")
+		formatString: #,##0
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000012
+
+	measure '% Medallas Oro' = DIVIDE([Medallas Oro], [Total Medallas], 0)
+		formatString: 0.0%
+		displayFolder: KPIs
+		lineageTag: aa000001-0000-0000-0000-000000000013
+
 	column ID_MEDALLA
 		dataType: string
 		lineageTag: 8a958da8-206d-4c9c-87e1-b617b23af1de
@@ -306,6 +321,17 @@ table FACT_MEDALLA
 		lineageTag: e055dc63-5eee-4bce-825d-fa271c0ac070
 		summarizeBy: none
 		sourceColumn: NOMBRE_PAIS_NUTS
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRUPO_EDAD =
+			VAR edad = YEAR(DATE(2024, 7, 26)) - YEAR(FACT_MEDALLA[FECHA_NACIMIENTO])
+			VAR b = FLOOR(edad / 5, 1) * 5
+			RETURN FORMAT(b, "00") & "-" & FORMAT(b + 4, "00")
+		dataType: string
+		lineageTag: bb000001-0000-0000-0000-000000000001
+		summarizeBy: none
+		isDataTypeInferred: true
 
 		annotation SummarizationSetBy = Automatic
 
