@@ -107,12 +107,19 @@ models:
   - name: bronze_medalists_rejected
     description: >
       Cuarentena Bronze: filas de MEDALISTS_2024 que no superan las reglas mínimas
-      (medalist_name nulo o medal con valor inválido). Incluye todas las columnas
-      originales más rejection_reason (motivo/s separados por ' | ') y _loaded_at
-      para auditar a qué batch pertenece cada fila rechazada.
+      (error) o que generan warnings en Silver (warn). Incluye todas las columnas
+      originales más severity, rejection_reason y _loaded_at para auditar a qué
+      batch pertenece cada fila y por qué fue capturada.
     columns:
+      - name: severity
+        description: "'error' para reglas duras (medalist_name NULL, medal inválido); 'warn' para problemas de calidad que generan warnings en Silver."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['error', 'warn']
       - name: rejection_reason
-        description: "Motivo/s de rechazo separados por ' | '. Ej: 'medal inválido: platino | medalist_name es NULL'."
+        description: "Motivo/s separados por ' | '. Errores: 'medalist_name es NULL', 'medal inválido: X'. Warnings: 'lugar sin nombre → not_null_silver_lugar_nombre', 'delegación sin país → not_null_silver_delegacion_wikidata_id_pais'."
         tests: [not_null]
       - name: _loaded_at
         description: "Timestamp del dbt build que capturó esta fila rechazada."
