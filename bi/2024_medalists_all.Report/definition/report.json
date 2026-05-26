@@ -1,21 +1,21 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.1.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "baseTheme": {
-      "name": "CY25SU12",
+      "name": "CY26SU05",
       "reportVersionAtImport": {
-        "visual": "2.5.0",
-        "report": "3.1.0",
-        "page": "2.3.0"
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.3.1"
       },
       "type": "SharedResources"
     },
     "customTheme": {
-      "name": "AccessibleOrchid",
+      "name": "Tidal",
       "reportVersionAtImport": {
-        "visual": "2.5.0",
-        "report": "3.1.0",
-        "page": "2.3.0"
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.3.1"
       },
       "type": "SharedResources"
     }
@@ -54,13 +54,13 @@
       "type": "SharedResources",
       "items": [
         {
-          "name": "CY25SU12",
-          "path": "BaseThemes/CY25SU12.json",
+          "name": "CY26SU05",
+          "path": "BaseThemes/CY26SU05.json",
           "type": "BaseTheme"
         },
         {
-          "name": "AccessibleOrchid",
-          "path": "BuiltInThemes/AccessibleOrchid.json",
+          "name": "Tidal",
+          "path": "BuiltInThemes/Tidal.json",
           "type": "CustomTheme"
         }
       ]

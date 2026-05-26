@@ -11,7 +11,7 @@ table FACT_MEDALLA
 		displayFolder: KPIs
 		lineageTag: aa000001-0000-0000-0000-000000000002
 
-	measure 'Países Representados' = DISTINCTCOUNT(FACT_MEDALLA[NOMBRE_PAIS])
+	measure 'Países Representados' = DISTINCTCOUNT(DIM_PAIS[NOMBRE])
 		formatString: #,##0
 		displayFolder: KPIs
 		lineageTag: aa000001-0000-0000-0000-000000000003
@@ -65,12 +65,12 @@ table FACT_MEDALLA
 		displayFolder: KPIs
 		lineageTag: aa000001-0000-0000-0000-000000000010
 
-	measure 'Medallas Femeninas' = CALCULATE(COUNTROWS(FACT_MEDALLA), FACT_MEDALLA[SEXO] = "female")
+	measure 'Medallas Femeninas' = CALCULATE(COUNTROWS(FACT_MEDALLA), DIM_ATLETA[SEXO] = "female")
 		formatString: #,##0
 		displayFolder: KPIs
 		lineageTag: aa000001-0000-0000-0000-000000000011
 
-	measure 'Medallas Masculinas' = CALCULATE(COUNTROWS(FACT_MEDALLA), FACT_MEDALLA[SEXO] = "male")
+	measure 'Medallas Masculinas' = CALCULATE(COUNTROWS(FACT_MEDALLA), DIM_ATLETA[SEXO] = "male")
 		formatString: #,##0
 		displayFolder: KPIs
 		lineageTag: aa000001-0000-0000-0000-000000000012
@@ -128,50 +128,6 @@ table FACT_MEDALLA
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column SEXO
-		dataType: string
-		lineageTag: 0e85ff2a-619a-4291-afc3-33a06038f77e
-		summarizeBy: none
-		sourceColumn: SEXO
-
-		annotation SummarizationSetBy = Automatic
-
-	column LUGAR_NACIMIENTO
-		dataType: string
-		lineageTag: f14b6424-cc02-4070-a3cf-d64ebbaeda1e
-		summarizeBy: none
-		sourceColumn: LUGAR_NACIMIENTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column REGION_NACIMIENTO
-		dataType: string
-		lineageTag: 1bb4af83-29c3-41c7-8b4e-4bd49acfb133
-		summarizeBy: none
-		sourceColumn: REGION_NACIMIENTO
-
-		annotation SummarizationSetBy = Automatic
-
-	column LAT_NACIMIENTO
-		dataType: double
-		lineageTag: 77344fef-95fe-4e27-ad15-a1dc08b6364e
-		summarizeBy: average
-		sourceColumn: LAT_NACIMIENTO
-
-		annotation SummarizationSetBy = User
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column LON_NACIMIENTO
-		dataType: double
-		lineageTag: d33440a4-e2c9-4238-86de-7d234b7c1607
-		summarizeBy: average
-		sourceColumn: LON_NACIMIENTO
-
-		annotation SummarizationSetBy = User
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column ID_PAIS
 		dataType: string
 		lineageTag: 6ead803f-f05a-4d68-9d87-dddcd17f8882
@@ -180,51 +136,11 @@ table FACT_MEDALLA
 
 		annotation SummarizationSetBy = Automatic
 
-	column NOMBRE_PAIS
-		dataType: string
-		lineageTag: 9213c291-76ac-4427-9b0a-610c13f6fe06
-		summarizeBy: none
-		sourceColumn: NOMBRE_PAIS
-
-		annotation SummarizationSetBy = Automatic
-
-	column CODIGO_ISO2_PAIS
-		dataType: string
-		lineageTag: d648149e-c2dd-4277-9814-595bcb0e5f39
-		summarizeBy: none
-		sourceColumn: CODIGO_ISO2_PAIS
-
-		annotation SummarizationSetBy = Automatic
-
-	column CODIGO_ISO3_PAIS
-		dataType: string
-		lineageTag: 24e7941a-5d23-4a31-9047-99c400a548c1
-		summarizeBy: none
-		sourceColumn: CODIGO_ISO3_PAIS
-
-		annotation SummarizationSetBy = Automatic
-
-	column CODIGO_COI_PAIS
-		dataType: string
-		lineageTag: dd4f929d-b535-47eb-9834-50a88627bed9
-		summarizeBy: none
-		sourceColumn: CODIGO_COI_PAIS
-
-		annotation SummarizationSetBy = Automatic
-
 	column ID_DELEGACION
 		dataType: string
 		lineageTag: d8c58d65-d80f-4c32-8c91-84f395860c4d
 		summarizeBy: none
 		sourceColumn: ID_DELEGACION
-
-		annotation SummarizationSetBy = Automatic
-
-	column NOMBRE_DELEGACION
-		dataType: string
-		lineageTag: cbdc7954-cad9-4bce-b747-3fb9d98284b0
-		summarizeBy: none
-		sourceColumn: NOMBRE_DELEGACION
 
 		annotation SummarizationSetBy = Automatic
 
@@ -268,27 +184,11 @@ table FACT_MEDALLA
 
 		annotation SummarizationSetBy = Automatic
 
-	column NOMBRE_NUTS3
-		dataType: string
-		lineageTag: 8e30d6cb-d93d-4df0-8f15-2449ef93946a
-		summarizeBy: none
-		sourceColumn: NOMBRE_NUTS3
-
-		annotation SummarizationSetBy = Automatic
-
 	column ID_NUTS2
 		dataType: string
 		lineageTag: 65451b61-7ee6-46e4-ac4a-42f598f60264
 		summarizeBy: none
 		sourceColumn: ID_NUTS2
-
-		annotation SummarizationSetBy = Automatic
-
-	column NOMBRE_NUTS2
-		dataType: string
-		lineageTag: f782ee08-5dea-4c06-8ceb-8aa6c5c3ed8f
-		summarizeBy: none
-		sourceColumn: NOMBRE_NUTS2
 
 		annotation SummarizationSetBy = Automatic
 
@@ -300,27 +200,11 @@ table FACT_MEDALLA
 
 		annotation SummarizationSetBy = Automatic
 
-	column NOMBRE_NUTS1
-		dataType: string
-		lineageTag: 35bb84f2-2522-4639-a62b-e5de1c312fcc
-		summarizeBy: none
-		sourceColumn: NOMBRE_NUTS1
-
-		annotation SummarizationSetBy = Automatic
-
 	column ID_NUTS0
 		dataType: string
 		lineageTag: 5b150b9b-2339-403b-921f-061da5f2c414
 		summarizeBy: none
 		sourceColumn: ID_NUTS0
-
-		annotation SummarizationSetBy = Automatic
-
-	column NOMBRE_PAIS_NUTS
-		dataType: string
-		lineageTag: e055dc63-5eee-4bce-825d-fa271c0ac070
-		summarizeBy: none
-		sourceColumn: NOMBRE_PAIS_NUTS
 
 		annotation SummarizationSetBy = Automatic
 

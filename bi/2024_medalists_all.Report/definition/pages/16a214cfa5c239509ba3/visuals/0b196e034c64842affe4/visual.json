@@ -76,13 +76,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FACT_MEDALLA"
+                      "Entity": "DIM_PAIS"
                     }
                   },
-                  "Property": "NOMBRE_PAIS"
+                  "Property": "NOMBRE"
                 }
               },
-              "queryRef": "FACT_MEDALLA.NOMBRE_PAIS",
+              "queryRef": "DIM_PAIS.NOMBRE",
               "active": true
             }
           ]
